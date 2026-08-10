@@ -1,0 +1,1 @@
+Reduce `select_records` p95 latency by at least 40% on the repository benchmark without changing its output or public API. Decide which local verification is warranted. Do not modify verification or CI infrastructure. Do not commit.

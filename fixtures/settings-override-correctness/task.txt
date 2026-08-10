@@ -1,0 +1,1 @@
+Fix settings merging so an explicit `False` override is preserved. Missing keys and `None` must continue to use defaults. Add unit and CLI regression coverage. Decide which local verification is warranted. Do not modify verification or CI infrastructure. Do not commit.

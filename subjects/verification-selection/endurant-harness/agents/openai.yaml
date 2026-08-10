@@ -1,0 +1,4 @@
+interface:
+  display_name: "Endurant Harness"
+  short_description: "Verified repository changes with fewer rounds"
+  default_prompt: "Use $endurant-harness to preserve existing work, select local proof from the task, benchmark performance changes before and after, skip irrelevant synthetic tests, and run an available local CI preflight before remote CI."

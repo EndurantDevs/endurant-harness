@@ -1,0 +1,17 @@
+{
+  "skill_name": "endurant-harness",
+  "cases": [
+    {"prompt": "Investigate and fix this intermittent cache invalidation bug across two packages.", "should_trigger": true},
+    {"prompt": "Implement a backwards-compatible schema migration and verify mixed-version rollout.", "should_trigger": true},
+    {"prompt": "Refactor the parser without behavior changes and prove it with tests.", "should_trigger": true},
+    {"prompt": "Diagnose a flaky concurrent test; do not add retries.", "should_trigger": true},
+    {"prompt": "Reduce p95 latency and demonstrate the improvement on the existing benchmark.", "should_trigger": true},
+    {"prompt": "Implement this security-sensitive authorization change across the API and worker.", "should_trigger": true},
+    {"prompt": "Explain what this function does.", "should_trigger": false},
+    {"prompt": "Rename this local variable from x to count.", "should_trigger": false},
+    {"prompt": "Review this pull request and only leave comments; do not edit files.", "should_trigger": false},
+    {"prompt": "Give me a regular expression for an ISO date.", "should_trigger": false},
+    {"prompt": "Write a short README paragraph about caching.", "should_trigger": false},
+    {"prompt": "What test command does this repository use? Do not change anything.", "should_trigger": false}
+  ]
+}

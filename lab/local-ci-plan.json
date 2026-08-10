@@ -1,0 +1,62 @@
+{
+  "name": "endurant-evaluation-local-preflight",
+  "cwd": ".",
+  "default_timeout": 120,
+  "proof_deadline_seconds": 180,
+  "require_behavior_evidence": true,
+  "stages": [
+    {
+      "name": "focused",
+      "parallel": true,
+      "commands": [
+        {
+          "id": "integrity-tests",
+          "argv": ["python3", "-m", "unittest", "discover", "-s", "lab/tests", "-p", "test_*.py", "-v"],
+          "env": {"PYTHONDONTWRITEBYTECODE": "1"},
+          "evidence": "behavior",
+          "must_match": "Ran [1-9][0-9]* tests",
+          "must_not_match": "FAILED \\(|FAILED$"
+        },
+        {
+          "id": "strict-audit",
+          "argv": ["python3", "-S", "subjects/combined-candidate/endurant-harness/scripts/audit_skill.py", "subjects/combined-candidate/endurant-harness", "--strict", "--format", "text"],
+          "env": {"PYTHONDONTWRITEBYTECODE": "1"},
+          "evidence": "static",
+          "must_match": "^PASS:"
+        }
+      ]
+    },
+    {
+      "name": "promotion-evidence",
+      "parallel": false,
+      "commands": [
+        {
+          "id": "promotion-checks",
+          "argv": ["python3", "-S", "lab/check_results.py"],
+          "env": {"PYTHONDONTWRITEBYTECODE": "1"},
+          "evidence": "integration",
+          "must_match": "\\\"passed\\\": true"
+        }
+      ]
+    },
+    {
+      "name": "diff",
+      "run_if": "always",
+      "parallel": true,
+      "commands": [
+        {
+          "id": "diff-check",
+          "argv": ["git", "diff", "--check"],
+          "evidence": "diff",
+          "timeout": 30
+        },
+        {
+          "id": "status",
+          "argv": ["git", "status", "--short"],
+          "evidence": "diff",
+          "timeout": 30
+        }
+      ]
+    }
+  ]
+}

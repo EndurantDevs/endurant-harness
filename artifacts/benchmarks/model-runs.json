@@ -1,0 +1,305 @@
+{
+  "dogfood_performance_smoke": {
+    "accepted": true,
+    "cached_input_tokens": 112896,
+    "changed_paths": [
+      "src/record_selection.py",
+      "tests/test_record_selection.py"
+    ],
+    "command_items": 4,
+    "duration_seconds": 81.943234,
+    "evaluator_integrity": {
+      "agent_event_log_tampered": false,
+      "agent_event_log_valid": true
+    },
+    "functional_passed": true,
+    "git_state_unchanged": true,
+    "input_tokens": 132643,
+    "interpretation": "Fresh final-candidate performance smoke after Git-aware probe hardening. It is independently graded and is not included in the paired speed comparison.",
+    "local_ci_preflight_passed": true,
+    "output_tokens": 3633,
+    "performance": {
+      "agent_baseline_seen": true,
+      "agent_final_seen": true,
+      "baseline_before_agent": true,
+      "baseline_p95_seconds": 0.231281333,
+      "final_p95_seconds": 0.000790916,
+      "grader_final_after_edit": true,
+      "improvement_fraction": 0.99658,
+      "required": true,
+      "threshold_fraction": 0.4,
+      "threshold_passed": true
+    },
+    "reasoning_output_tokens": 938,
+    "run_id": "20260810T205009-combined-candidate-record-selection-performance-r5",
+    "subject_tree_unchanged": true,
+    "time_to_first_edit_seconds": 52.583726,
+    "time_to_first_tool_seconds": 8.774051,
+    "uncached_input_tokens": 19747
+  },
+  "environment": {
+    "cli": "codex-cli 0.147.0",
+    "history_and_memories": "disabled",
+    "model": "gpt-5.6-terra",
+    "network": "disabled",
+    "reasoning_effort": "low",
+    "subagents": "disabled"
+  },
+  "final_evaluator_smoke": {
+    "accepted": true,
+    "cached_input_tokens": 98560,
+    "changed_paths": [
+      "src/settings.py",
+      "tests/test_settings.py",
+      "tests/test_settings_cli.py"
+    ],
+    "command_items": 9,
+    "duration_seconds": 60.164928,
+    "evaluator_integrity": {
+      "agent_event_log_tampered": false,
+      "agent_event_log_valid": true,
+      "cli_regression_detects_bug": true,
+      "cli_regression_invokes_entrypoint": true,
+      "unit_regression_detects_bug": true
+    },
+    "functional_passed": true,
+    "git_state_unchanged": true,
+    "input_tokens": 119554,
+    "interpretation": "Fresh combined-candidate smoke after runner-observed event ordering, targeted mutation grading, and CLI-entrypoint instrumentation. It is not included in the paired speed comparison.",
+    "local_ci_preflight_passed": true,
+    "output_tokens": 2728,
+    "performance": {
+      "required": false
+    },
+    "reasoning_output_tokens": 888,
+    "run_id": "20260810T200130-combined-candidate-settings-override-correctness-r4",
+    "subject_tree_unchanged": true,
+    "time_to_first_edit_seconds": 29.603434,
+    "time_to_first_tool_seconds": 9.375399,
+    "uncached_input_tokens": 20994
+  },
+  "ordinary_combined_evaluation": {
+    "all_accepted": true,
+    "combined_candidate": {
+      "median": {
+        "cached_input_tokens": 81792.0,
+        "duration_seconds": 50.220985,
+        "input_tokens": 101372.5,
+        "output_tokens": 2161.0,
+        "reasoning_output_tokens": 534.5,
+        "time_to_first_edit_seconds": 26.185987,
+        "time_to_first_tool_seconds": 7.90198,
+        "uncached_input_tokens": 19580.5
+      },
+      "runs": [
+        {
+          "accepted": true,
+          "cached_input_tokens": 75264,
+          "changed_paths": [
+            "src/settings.py",
+            "tests/test_settings.py",
+            "tests/test_settings_cli.py"
+          ],
+          "command_items": 5,
+          "duration_seconds": 55.063139,
+          "functional_passed": true,
+          "git_state_unchanged": true,
+          "input_tokens": 94281,
+          "local_ci_preflight_passed": true,
+          "output_tokens": 2402,
+          "performance": {
+            "required": false
+          },
+          "reasoning_output_tokens": 543,
+          "run_id": "20260810T193137-combined-candidate-settings-override-correctness-r2",
+          "subject_tree_unchanged": true,
+          "time_to_first_edit_seconds": 28.864541,
+          "time_to_first_tool_seconds": 9.153822,
+          "uncached_input_tokens": 19017
+        },
+        {
+          "accepted": true,
+          "cached_input_tokens": 88320,
+          "changed_paths": [
+            "src/settings.py",
+            "tests/test_settings.py",
+            "tests/test_settings_cli.py"
+          ],
+          "command_items": 5,
+          "duration_seconds": 45.37883,
+          "functional_passed": true,
+          "git_state_unchanged": true,
+          "input_tokens": 108464,
+          "local_ci_preflight_passed": true,
+          "output_tokens": 1920,
+          "performance": {
+            "required": false
+          },
+          "reasoning_output_tokens": 526,
+          "run_id": "20260810T193620-combined-candidate-settings-override-correctness-r3",
+          "subject_tree_unchanged": true,
+          "time_to_first_edit_seconds": 23.507433,
+          "time_to_first_tool_seconds": 6.650138,
+          "uncached_input_tokens": 20144
+        }
+      ]
+    },
+    "current": {
+      "median": {
+        "cached_input_tokens": 141568.0,
+        "duration_seconds": 98.703092,
+        "input_tokens": 165953.5,
+        "output_tokens": 4083.5,
+        "reasoning_output_tokens": 1009.5,
+        "time_to_first_edit_seconds": 39.033914,
+        "time_to_first_tool_seconds": 9.796485,
+        "uncached_input_tokens": 24385.5
+      },
+      "runs": [
+        {
+          "accepted": true,
+          "cached_input_tokens": 155136,
+          "changed_paths": [
+            "src/settings.py",
+            "tests/test_settings.py",
+            "tests/test_settings_cli.py"
+          ],
+          "command_items": 5,
+          "duration_seconds": 88.334144,
+          "functional_passed": true,
+          "git_state_unchanged": true,
+          "input_tokens": 178543,
+          "local_ci_preflight_passed": true,
+          "output_tokens": 3791,
+          "performance": {
+            "required": false
+          },
+          "reasoning_output_tokens": 631,
+          "run_id": "20260810T193253-current-settings-override-correctness-r2",
+          "subject_tree_unchanged": true,
+          "time_to_first_edit_seconds": 32.15151,
+          "time_to_first_tool_seconds": 10.05864,
+          "uncached_input_tokens": 23407
+        },
+        {
+          "accepted": true,
+          "cached_input_tokens": 128000,
+          "changed_paths": [
+            "src/settings.py",
+            "tests/test_settings.py",
+            "tests/test_settings_cli.py"
+          ],
+          "command_items": 4,
+          "duration_seconds": 109.07204,
+          "functional_passed": true,
+          "git_state_unchanged": true,
+          "input_tokens": 153364,
+          "local_ci_preflight_passed": true,
+          "output_tokens": 4376,
+          "performance": {
+            "required": false
+          },
+          "reasoning_output_tokens": 1388,
+          "run_id": "20260810T193427-current-settings-override-correctness-r3",
+          "subject_tree_unchanged": true,
+          "time_to_first_edit_seconds": 45.916318,
+          "time_to_first_tool_seconds": 9.53433,
+          "uncached_input_tokens": 25364
+        }
+      ]
+    },
+    "observed_reduction_fraction": {
+      "cached_input_tokens": 0.422242,
+      "duration_seconds": 0.491191,
+      "input_tokens": 0.389151,
+      "output_tokens": 0.470797,
+      "reasoning_output_tokens": 0.47053,
+      "time_to_first_edit_seconds": 0.329148,
+      "time_to_first_tool_seconds": 0.193386,
+      "uncached_input_tokens": 0.197043
+    },
+    "paired_repeats": [
+      2,
+      3
+    ]
+  },
+  "performance_verification_evaluation": {
+    "all_accepted": true,
+    "combined_candidate": {
+      "accepted": true,
+      "cached_input_tokens": 111872,
+      "changed_paths": [
+        "src/record_selection.py"
+      ],
+      "command_items": 4,
+      "duration_seconds": 88.763122,
+      "functional_passed": true,
+      "git_state_unchanged": true,
+      "input_tokens": 125170,
+      "local_ci_preflight_passed": true,
+      "output_tokens": 2628,
+      "performance": {
+        "agent_baseline_seen": true,
+        "agent_final_seen": true,
+        "baseline_before_agent": true,
+        "baseline_p95_seconds": 0.238900292,
+        "final_p95_seconds": 0.001070209,
+        "grader_final_after_edit": true,
+        "improvement_fraction": 0.99552,
+        "required": true,
+        "threshold_fraction": 0.4,
+        "threshold_passed": true
+      },
+      "reasoning_output_tokens": 924,
+      "run_id": "20260810T193722-combined-candidate-record-selection-performance-r2",
+      "subject_tree_unchanged": true,
+      "time_to_first_edit_seconds": 50.440562,
+      "time_to_first_tool_seconds": 29.733268,
+      "uncached_input_tokens": 13298
+    },
+    "current": {
+      "accepted": true,
+      "cached_input_tokens": 126976,
+      "changed_paths": [
+        "src/record_selection.py"
+      ],
+      "command_items": 5,
+      "duration_seconds": 71.996842,
+      "functional_passed": true,
+      "git_state_unchanged": true,
+      "input_tokens": 151363,
+      "local_ci_preflight_passed": true,
+      "output_tokens": 2710,
+      "performance": {
+        "agent_baseline_seen": true,
+        "agent_final_seen": true,
+        "baseline_before_agent": true,
+        "baseline_p95_seconds": 0.263610958,
+        "final_p95_seconds": 0.001009375,
+        "grader_final_after_edit": true,
+        "improvement_fraction": 0.996171,
+        "required": true,
+        "threshold_fraction": 0.4,
+        "threshold_passed": true
+      },
+      "reasoning_output_tokens": 722,
+      "run_id": "20260810T193905-current-record-selection-performance-r2",
+      "subject_tree_unchanged": true,
+      "time_to_first_edit_seconds": 52.550972,
+      "time_to_first_tool_seconds": 11.255776,
+      "uncached_input_tokens": 24387
+    },
+    "interpretation": "Both arms selected unchanged-before/changed-after synthetic proof, correctness, and local CI. This single pair is quality evidence, not a universal performance-task wall-time claim.",
+    "observed_reduction_fraction": {
+      "cached_input_tokens": 0.118952,
+      "duration_seconds": -0.232875,
+      "input_tokens": 0.173048,
+      "output_tokens": 0.030258,
+      "reasoning_output_tokens": -0.279778,
+      "time_to_first_edit_seconds": 0.040159,
+      "time_to_first_tool_seconds": -1.641601,
+      "uncached_input_tokens": 0.454709
+    },
+    "paired_repeat": 2
+  }
+}

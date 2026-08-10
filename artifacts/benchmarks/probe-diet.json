@@ -1,0 +1,187 @@
+{
+  "aggregate_synthetic": {
+    "candidate": {
+      "median_output_bytes": 1346,
+      "p50_seconds": 0.077029,
+      "p95_seconds": 0.082091,
+      "samples_seconds": [
+        0.082091,
+        0.079209,
+        0.07473,
+        0.075223,
+        0.077029,
+        0.073383,
+        0.077172
+      ]
+    },
+    "candidate_incomplete": true,
+    "candidate_repository_choices": [
+      "repo-00/",
+      "repo-01/",
+      "repo-02/",
+      "repo-03/",
+      "repo-04/",
+      "repo-05/",
+      "repo-06/",
+      "repo-07/",
+      "repo-08/",
+      "repo-09/"
+    ],
+    "current": {
+      "median_output_bytes": 1496,
+      "p50_seconds": 0.234207,
+      "p95_seconds": 0.279255,
+      "samples_seconds": [
+        0.229435,
+        0.234934,
+        0.250014,
+        0.232943,
+        0.279255,
+        0.228289,
+        0.234207
+      ]
+    },
+    "important_payload_equal": false,
+    "median_improvement_fraction": 0.671107
+  },
+  "fixtures": "artifacts/probe-fixtures-<run>",
+  "passed": true,
+  "real_aggregate_root": {
+    "candidate": {
+      "median_output_bytes": 1348,
+      "p50_seconds": 0.074401,
+      "p95_seconds": 0.104433,
+      "samples_seconds": [
+        0.104433,
+        0.074401,
+        0.073519,
+        0.074347,
+        0.074675
+      ]
+    },
+    "candidate_incomplete": true,
+    "candidate_repository_choices": [
+      "repo-00/",
+      "repo-01/",
+      "repo-02/",
+      "repo-03/",
+      "repo-04/",
+      "repo-05/",
+      "repo-06/",
+      "repo-07/",
+      "repo-08/",
+      "repo-09/"
+    ],
+    "current": {
+      "median_output_bytes": 5546667,
+      "p50_seconds": 30.483466,
+      "p95_seconds": 30.483466,
+      "samples_seconds": [
+        30.483466
+      ]
+    },
+    "current_incomplete": true,
+    "observed_improvement_fraction": 0.997559,
+    "path": "<local-aggregate-workspace>"
+  },
+  "scoped_git": {
+    "candidate": {
+      "median_output_bytes": 1882,
+      "p50_seconds": 0.124387,
+      "p95_seconds": 0.138918,
+      "samples_seconds": [
+        0.128178,
+        0.132193,
+        0.121959,
+        0.12461,
+        0.114929,
+        0.116306,
+        0.124326,
+        0.125878,
+        0.121866,
+        0.124579,
+        0.127725,
+        0.122047,
+        0.124387,
+        0.138918,
+        0.114688
+      ]
+    },
+    "candidate_incomplete": false,
+    "candidate_repository_choices": [],
+    "current": {
+      "median_output_bytes": 1854,
+      "p50_seconds": 0.12439,
+      "p95_seconds": 0.13252,
+      "samples_seconds": [
+        0.11305,
+        0.13252,
+        0.123707,
+        0.11799,
+        0.11474,
+        0.125126,
+        0.128176,
+        0.129178,
+        0.128789,
+        0.122285,
+        0.118856,
+        0.131533,
+        0.12439,
+        0.127422,
+        0.115493
+      ]
+    },
+    "important_payload_equal": true,
+    "median_improvement_fraction": 2.4e-05
+  },
+  "standalone_nongit": {
+    "candidate": {
+      "median_output_bytes": 1079,
+      "p50_seconds": 0.079647,
+      "p95_seconds": 0.08916,
+      "samples_seconds": [
+        0.080108,
+        0.081524,
+        0.078351,
+        0.085179,
+        0.086484,
+        0.08916,
+        0.079012,
+        0.08371,
+        0.078234,
+        0.078064,
+        0.078597,
+        0.079624,
+        0.079647,
+        0.080039,
+        0.077778
+      ]
+    },
+    "candidate_incomplete": true,
+    "candidate_repository_choices": [],
+    "current": {
+      "median_output_bytes": 1051,
+      "p50_seconds": 0.079217,
+      "p95_seconds": 0.088513,
+      "samples_seconds": [
+        0.085019,
+        0.079368,
+        0.078614,
+        0.086598,
+        0.088513,
+        0.079877,
+        0.079217,
+        0.079191,
+        0.076745,
+        0.078696,
+        0.082416,
+        0.077084,
+        0.08086,
+        0.078396,
+        0.077369
+      ]
+    },
+    "important_payload_equal": true,
+    "median_improvement_fraction": -0.005428
+  }
+}

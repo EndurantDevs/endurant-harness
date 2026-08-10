@@ -1,0 +1,23 @@
+{
+  "id": "record-selection-performance",
+  "kind": "performance",
+  "production_prefixes": [
+    "src/"
+  ],
+  "allowed_changes": [
+    "src/record_selection.py",
+    "tests/test_record_selection.py"
+  ],
+  "protected_prefixes": [
+    "scripts/",
+    ".agents/",
+    "AGENTS.md"
+  ],
+  "required_agent_gates": [
+    "synthetic",
+    "focused",
+    "ci-preflight"
+  ],
+  "forbidden_agent_gates": [],
+  "minimum_p95_improvement_fraction": 0.4
+}

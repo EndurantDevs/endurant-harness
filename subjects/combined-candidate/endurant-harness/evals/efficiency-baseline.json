@@ -1,0 +1,16 @@
+{
+  "baseline": {
+    "label": "tura-inspired-engineering-v3 released SKILL.md",
+    "sha256": "45fbdd98b81246cbba117c014c2950f7d45031dc7650100bef8f7b70f8c841f8",
+    "bytes": 10270,
+    "lines": 187,
+    "words": 1398
+  },
+  "targets": {
+    "maximum_candidate_words": 450,
+    "minimum_instruction_reduction_ratio": 3.0,
+    "minimum_synthetic_parallel_speedup": 3.0,
+    "ordinary_task_packet_budget": 3
+  },
+  "benchmark_scope": "Always-loaded instruction footprint plus a controlled three-stage workload containing four independent commands per stage. This does not claim universal end-to-end coding throughput."
+}

@@ -1,0 +1,10 @@
+[package]
+name = "endurant-runtime-spike"
+version = "0.1.0"
+edition = "2024"
+
+[profile.release]
+strip = true
+lto = "thin"
+codegen-units = 1
+

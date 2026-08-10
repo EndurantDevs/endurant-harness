@@ -1,0 +1,31 @@
+{
+  "id": "settings-override-correctness",
+  "kind": "ordinary",
+  "production_prefixes": [
+    "src/"
+  ],
+  "allowed_changes": [
+    "src/settings.py",
+    "tests/test_settings.py",
+    "tests/test_settings_cli.py"
+  ],
+  "required_changed_prefixes": [
+    "tests/"
+  ],
+  "required_changed_paths": [
+    "tests/test_settings.py",
+    "tests/test_settings_cli.py"
+  ],
+  "protected_prefixes": [
+    "scripts/",
+    ".agents/",
+    "AGENTS.md"
+  ],
+  "required_agent_gates": [
+    "focused",
+    "ci-preflight"
+  ],
+  "forbidden_agent_gates": [
+    "synthetic"
+  ]
+}

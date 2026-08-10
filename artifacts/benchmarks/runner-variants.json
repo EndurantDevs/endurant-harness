@@ -1,0 +1,46 @@
+{
+  "assertions": {
+    "real_test_accepted": true,
+    "zero_test_rejected": true
+  },
+  "deadline": {
+    "bounded_under_four_seconds": true,
+    "child_process_terminated": true,
+    "cleanup_ran": true,
+    "duration_seconds": 1.126827,
+    "status_failed": true
+  },
+  "fingerprint": {
+    "enabled_median_overhead_seconds": 0.130388582,
+    "enabled_overhead_fraction": 1.616875,
+    "stale_diff_rejected": true,
+    "unchanged_diff_accepted": true
+  },
+  "overhead": {
+    "combined-candidate": {
+      "candidate_minus_current_seconds": 0.005578749,
+      "candidate_p50_seconds": 0.081219166,
+      "current_p50_seconds": 0.075640417,
+      "overhead_fraction": 0.073754
+    },
+    "runner-assertions": {
+      "candidate_minus_current_seconds": 2.5417e-05,
+      "candidate_p50_seconds": 0.075814792,
+      "current_p50_seconds": 0.075789375,
+      "overhead_fraction": 0.000335
+    },
+    "runner-deadline": {
+      "candidate_minus_current_seconds": -0.000451207,
+      "candidate_p50_seconds": 0.075681209,
+      "current_p50_seconds": 0.076132416,
+      "overhead_fraction": -0.005927
+    },
+    "runner-fingerprint": {
+      "candidate_minus_current_seconds": 0.003588542,
+      "candidate_p50_seconds": 0.079263917,
+      "current_p50_seconds": 0.075675375,
+      "overhead_fraction": 0.04742
+    }
+  },
+  "passed": true
+}

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Endurant Harness"
+  short_description: "Verified repository changes with fewer rounds"
+  default_prompt: "Use $endurant-harness to preserve existing work, establish a baseline and traced hypothesis, implement one coherent change, and require behavior-level staged proof with honest residual-risk reporting."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Endurant Harness"
+  short_description: "Verified repository changes with fewer rounds"
+  default_prompt: "Use $endurant-harness to preserve existing work, take the direct edit-and-focused-proof lane when the change is clear, and escalate to bounded scan/change/prove only when uncertainty or risk requires it."

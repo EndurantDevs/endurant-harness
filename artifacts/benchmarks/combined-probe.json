@@ -1,0 +1,289 @@
+{
+  "aggregate_synthetic": {
+    "candidate": {
+      "median_output_bytes": 1318,
+      "p50_seconds": 0.092677,
+      "p95_seconds": 0.096093,
+      "samples_seconds": [
+        0.094471,
+        0.096093,
+        0.094398,
+        0.091737,
+        0.092677,
+        0.0897,
+        0.092664
+      ]
+    },
+    "candidate_incomplete": true,
+    "candidate_repository_choices": [
+      "repo-00/",
+      "repo-01/",
+      "repo-02/",
+      "repo-03/",
+      "repo-04/",
+      "repo-05/",
+      "repo-06/",
+      "repo-07/",
+      "repo-08/",
+      "repo-09/"
+    ],
+    "current": {
+      "median_output_bytes": 1468,
+      "p50_seconds": 0.255432,
+      "p95_seconds": 0.265617,
+      "samples_seconds": [
+        0.254811,
+        0.255432,
+        0.257268,
+        0.249862,
+        0.242343,
+        0.265617,
+        0.262659
+      ]
+    },
+    "important_payload_equal": false,
+    "median_improvement_fraction": 0.637175
+  },
+  "candidate_subject": "combined-candidate",
+  "fixtures": "<temporary>/probe-fixtures-3okeipww",
+  "git_ignored_noise": {
+    "absolute_regression_bounded": true,
+    "candidate": {
+      "median_output_bytes": 1614,
+      "p50_seconds": 0.169735,
+      "p95_seconds": 0.186331,
+      "samples_seconds": [
+        0.177798,
+        0.164238,
+        0.176712,
+        0.186331,
+        0.180219,
+        0.1765,
+        0.19084,
+        0.179265,
+        0.160529,
+        0.16158,
+        0.164724,
+        0.168325,
+        0.168421,
+        0.169735,
+        0.167129,
+        0.171227,
+        0.167295,
+        0.177451,
+        0.174785,
+        0.172546,
+        0.170469,
+        0.16947,
+        0.17266,
+        0.172383,
+        0.169449,
+        0.173997,
+        0.166266,
+        0.165658,
+        0.166631,
+        0.167144,
+        0.161707
+      ]
+    },
+    "candidate_excludes_deleted_tracked": true,
+    "candidate_excludes_ignored": true,
+    "candidate_preserves_tracked_ignored": true,
+    "candidate_preserves_visible_untracked": true,
+    "candidate_project_files": [
+      "packages/visible/Cargo.toml",
+      "pyproject.toml",
+      "tracked-generated/Cargo.toml"
+    ],
+    "current": {
+      "median_output_bytes": 1897,
+      "p50_seconds": 0.148953,
+      "p95_seconds": 0.170635,
+      "samples_seconds": [
+        0.153118,
+        0.211217,
+        0.154734,
+        0.15664,
+        0.165363,
+        0.1654,
+        0.155553,
+        0.170635,
+        0.143435,
+        0.143533,
+        0.15105,
+        0.149745,
+        0.151142,
+        0.146971,
+        0.147897,
+        0.153925,
+        0.140736,
+        0.144836,
+        0.14567,
+        0.145996,
+        0.147832,
+        0.151996,
+        0.147566,
+        0.148366,
+        0.149994,
+        0.148052,
+        0.145553,
+        0.14063,
+        0.148617,
+        0.148953,
+        0.150222
+      ]
+    },
+    "current_project_files": [
+      "pyproject.toml",
+      "generated/package-000/pyproject.toml",
+      "generated/package-001/pyproject.toml",
+      "generated/package-002/pyproject.toml",
+      "generated/package-003/pyproject.toml",
+      "generated/package-004/pyproject.toml",
+      "generated/package-005/pyproject.toml",
+      "generated/package-006/pyproject.toml",
+      "generated/package-007/pyproject.toml",
+      "generated/package-008/pyproject.toml"
+    ],
+    "median_improvement_fraction": -0.139521
+  },
+  "passed": true,
+  "real_aggregate_root": {
+    "candidate": {
+      "median_output_bytes": 1348,
+      "p50_seconds": 0.098918,
+      "p95_seconds": 0.154847,
+      "samples_seconds": [
+        0.154847,
+        0.099229,
+        0.097591,
+        0.098918,
+        0.096955
+      ]
+    },
+    "candidate_incomplete": true,
+    "candidate_repository_choices": [
+      "repo-00/",
+      "repo-01/",
+      "repo-02/",
+      "repo-03/",
+      "repo-04/",
+      "repo-05/",
+      "repo-06/",
+      "repo-07/",
+      "repo-08/",
+      "repo-09/"
+    ],
+    "current": {
+      "median_output_bytes": 3954698,
+      "p50_seconds": 35.28155,
+      "p95_seconds": 35.28155,
+      "samples_seconds": [
+        35.28155
+      ]
+    },
+    "current_incomplete": true,
+    "observed_improvement_fraction": 0.997196,
+    "path": "<local-aggregate-workspace>"
+  },
+  "scoped_git": {
+    "candidate": {
+      "median_output_bytes": 1854,
+      "p50_seconds": 0.154815,
+      "p95_seconds": 0.165848,
+      "samples_seconds": [
+        0.156038,
+        0.150712,
+        0.155444,
+        0.165848,
+        0.149367,
+        0.150321,
+        0.158037,
+        0.14864,
+        0.152034,
+        0.152403,
+        0.154815,
+        0.150241,
+        0.155221,
+        0.159175,
+        0.155268
+      ]
+    },
+    "candidate_incomplete": false,
+    "candidate_repository_choices": [],
+    "current": {
+      "median_output_bytes": 1826,
+      "p50_seconds": 0.146416,
+      "p95_seconds": 0.15815,
+      "samples_seconds": [
+        0.15512,
+        0.146416,
+        0.143373,
+        0.143032,
+        0.14055,
+        0.147461,
+        0.146999,
+        0.145806,
+        0.139295,
+        0.145137,
+        0.145226,
+        0.146806,
+        0.15815,
+        0.148693,
+        0.147307
+      ]
+    },
+    "important_payload_equal": true,
+    "median_improvement_fraction": -0.057364
+  },
+  "standalone_nongit": {
+    "candidate": {
+      "median_output_bytes": 1051,
+      "p50_seconds": 0.104232,
+      "p95_seconds": 0.119209,
+      "samples_seconds": [
+        0.106578,
+        0.119209,
+        0.101951,
+        0.101181,
+        0.107284,
+        0.103153,
+        0.099367,
+        0.104334,
+        0.108818,
+        0.103802,
+        0.104232,
+        0.107154,
+        0.101646,
+        0.104528,
+        0.102938
+      ]
+    },
+    "candidate_incomplete": true,
+    "candidate_repository_choices": [],
+    "current": {
+      "median_output_bytes": 1023,
+      "p50_seconds": 0.09484,
+      "p95_seconds": 0.101689,
+      "samples_seconds": [
+        0.095093,
+        0.099777,
+        0.097282,
+        0.091502,
+        0.092564,
+        0.094483,
+        0.099302,
+        0.101689,
+        0.09484,
+        0.09627,
+        0.092824,
+        0.093956,
+        0.09635,
+        0.094707,
+        0.094747
+      ]
+    },
+    "important_payload_equal": true,
+    "median_improvement_fraction": -0.09903
+  }
+}
