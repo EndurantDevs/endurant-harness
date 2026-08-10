@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  local-preflight:
+    name: Local preflight (Python ${{ matrix.python-version }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.14"]
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      - name: Set up Python
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install repository-search dependency
+        run: sudo apt-get update && sudo apt-get install --yes ripgrep
+
+      - name: Run the same staged preflight used locally
+        env:
+          PYTHONDONTWRITEBYTECODE: "1"
+        run: >-
+          python3 -S endurant-harness/scripts/endurant.py run
+          lab/local-ci-plan.json --repo . --format text

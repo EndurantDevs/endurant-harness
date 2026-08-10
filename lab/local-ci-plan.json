@@ -1,5 +1,5 @@
 {
-  "name": "endurant-evaluation-local-preflight",
+  "name": "endurant-v5-local-preflight",
   "cwd": ".",
   "default_timeout": 120,
   "proof_deadline_seconds": 180,
@@ -19,10 +19,16 @@
         },
         {
           "id": "strict-audit",
-          "argv": ["python3", "-S", "subjects/combined-candidate/endurant-harness/scripts/audit_skill.py", "subjects/combined-candidate/endurant-harness", "--strict", "--format", "text"],
+          "argv": ["python3", "-S", "endurant-harness/scripts/audit_skill.py", "endurant-harness", "--strict", "--format", "text"],
           "env": {"PYTHONDONTWRITEBYTECODE": "1"},
           "evidence": "static",
           "must_match": "^PASS:"
+        },
+        {
+          "id": "release-source-parity",
+          "argv": ["diff", "-qr", "endurant-harness", "subjects/vnext/endurant-harness"],
+          "evidence": "static",
+          "timeout": 30
         }
       ]
     },
@@ -36,6 +42,13 @@
           "env": {"PYTHONDONTWRITEBYTECODE": "1"},
           "evidence": "integration",
           "must_match": "\\\"passed\\\": true"
+        },
+        {
+          "id": "release-receipt",
+          "argv": ["python3", "-S", "lab/build_v5_release.py", "verify-source", "--package", "endurant-harness", "--receipt", "artifacts/benchmarks/v5-release.json", "--runtime-receipt", "artifacts/benchmarks/v5-runtime.json"],
+          "env": {"PYTHONDONTWRITEBYTECODE": "1"},
+          "evidence": "integration",
+          "must_match": "\\\"status\\\": \\\"passed\\\""
         }
       ]
     },

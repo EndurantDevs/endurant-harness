@@ -9,8 +9,10 @@ artifacts/rust-scan-fixture-*/
 artifacts/benchmarks/runtime-logs/
 artifacts/benchmarks/runner-variants/
 artifacts/runtime/
+artifacts/releases/
 artifacts/benchmarks/*-command-plan.json
 artifacts/benchmarks/overhead-plan.json
+dist/
 subjects/rust-runtime/runtime-spike/target/
 **/__pycache__/
 *.pyc

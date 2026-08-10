@@ -1,0 +1,857 @@
+{
+  "skill_name": "endurant-harness",
+  "baseline": "tura-inspired-engineering-v3",
+  "purpose": "Deterministic preservation guard for material v3 behaviors, including activation reachability, while retaining the fast path.",
+  "capabilities": [
+    {
+      "id": "trigger-boundaries",
+      "importance": "critical",
+      "activation": "core",
+      "source_v3": [
+        "SKILL.md frontmatter"
+      ],
+      "evidence": [
+        {
+          "path": "SKILL.md",
+          "all": [
+            "Use for substantial repository changes",
+            "Do not use for explanations"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "preserve-unrelated-user-work",
+      "importance": "critical",
+      "activation": "core",
+      "source_v3": [
+        "SKILL.md operating invariants"
+      ],
+      "evidence": [
+        {
+          "path": "SKILL.md",
+          "all": [
+            "dirty tree",
+            "never reset, clean, overwrite",
+            "unrelated work"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "repository-orientation",
+      "importance": "critical",
+      "activation": "core",
+      "source_v3": [
+        "SKILL.md orient"
+      ],
+      "evidence": [
+        {
+          "path": "SKILL.md",
+          "all": [
+            "AGENTS.md",
+            "dirty tree",
+            "scripts/endurant.py probe"
+          ]
+        },
+        {
+          "path": "references/protocol.md",
+          "all": [
+            "package/workspace boundaries",
+            "generated files",
+            "required services"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "durable-repository-profile",
+      "importance": "important",
+      "activation": "conditional",
+      "source_v3": [
+        "references/repo-profile.md"
+      ],
+      "evidence": [
+        {
+          "path": "SKILL.md",
+          "all": [
+            "references/repository-profile.md"
+          ]
+        },
+        {
+          "path": "references/repository-profile.md",
+          "all": [
+            ".agents/endurant-harness-profile.md",
+            "Canonical commands",
+            "Known pre-existing failures"
+          ]
+        },
+        {
+          "path": "scripts/endurant.py",
+          "all": [
+            "PROFILE_PATHS",
+            "repository_profiles"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "acceptance-contract",
+      "importance": "critical",
+      "activation": "core",
+      "source_v3": [
+        "SKILL.md contract and proof plan"
+      ],
+      "evidence": [
+        {
+          "path": "SKILL.md",
+          "all": [
+            "goal, decisive proof, constraints, and non-goals",
+            "predicted files, and checks"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "baseline-before-edit",
+      "importance": "critical",
+      "activation": "conditional",
+      "source_v3": [
+        "SKILL.md trace before changing"
+      ],
+      "evidence": [
+        {
+          "path": "SKILL.md",
+          "all": [
+            "Before production edits",
+            "exact baseline or reproduction"
+          ]
+        },
+        {
+          "path": "references/protocol.md",
+          "all": [
+            "Before production edits",
+            "baseline evidence"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "trace-hypothesis-disproof",
+      "importance": "critical",
+      "activation": "conditional",
+      "source_v3": [
+        "SKILL.md trace before changing"
+      ],
+      "evidence": [
+        {
+          "path": "SKILL.md",
+          "all": [
+            "traced path or extension point",
+            "hypothesis/design",
+            "disproof"
+          ]
+        },
+        {
+          "path": "references/protocol.md",
+          "all": [
+            "Trace `observation -> trigger/test/request -> entry point -> calls/state -> divergence`",
+            "one result that could disprove it"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "analogy-and-ambiguity-policy",
+      "importance": "important",
+      "activation": "conditional",
+      "source_v3": [
+        "SKILL.md orient and contract"
+      ],
+      "evidence": [
+        {
+          "path": "SKILL.md",
+          "all": [
+            "analogous pattern",
+            "reversible ambiguity",
+            "unsafe, irreversible, or contractual choices"
+          ]
+        },
+        {
+          "path": "references/protocol.md",
+          "all": [
+            "Find analogous implementation and test patterns",
+            "Resolve reversible ambiguity from repository evidence"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "write-replan-done-gates",
+      "importance": "critical",
+      "activation": "core",
+      "source_v3": [
+        "SKILL.md state and gates"
+      ],
+      "evidence": [
+        {
+          "path": "SKILL.md",
+          "all": [
+            "Before production edits",
+            "Return to scan",
+            "done gate closed"
+          ]
+        },
+        {
+          "path": "references/protocol.md",
+          "all": [
+            "Write gate",
+            "Replan gate",
+            "Done gate"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dependency-aware-batching",
+      "importance": "critical",
+      "activation": "conditional",
+      "source_v3": [
+        "references/execution.md"
+      ],
+      "evidence": [
+        {
+          "path": "SKILL.md",
+          "all": [
+            "one staged plan",
+            "Parallelize only independent commands",
+            "serialize shared state"
+          ]
+        },
+        {
+          "path": "scripts/endurant.py",
+          "all": [
+            "parallel",
+            "run_if"
+          ]
+        },
+        {
+          "path": "references/protocol.md",
+          "all": [
+            "Parallelize only commands that do not consume one another's output",
+            "Serialize writes and resource-contending checks"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "packet-contract",
+      "importance": "important",
+      "activation": "conditional",
+      "source_v3": [
+        "SKILL.md batch contract"
+      ],
+      "evidence": [
+        {
+          "path": "SKILL.md",
+          "all": [
+            "references/protocol.md"
+          ]
+        },
+        {
+          "path": "references/protocol.md",
+          "all": [
+            "purpose, known inputs, stop condition, and evidence to retain"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "output-and-service-hygiene",
+      "importance": "important",
+      "activation": "core",
+      "source_v3": [
+        "references/execution.md"
+      ],
+      "evidence": [
+        {
+          "path": "SKILL.md",
+          "all": [
+            "full logs outside context",
+            "bounded readiness and guaranteed cleanup"
+          ]
+        },
+        {
+          "path": "references/protocol.md",
+          "all": [
+            "bounded timeouts",
+            "orphan processes"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "single-write-owner-and-subagents",
+      "importance": "important",
+      "activation": "core",
+      "source_v3": [
+        "references/execution.md subagent contract"
+      ],
+      "evidence": [
+        {
+          "path": "SKILL.md",
+          "all": [
+            "One write owner",
+            "subagents only for bounded reading"
+          ]
+        },
+        {
+          "path": "references/protocol.md",
+          "all": [
+            "path:symbol",
+            "one recommended next check"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "smallest-coherent-change",
+      "importance": "critical",
+      "activation": "core",
+      "source_v3": [
+        "SKILL.md make the smallest coherent change"
+      ],
+      "evidence": [
+        {
+          "path": "SKILL.md",
+          "all": [
+            "smallest coherent root-cause fix or vertical slice",
+            "Reinspect the path and diff"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "generated-output-discipline",
+      "importance": "important",
+      "activation": "core",
+      "source_v3": [
+        "SKILL.md generated-file gotcha"
+      ],
+      "evidence": [
+        {
+          "path": "SKILL.md",
+          "all": [
+            "regenerate outputs through their source tool"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "evidence-strength-hierarchy",
+      "importance": "critical",
+      "activation": "core",
+      "source_v3": [
+        "references/verification.md evidence strength"
+      ],
+      "evidence": [
+        {
+          "path": "SKILL.md",
+          "all": [
+            "Behavior evidence outranks integration, static checks, and reasoning"
+          ]
+        },
+        {
+          "path": "references/risk.md",
+          "all": [
+            "automated behavior-level acceptance or regression tests",
+            "direct code-path reasoning"
+          ]
+        },
+        {
+          "path": "scripts/endurant.py",
+          "all": [
+            "require_behavior_evidence",
+            "EVIDENCE_KINDS"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "risk-verification-matrix",
+      "importance": "critical",
+      "activation": "conditional",
+      "source_v3": [
+        "references/verification.md change matrix"
+      ],
+      "evidence": [
+        {
+          "path": "SKILL.md",
+          "all": [
+            "references/risk.md"
+          ]
+        },
+        {
+          "path": "references/risk.md",
+          "all": [
+            "| Bug |",
+            "| Feature |",
+            "| Refactor |",
+            "| Persisted data/schema |",
+            "| Concurrency |",
+            "| Security |"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "failure-classification",
+      "importance": "critical",
+      "activation": "core",
+      "source_v3": [
+        "references/verification.md failure classification"
+      ],
+      "evidence": [
+        {
+          "path": "SKILL.md",
+          "all": [
+            "Classify failures as code, expectation, environment, permission, flaky, or pre-existing"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "false-green-defense",
+      "importance": "critical",
+      "activation": "core",
+      "source_v3": [
+        "SKILL.md gotchas",
+        "references/verification.md completion questions"
+      ],
+      "evidence": [
+        {
+          "path": "SKILL.md",
+          "all": [
+            "Confirm intended tests ran",
+            "zero-test or stale-cache greens"
+          ]
+        },
+        {
+          "path": "references/risk.md",
+          "all": [
+            "public entry point"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "checkpoint-operational-state",
+      "importance": "important",
+      "activation": "conditional",
+      "source_v3": [
+        "references/checkpoint.md"
+      ],
+      "evidence": [
+        {
+          "path": "SKILL.md",
+          "all": [
+            "references/checkpoint.md"
+          ]
+        },
+        {
+          "path": "references/checkpoint.md",
+          "all": [
+            "Write gate",
+            "Done gate",
+            "Credible alternatives",
+            "Pre-existing user changes",
+            "Replan attempts",
+            "residual risk"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "claim-honesty-and-handoff",
+      "importance": "critical",
+      "activation": "core",
+      "source_v3": [
+        "SKILL.md operating invariants and handoff"
+      ],
+      "evidence": [
+        {
+          "path": "SKILL.md",
+          "all": [
+            "verified, inferred, and not verified",
+            "exact commands",
+            "residual risk",
+            "conclusions, not a transcript"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "tiny-task-scaling",
+      "importance": "important",
+      "activation": "core",
+      "source_v3": [
+        "SKILL.md gotchas local path"
+      ],
+      "evidence": [
+        {
+          "path": "SKILL.md",
+          "all": [
+            "Tiny invoked task",
+            "skip probe and checkpoint"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "rollout-and-operator-review",
+      "importance": "important",
+      "activation": "core",
+      "source_v3": [
+        "SKILL.md skeptical review"
+      ],
+      "evidence": [
+        {
+          "path": "SKILL.md",
+          "all": [
+            "compatibility/rollout notes"
+          ]
+        },
+        {
+          "path": "references/protocol.md",
+          "all": [
+            "rollout, rollback, migration, documentation, or operator notes"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "runner-safety",
+      "importance": "critical",
+      "activation": "runtime",
+      "source_v3": [
+        "references/execution.md safe command composition",
+        "v4 runner"
+      ],
+      "evidence": [
+        {
+          "path": "references/batch-plan.md",
+          "all": [
+            "shell strings and inline shell forms are rejected",
+            "working tree",
+            "Full output is written"
+          ]
+        },
+        {
+          "path": "scripts/endurant.py",
+          "all": [
+            "_argv_uses_inline_shell",
+            "_resolve_within",
+            "_terminate_process"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "direct-lane-classification",
+      "importance": "critical",
+      "activation": "core",
+      "source_v3": [
+        "combined vNext direct lane"
+      ],
+      "evidence": [
+        {
+          "path": "SKILL.md",
+          "all": [
+            "For clear reversible work",
+            "at most two batched discovery commands",
+            "Skip probe, hypothesis, analogy, checkpoint, JSON plan",
+            "Escalate for uncertainty or contradiction before editing"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "task-selected-verification",
+      "importance": "critical",
+      "activation": "core",
+      "source_v3": [
+        "combined vNext verification policy"
+      ],
+      "evidence": [
+        {
+          "path": "SKILL.md",
+          "all": [
+            "Select proof by task",
+            "identical before/after synthetic workload plus correctness",
+            "available local CI before remote CI",
+            "Skip irrelevant synthetic work"
+          ]
+        },
+        {
+          "path": "references/risk.md",
+          "all": [
+            "Task-selected local verification",
+            "unchanged baseline and changed source",
+            "local CI preflight before paying the remote-CI feedback delay"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "runner-output-assertions",
+      "importance": "critical",
+      "activation": "runtime",
+      "source_v3": [
+        "combined vNext runner assertions"
+      ],
+      "evidence": [
+        {
+          "path": "references/batch-plan.md",
+          "all": [
+            "must_match",
+            "must_not_match",
+            "final 64 KiB of output"
+          ]
+        },
+        {
+          "path": "scripts/endurant.py",
+          "all": [
+            "must_match",
+            "must_not_match",
+            "bounded_output"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "total-proof-deadline",
+      "importance": "critical",
+      "activation": "runtime",
+      "source_v3": [
+        "combined vNext runner deadline"
+      ],
+      "evidence": [
+        {
+          "path": "references/batch-plan.md",
+          "all": [
+            "proof_deadline_seconds",
+            "remaining plan budget",
+            "`always` cleanup still runs after exhaustion"
+          ]
+        },
+        {
+          "path": "scripts/endurant.py",
+          "all": [
+            "proof_deadline_seconds",
+            "deadline_at",
+            "_deadline_result"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "high-risk-diff-fingerprint",
+      "importance": "critical",
+      "activation": "runtime",
+      "source_v3": [
+        "combined vNext high-risk proof guard"
+      ],
+      "evidence": [
+        {
+          "path": "references/batch-plan.md",
+          "all": [
+            "expected_diff_fingerprint",
+            "rejects stale or proof-mutated diffs"
+          ]
+        },
+        {
+          "path": "scripts/endurant.py",
+          "all": [
+            "expected_diff_fingerprint",
+            "_diff_fingerprint",
+            "initial_diff_fingerprint",
+            "final_diff_fingerprint"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "aggregate-workspace-probe-diet",
+      "importance": "important",
+      "activation": "runtime",
+      "source_v3": [
+        "combined vNext bounded probe"
+      ],
+      "evidence": [
+        {
+          "path": "scripts/endurant.py",
+          "all": [
+            "_child_git_repositories",
+            "repository_choices",
+            "aggregate workspace detected; rerun with one exact child repository"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "conditional-red-first",
+      "importance": "critical",
+      "activation": "conditional",
+      "source_v3": [
+        "v5 behavior-regression decision"
+      ],
+      "evidence": [
+        {
+          "path": "SKILL.md",
+          "all": [
+            "Behavior bugs require a failing regression before production edit"
+          ]
+        },
+        {
+          "path": "references/risk.md",
+          "all": [
+            "claimed behavior regression",
+            "observe it fail before the production edit",
+            "Do not manufacture a red step"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "symbol-first-probe-relevance",
+      "importance": "critical",
+      "activation": "runtime",
+      "source_v3": [
+        "v5 symbol-first probe evaluation"
+      ],
+      "evidence": [
+        {
+          "path": "scripts/endurant.py",
+          "all": [
+            "_exact_symbols",
+            "_broad_candidate_paths",
+            "task_symbols",
+            "endurant-harness"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "repository-fast-preflight-contract",
+      "importance": "important",
+      "activation": "conditional",
+      "source_v3": [
+        "v5 optional preflight pilot"
+      ],
+      "evidence": [
+        {
+          "path": "references/repository-profile.md",
+          "all": [
+            ".agents/endurant-harness-preflight.json",
+            "bundle runs once",
+            "Only required checks not covered"
+          ]
+        },
+        {
+          "path": "scripts/endurant.py",
+          "all": [
+            "ENDURANT_RECEIPT_PATH",
+            "profile_sha256",
+            "verification_sha256"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "repository-benchmark-contract",
+      "importance": "important",
+      "activation": "conditional",
+      "source_v3": [
+        "v5 optional benchmark pilot"
+      ],
+      "evidence": [
+        {
+          "path": "references/repository-profile.md",
+          "all": [
+            ".agents/endurant-harness-benchmarks.json",
+            "baseline",
+            "correctness",
+            "minimum_improvement_fraction"
+          ]
+        },
+        {
+          "path": "scripts/endurant.py",
+          "all": [
+            "ENDURANT_BENCHMARK_EVENT_PATH",
+            "metric_schema",
+            "minimum_improvement_fraction"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "version-session-provenance",
+      "importance": "critical",
+      "activation": "runtime",
+      "source_v3": [
+        "v5 active-session provenance decision"
+      ],
+      "evidence": [
+        {
+          "path": "SKILL.md",
+          "all": [
+            "endurant-provenance:v5",
+            "Missing provenance means unknown"
+          ]
+        },
+        {
+          "path": "references/protocol.md",
+          "all": [
+            "current",
+            "stale",
+            "unknown",
+            "Never infer that an active session reloaded"
+          ]
+        },
+        {
+          "path": "scripts/endurant.py",
+          "all": [
+            "loaded_provenance",
+            "canonical_package_sha256",
+            "unknown"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "self-dogfood-and-parity",
+      "importance": "critical",
+      "activation": "conditional",
+      "source_v3": [
+        "references/skill-maintenance.md"
+      ],
+      "evidence": [
+        {
+          "path": "SKILL.md",
+          "all": [
+            "references/maintenance.md"
+          ]
+        },
+        {
+          "path": "references/maintenance.md",
+          "all": [
+            "capability-contract.json",
+            "strict audit",
+            "controlled benchmark",
+            "representative behavior and trigger cases"
+          ]
+        }
+      ]
+    }
+  ]
+}
