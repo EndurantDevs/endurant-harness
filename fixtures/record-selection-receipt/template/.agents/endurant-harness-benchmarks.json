@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "benchmarks": {
+    "record-selection": {
+      "argv": ["python3", "scripts/verify.py", "synthetic"],
+      "cwd": ".",
+      "env": {"PYTHONDONTWRITEBYTECODE": "1"},
+      "source_files": ["src/record_selection.py"],
+      "workload_files": ["scripts/verify.py"],
+      "correctness_keys": ["output_digest", "result_count"],
+      "metric_keys": ["median_seconds", "p95_seconds", "samples_seconds"],
+      "primary_metric": "p95_seconds",
+      "direction": "lower",
+      "minimum_improvement_fraction": 0.4
+    }
+  }
+}

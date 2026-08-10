@@ -1,0 +1,4 @@
+interface:
+  display_name: "Endurant Harness"
+  short_description: "Verified repository changes with fewer rounds"
+  default_prompt: "Use $endurant-harness to preserve existing work, observe a new behavior-bug regression fail before production edits, then fix once and run focused behavior plus available local CI; escalate uncertainty or risk and benchmark performance before and after."

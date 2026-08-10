@@ -1,0 +1,1 @@
+Reduce `select_records` p95 latency by at least 40% without changing output or public API. Use the repository benchmark receipt command exactly once before and once after the edit; accept its comparison instead of repeating either benchmark phase. Run warranted local verification. Do not modify verification or CI infrastructure. Do not commit.

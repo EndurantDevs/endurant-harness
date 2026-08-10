@@ -1,0 +1,943 @@
+{
+  "benchmark_comparator": {
+    "comparison": {
+      "extra_wording_vs_contract_uncached_change_fraction": 0.136764,
+      "extra_wording_vs_contract_wall_change_fraction": 0.529217,
+      "repository_contract_vs_historical_uncached_reduction_fraction": 0.0158,
+      "repository_contract_vs_historical_wall_reduction_fraction": 0.412654
+    },
+    "decision": "Pilot the optional repository comparator/profile; do not add the extra core wording, which was slower and used more uncached input on the same fixture.",
+    "gates": {
+      "all_runs_accepted": true,
+      "extra_core_wording_has_no_quality_advantage": true,
+      "historical_run_repeated_final_synthetic": true,
+      "repository_comparator_acceptance_observed": true,
+      "repository_contract_runs_baseline_and_final_once": true
+    },
+    "limitations": [
+      "The repository-contract versus historical comparison is not a randomized pair.",
+      "The same-fixture core-wording comparison has one run per arm and is variance-sensitive."
+    ],
+    "passed": true,
+    "runs": {
+      "extra_core_wording": {
+        "accepted": true,
+        "changed_paths": [
+          "src/record_selection.py"
+        ],
+        "comparator_acceptance_seen": true,
+        "duration_seconds": 73.599661,
+        "first_tool_to_edit_seconds": 19.635553,
+        "functional_passed": true,
+        "git_state_unchanged": true,
+        "local_ci_passed": true,
+        "output_tokens": 3097,
+        "performance": {
+          "agent_baseline_seen": true,
+          "agent_final_seen": true,
+          "baseline_before_agent": true,
+          "baseline_p95_seconds": 0.254574334,
+          "final_p95_seconds": 0.001043958,
+          "grader_final_after_edit": true,
+          "improvement_fraction": 0.995899,
+          "required": true,
+          "threshold_fraction": 0.4,
+          "threshold_passed": true
+        },
+        "pre_edit_command_count": 3,
+        "pre_edit_output_bytes": 11233,
+        "raw_receipts": {
+          "agent_events_observed": {
+            "bytes": 2210,
+            "sha256": "ef3af90a190cf7fe7e619ce564537f695df943f55bc080643f46b3fcfccf2055"
+          },
+          "codex_observed": {
+            "bytes": 32164,
+            "sha256": "9881270ff920be59f35265f1f054f04029f1c2f6962a3196c6d14650d349e861"
+          },
+          "grade": {
+            "bytes": 1567,
+            "sha256": "c1d32896336178b5a5abe1561a51d6043fe18252ed6f6360a69753aaf6fc02fb"
+          },
+          "metadata": {
+            "bytes": 5467,
+            "sha256": "55e7ec63cca7856c98440d042c1c64d12be264355d319d336f440f456ed8d672"
+          },
+          "summary": {
+            "bytes": 5149,
+            "sha256": "680dfb795281b972fbfa43a528c32ebb9a8d91a57a79f203e053553324f241f0"
+          }
+        },
+        "reasoning_output_tokens": 827,
+        "run_id": "20260810T222854-benchmark-receipt-record-selection-receipt-r21",
+        "subject_skill_sha256": "1ad160672393557886b81b16689d3bf334dc86e957c3b39003926f5957cabea4",
+        "subject_tree_unchanged": true,
+        "synthetic_agent_gate_count": 2,
+        "time_to_first_edit_seconds": 27.189468,
+        "total_command_count": 7,
+        "uncached_input_tokens": 22093
+      },
+      "historical_without_receipt": {
+        "accepted": true,
+        "changed_paths": [
+          "src/record_selection.py",
+          "tests/test_record_selection.py"
+        ],
+        "comparator_acceptance_seen": false,
+        "duration_seconds": 81.943234,
+        "first_tool_to_edit_seconds": 43.809675,
+        "functional_passed": true,
+        "git_state_unchanged": true,
+        "local_ci_passed": true,
+        "output_tokens": 3633,
+        "performance": {
+          "agent_baseline_seen": true,
+          "agent_final_seen": true,
+          "baseline_before_agent": true,
+          "baseline_p95_seconds": 0.231281333,
+          "final_p95_seconds": 0.000790916,
+          "grader_final_after_edit": true,
+          "improvement_fraction": 0.99658,
+          "required": true,
+          "threshold_fraction": 0.4,
+          "threshold_passed": true
+        },
+        "pre_edit_command_count": 2,
+        "pre_edit_output_bytes": 5661,
+        "raw_receipts": {
+          "agent_events_observed": {
+            "bytes": 2887,
+            "sha256": "ce38d4fdd8f6f940f4b4047fc0f619e9f0e8c22bfeef72df595b5ae295c93927"
+          },
+          "codex_observed": {
+            "bytes": 20159,
+            "sha256": "504747fc3ced275af42a0813ea7f2aeea38f36afa22cacf5345fd90287b595ff"
+          },
+          "grade": {
+            "bytes": 1648,
+            "sha256": "543d679c3ed8d4e8858018a945f8771431257a0a7ec813fbf97465543934f6a3"
+          },
+          "metadata": {
+            "bytes": 5366,
+            "sha256": "c35110b0130b904ef431e5c464bfb33eb6f045cd055b580ad6abdbb3dc46310e"
+          },
+          "summary": {
+            "bytes": 5165,
+            "sha256": "1f21bd4339e8c2b3154ad0d9d643be9c4630a36cc32680f3e42f8e43d515df65"
+          }
+        },
+        "reasoning_output_tokens": 938,
+        "run_id": "20260810T205009-combined-candidate-record-selection-performance-r5",
+        "subject_skill_sha256": "71bd691bb8cf558ee3512de153b3cc54bb05476878fc834ff36fa495b4076c0a",
+        "subject_tree_unchanged": true,
+        "synthetic_agent_gate_count": 3,
+        "time_to_first_edit_seconds": 52.583726,
+        "total_command_count": 4,
+        "uncached_input_tokens": 19747
+      },
+      "repository_contract_current_skill": {
+        "accepted": true,
+        "changed_paths": [
+          "src/record_selection.py"
+        ],
+        "comparator_acceptance_seen": true,
+        "duration_seconds": 48.128995,
+        "first_tool_to_edit_seconds": 27.10778,
+        "functional_passed": true,
+        "git_state_unchanged": true,
+        "local_ci_passed": true,
+        "output_tokens": 1798,
+        "performance": {
+          "agent_baseline_seen": true,
+          "agent_final_seen": true,
+          "baseline_before_agent": true,
+          "baseline_p95_seconds": 0.290703042,
+          "final_p95_seconds": 0.000971292,
+          "grader_final_after_edit": true,
+          "improvement_fraction": 0.996659,
+          "required": true,
+          "threshold_fraction": 0.4,
+          "threshold_passed": true
+        },
+        "pre_edit_command_count": 4,
+        "pre_edit_output_bytes": 24391,
+        "raw_receipts": {
+          "agent_events_observed": {
+            "bytes": 2206,
+            "sha256": "b5f42974e805fa165fd459d5ebc3ecf66febd996fe8071b97f826d997ff975ae"
+          },
+          "codex_observed": {
+            "bytes": 35894,
+            "sha256": "ea6a99a78616a99adad8ffb6bbfe9ddc9bcf96911e75513e13c23c75826d45d8"
+          },
+          "grade": {
+            "bytes": 1567,
+            "sha256": "bb8e9270270c565bfae8fceb858ada8f8770a012e1bc2d765fa0f16b16773820"
+          },
+          "metadata": {
+            "bytes": 5470,
+            "sha256": "e14fae890928a58fbdbec93de17408a22e9c34d4d9c7ace1765aefc514396f11"
+          },
+          "summary": {
+            "bytes": 3776,
+            "sha256": "5c22d2fcd0388cbefa533e72f647584973becde64ab9879cff92b4179b604063"
+          }
+        },
+        "reasoning_output_tokens": 557,
+        "run_id": "20260810T223025-combined-candidate-record-selection-receipt-r21",
+        "subject_skill_sha256": "71bd691bb8cf558ee3512de153b3cc54bb05476878fc834ff36fa495b4076c0a",
+        "subject_tree_unchanged": true,
+        "synthetic_agent_gate_count": 2,
+        "time_to_first_edit_seconds": 34.313905,
+        "total_command_count": 6,
+        "uncached_input_tokens": 19435
+      }
+    }
+  },
+  "discovery_stop_budget": {
+    "boundary_canaries": [
+      {
+        "canary": "ambiguous-package-symbol",
+        "checks": {
+          "all_concrete_options_named": true,
+          "ambiguity_or_conflict_named": true,
+          "bounded_nonzero_commands": true,
+          "clarification_requested": true,
+          "index_unchanged": true,
+          "manifest_unchanged": true,
+          "no_file_change_items": true,
+          "no_other_tools": true,
+          "no_unsupported_completion_claim": true,
+          "repository_evidence_discovered": true
+        },
+        "command_count": 2,
+        "duration_seconds": 19.788993,
+        "file_change_items": 0,
+        "passed": true,
+        "uncached_input_tokens": 16374
+      },
+      {
+        "canary": "conflicting-shared-contract",
+        "checks": {
+          "all_concrete_options_named": true,
+          "ambiguity_or_conflict_named": true,
+          "bounded_nonzero_commands": true,
+          "clarification_requested": true,
+          "index_unchanged": true,
+          "manifest_unchanged": true,
+          "no_file_change_items": true,
+          "no_other_tools": true,
+          "no_unsupported_completion_claim": true,
+          "repository_evidence_discovered": true
+        },
+        "command_count": 4,
+        "duration_seconds": 28.217223,
+        "file_change_items": 0,
+        "passed": true,
+        "uncached_input_tokens": 10504
+      }
+    ],
+    "boundary_raw_receipt": {
+      "bytes": 20118,
+      "sha256": "ad5e3892212a7d219e55e6766c632ec8a59246d122f2129247d180f9f7bc2959"
+    },
+    "candidate": {
+      "median": {
+        "duration_seconds": 39.267588,
+        "first_tool_to_edit_seconds": 16.755361,
+        "pre_edit_command_count": 2.0,
+        "pre_edit_output_bytes": 5614.5,
+        "time_to_first_edit_seconds": 24.982126,
+        "total_command_count": 4.0,
+        "uncached_input_tokens": 16945.5
+      },
+      "runs": [
+        {
+          "accepted": true,
+          "changed_paths": [
+            "src/settings.py",
+            "tests/test_settings.py",
+            "tests/test_settings_cli.py"
+          ],
+          "duration_seconds": 43.324482,
+          "first_tool_to_edit_seconds": 16.652695,
+          "functional_passed": true,
+          "git_state_unchanged": true,
+          "local_ci_passed": true,
+          "output_tokens": 1636,
+          "pre_edit_command_count": 2,
+          "pre_edit_output_bytes": 4656,
+          "raw_receipts": {
+            "agent_events_observed": {
+              "bytes": 829,
+              "sha256": "d19baa5c374459bfdd6ad7c2f2d7f3ac8bfd981a20ab59b9e810fc1a7f25ef68"
+            },
+            "codex_observed": {
+              "bytes": 14920,
+              "sha256": "8451acd327602e45bc796a594aa4cc07687fbb606d02a4581e9e8bf0973c6b00"
+            },
+            "grade": {
+              "bytes": 1699,
+              "sha256": "78dd2285cb7e4d007a6bdb16a0ed75869f92d811463e321fb44b10471ccf3977"
+            },
+            "metadata": {
+              "bytes": 5394,
+              "sha256": "c7ca8a3e12c80d2ae145dc558b3e25d946b3c51157223360dac4f306a0fce6f7"
+            },
+            "summary": {
+              "bytes": 3557,
+              "sha256": "3b3b00078a3e9956866d934f36e093377826e6dfe12b3ba41f310b57550c94b7"
+            }
+          },
+          "reasoning_output_tokens": 292,
+          "run_id": "20260810T221424-direct-budget-settings-override-correctness-r11",
+          "subject_skill_sha256": "2030dd8eb94b29c3d45347fb806d3c6a67ab1c0d14bdca183e6f8a85632371bc",
+          "subject_tree_unchanged": true,
+          "time_to_first_edit_seconds": 25.075964,
+          "total_command_count": 5,
+          "uncached_input_tokens": 20822
+        },
+        {
+          "accepted": true,
+          "changed_paths": [
+            "src/settings.py",
+            "tests/test_settings.py",
+            "tests/test_settings_cli.py"
+          ],
+          "duration_seconds": 35.210694,
+          "first_tool_to_edit_seconds": 16.858028,
+          "functional_passed": true,
+          "git_state_unchanged": true,
+          "local_ci_passed": true,
+          "output_tokens": 1521,
+          "pre_edit_command_count": 2,
+          "pre_edit_output_bytes": 6573,
+          "raw_receipts": {
+            "agent_events_observed": {
+              "bytes": 828,
+              "sha256": "cd6dbf800bcd390f033628165ba16ed31474ebc81218737a020875f10b07b137"
+            },
+            "codex_observed": {
+              "bytes": 15457,
+              "sha256": "828d744587f1664ffe18359de0f5644ae6757ec4c190a195fd6d2c454948d3cf"
+            },
+            "grade": {
+              "bytes": 1699,
+              "sha256": "05c0f4303e1d48d3a9b4f8fa4fa58b2c8643fd76c9954fd69e7b50462fba4b71"
+            },
+            "metadata": {
+              "bytes": 5394,
+              "sha256": "7a774566685f26bebe4d71fe81428f5f2718b9e4b9b1e113fa5faa93c6dd14ac"
+            },
+            "summary": {
+              "bytes": 3637,
+              "sha256": "3b65eb7adefecbed2ae5382670e3b401541ad13236213d8daf9ebc719810ce0a"
+            }
+          },
+          "reasoning_output_tokens": 315,
+          "run_id": "20260810T221713-direct-budget-settings-override-correctness-r12",
+          "subject_skill_sha256": "2030dd8eb94b29c3d45347fb806d3c6a67ab1c0d14bdca183e6f8a85632371bc",
+          "subject_tree_unchanged": true,
+          "time_to_first_edit_seconds": 24.888289,
+          "total_command_count": 3,
+          "uncached_input_tokens": 13069
+        }
+      ]
+    },
+    "comparison": {
+      "duration_seconds_reduction_fraction": 0.282555,
+      "first_tool_to_edit_seconds_reduction_fraction": 0.17674,
+      "pre_edit_command_count_reduction_fraction": 0.2,
+      "pre_edit_output_bytes_reduction_fraction": 0.42855,
+      "time_to_first_edit_seconds_reduction_fraction": 0.116356,
+      "total_command_count_reduction_fraction": 0.333333,
+      "uncached_input_tokens_reduction_fraction": 0.383037
+    },
+    "current": {
+      "median": {
+        "duration_seconds": 54.732558,
+        "first_tool_to_edit_seconds": 20.352456,
+        "pre_edit_command_count": 2.5,
+        "pre_edit_output_bytes": 9825.0,
+        "time_to_first_edit_seconds": 28.271696,
+        "total_command_count": 6.0,
+        "uncached_input_tokens": 27466.0
+      },
+      "runs": [
+        {
+          "accepted": true,
+          "changed_paths": [
+            "src/settings.py",
+            "tests/test_settings.py",
+            "tests/test_settings_cli.py"
+          ],
+          "duration_seconds": 55.194275,
+          "first_tool_to_edit_seconds": 21.769641,
+          "functional_passed": true,
+          "git_state_unchanged": true,
+          "local_ci_passed": true,
+          "output_tokens": 2450,
+          "pre_edit_command_count": 3,
+          "pre_edit_output_bytes": 13036,
+          "raw_receipts": {
+            "agent_events_observed": {
+              "bytes": 828,
+              "sha256": "01678bfb3b3d03c20d84eda2250797d1d5464ef88c45f5209c6aebf881a25e92"
+            },
+            "codex_observed": {
+              "bytes": 27896,
+              "sha256": "6a6be5650f426f79675abc90c6b7244489ce151ae03fb9dd3a3cf05b25642945"
+            },
+            "grade": {
+              "bytes": 1699,
+              "sha256": "038ec8d488b9905ba9cab64f1e42aff6d25c08a06d745ef7a7739a0f16c2b836"
+            },
+            "metadata": {
+              "bytes": 5409,
+              "sha256": "079d1024297c3d7ba4d6610ad156b5696da7f0d0b5d15fbe6c1702dc68a8290b"
+            },
+            "summary": {
+              "bytes": 4106,
+              "sha256": "cff037cf6d282a35212484e2bb1e80f74dd98cd67d151db64d61fb310c444da8"
+            }
+          },
+          "reasoning_output_tokens": 624,
+          "run_id": "20260810T221513-combined-candidate-settings-override-correctness-r11",
+          "subject_skill_sha256": "71bd691bb8cf558ee3512de153b3cc54bb05476878fc834ff36fa495b4076c0a",
+          "subject_tree_unchanged": true,
+          "time_to_first_edit_seconds": 28.840885,
+          "total_command_count": 6,
+          "uncached_input_tokens": 21203
+        },
+        {
+          "accepted": true,
+          "changed_paths": [
+            "src/settings.py",
+            "tests/test_settings.py",
+            "tests/test_settings_cli.py"
+          ],
+          "duration_seconds": 54.270841,
+          "first_tool_to_edit_seconds": 18.935271,
+          "functional_passed": true,
+          "git_state_unchanged": true,
+          "local_ci_passed": true,
+          "output_tokens": 2242,
+          "pre_edit_command_count": 2,
+          "pre_edit_output_bytes": 6614,
+          "raw_receipts": {
+            "agent_events_observed": {
+              "bytes": 829,
+              "sha256": "5e49b5dde208559ad7e76f50be2796ce06ae2b1c159f97177c453e20c2898ff3"
+            },
+            "codex_observed": {
+              "bytes": 20153,
+              "sha256": "8fd235b1ebd5a69324c68b6be94e6235460bf1f89dde187b925eed342b3f279a"
+            },
+            "grade": {
+              "bytes": 1699,
+              "sha256": "e08fa17ff578b71c37adca192dc4521416965b2a179e0dcbd90dcd6f10335481"
+            },
+            "metadata": {
+              "bytes": 5409,
+              "sha256": "5443f20f33bed79a2ede2ecf244325f5d29d7507dd71313396f963294f24b90a"
+            },
+            "summary": {
+              "bytes": 3905,
+              "sha256": "90e8234b1c64f79ea78a97391d56ce20a996e8a589190869f96083267fd484a6"
+            }
+          },
+          "reasoning_output_tokens": 669,
+          "run_id": "20260810T221613-combined-candidate-settings-override-correctness-r12",
+          "subject_skill_sha256": "71bd691bb8cf558ee3512de153b3cc54bb05476878fc834ff36fa495b4076c0a",
+          "subject_tree_unchanged": true,
+          "time_to_first_edit_seconds": 27.702507,
+          "total_command_count": 6,
+          "uncached_input_tokens": 33729
+        }
+      ]
+    },
+    "gates": {
+      "all_clear_runs_accepted": true,
+      "both_boundary_canaries_escalated_without_edit": true,
+      "clear_runs_max_five_total_commands": true,
+      "clear_runs_max_two_pre_edit_commands": true,
+      "median_wall_improved_15_percent": true,
+      "pre_edit_output_did_not_increase": true,
+      "uncached_input_non_regressing": true
+    },
+    "limitations": [
+      "Two paired clear-task repeats and one run per safety boundary.",
+      "Command count does not bound shell-output volume; the boundary runs still emitted substantial read output."
+    ],
+    "passed": true
+  },
+  "environment": {
+    "history_and_memories": "disabled",
+    "model": "gpt-5.6-terra",
+    "network": "disabled",
+    "reasoning_effort": "low",
+    "subagents": "disabled"
+  },
+  "evidence_manifest_sha256": "0434b0a42424f9a7b67b201ee56ad34e6c12c340e0c4cb16e3da59f92556caac",
+  "lane_classification": {
+    "arms": {
+      "allowlist": {
+        "accuracy": 1.0,
+        "all_runs_valid": true,
+        "correct": 80,
+        "direct_correct": 40,
+        "direct_recall": 1.0,
+        "direct_total": 40,
+        "hazardous_correct": 40,
+        "hazardous_recall": 1.0,
+        "hazardous_total": 40,
+        "incorrect_ids_by_repeat": {
+          "1": [],
+          "2": []
+        },
+        "median_duration_seconds": 12.48543,
+        "median_uncached_input_tokens": 13437.5,
+        "runs": 2,
+        "tool_items": 0,
+        "total": 80,
+        "total_duration_seconds": 24.97086,
+        "total_uncached_input_tokens": 26875,
+        "usage_totals": {
+          "cached_input_tokens": 0,
+          "input_tokens": 26875,
+          "output_tokens": 832,
+          "reasoning_output_tokens": 0
+        }
+      },
+      "current": {
+        "accuracy": 1.0,
+        "all_runs_valid": true,
+        "correct": 80,
+        "direct_correct": 40,
+        "direct_recall": 1.0,
+        "direct_total": 40,
+        "hazardous_correct": 40,
+        "hazardous_recall": 1.0,
+        "hazardous_total": 40,
+        "incorrect_ids_by_repeat": {
+          "1": [],
+          "2": []
+        },
+        "median_duration_seconds": 10.815245,
+        "median_uncached_input_tokens": 13316.5,
+        "runs": 2,
+        "tool_items": 0,
+        "total": 80,
+        "total_duration_seconds": 21.630491,
+        "total_uncached_input_tokens": 26633,
+        "usage_totals": {
+          "cached_input_tokens": 0,
+          "input_tokens": 26633,
+          "output_tokens": 869,
+          "reasoning_output_tokens": 35
+        }
+      }
+    },
+    "comparison": {
+      "accuracy_delta": 0.0,
+      "direct_recall_delta": 0.0,
+      "hazardous_recall_delta": 0.0,
+      "median_duration_change_fraction": 0.154429,
+      "median_uncached_input_change_fraction": 0.009086
+    },
+    "decision": "Reject the 98-word explicit allowlist: both arms were perfect, while the allowlist was slower and used slightly more uncached input.",
+    "design": {
+      "candidate_policy_sha256": "a8b2cdc901ca35a27bee7a3b232d4a83930da87a590920db3d8ce23ef07af710",
+      "cases_per_run": 40,
+      "current_policy_sha256": "71bd691bb8cf558ee3512de153b3cc54bb05476878fc834ff36fa495b4076c0a",
+      "execution_order": [
+        "1-current",
+        "1-allowlist",
+        "2-allowlist",
+        "2-current"
+      ],
+      "repeats_per_arm": 2,
+      "same_shuffle_per_repeat": true,
+      "seeds": {
+        "1": 271828,
+        "2": 314159
+      }
+    },
+    "gates": {
+      "all_runs_valid": true,
+      "candidate_accuracy_at_least_95_percent": true,
+      "candidate_direct_recall_at_least_85_percent": true,
+      "candidate_hazardous_recall_100_percent": true,
+      "candidate_uncached_input_regression_at_most_5_percent": true,
+      "classification_only_no_tools": true
+    },
+    "limitations": [
+      "Classification-only batches do not prove coding-task execution behavior.",
+      "Two repeated batches are sensitive to model and service variance.",
+      "Tasks are explicit synthetic labels and do not cover repository evidence discovered mid-task."
+    ],
+    "passed": true,
+    "raw_receipt": {
+      "bytes": 8044,
+      "sha256": "e2ec6a6299f07255ba6e0c873e8eb73190e8652d2b2521aabab855634736b32f"
+    }
+  },
+  "passed": true,
+  "probe_and_preflight_reference": {
+    "artifact": "artifacts/benchmarks/next-improvements.json",
+    "sha256": "8ea0932f7e6ab5bbdef6385dec7c42dfba603ca24f9078ebc7c314230cdc64d0"
+  },
+  "red_before_green": {
+    "candidate": {
+      "median": {
+        "duration_seconds": 47.800691,
+        "time_to_first_edit_seconds": 35.34666,
+        "total_command_count": 5.5,
+        "uncached_input_tokens": 17370.5
+      },
+      "runs": [
+        {
+          "accepted": true,
+          "changed_paths": [
+            "src/settings.py",
+            "tests/test_settings.py",
+            "tests/test_settings_cli.py"
+          ],
+          "duration_seconds": 49.76531,
+          "failed_command_sha256": "03e5ab52156f0d0de1fea7887031d48e4d10ca6913a2f5db1d33f4326d85b135",
+          "failing_regression_before_production_edit": true,
+          "first_tool_to_edit_seconds": 28.406507,
+          "functional_passed": true,
+          "git_state_unchanged": true,
+          "local_ci_passed": true,
+          "output_tokens": 2118,
+          "pre_edit_command_count": 3,
+          "pre_edit_output_bytes": 13516,
+          "raw_receipts": {
+            "agent_events_observed": {
+              "bytes": 1240,
+              "sha256": "b1eff5d7bd6138c8d0e485a3be7e22000b8755d4c7b852c6cf9a33e9cb678b25"
+            },
+            "codex_observed": {
+              "bytes": 24662,
+              "sha256": "af848940d779fd5c0a5157ae515be4c4537407419eae3aedc2e812621c7fcc86"
+            },
+            "grade": {
+              "bytes": 1699,
+              "sha256": "0153fa4c1ec3a905384007948691b6c437e4c27bab9bb009fdf152f906ce10f0"
+            },
+            "metadata": {
+              "bytes": 5403,
+              "sha256": "f3353ab2ff72d0b2adb99b65e2c74f5581672215be3036cdf9dffdd5b7cc5d98"
+            },
+            "summary": {
+              "bytes": 3788,
+              "sha256": "5f7ffc1935cba90091a53961860de0ca251817094902b5914175665b86da8314"
+            }
+          },
+          "reasoning_output_tokens": 643,
+          "run_id": "20260810T221911-red-before-green-settings-override-correctness-r13",
+          "subject_skill_sha256": "29aab4b2d3a5a52bcb7506ac87cad612e2cd8fe77e44a359a538b0c9470cef59",
+          "subject_tree_unchanged": true,
+          "test_change_before_red": true,
+          "time_to_first_edit_seconds": 35.274201,
+          "total_command_count": 4,
+          "uncached_input_tokens": 15785
+        },
+        {
+          "accepted": true,
+          "changed_paths": [
+            "src/settings.py",
+            "tests/test_settings.py",
+            "tests/test_settings_cli.py"
+          ],
+          "duration_seconds": 45.836073,
+          "failed_command_sha256": "d9e1da4bd1f7fb5cc64bba4fae432ba540a44c9acbecd59170944399f3bec1df",
+          "failing_regression_before_production_edit": true,
+          "first_tool_to_edit_seconds": 26.929489,
+          "functional_passed": true,
+          "git_state_unchanged": true,
+          "local_ci_passed": true,
+          "output_tokens": 1960,
+          "pre_edit_command_count": 6,
+          "pre_edit_output_bytes": 9537,
+          "raw_receipts": {
+            "agent_events_observed": {
+              "bytes": 829,
+              "sha256": "8ef49047de5d88db00bc01eb318aa13bd732a2039dffbc735a66037a0bde40d0"
+            },
+            "codex_observed": {
+              "bytes": 21989,
+              "sha256": "1d230b119568119330f75cef79d92c76895268234e196ad8493187767717c420"
+            },
+            "grade": {
+              "bytes": 1699,
+              "sha256": "4b39f4f080a97c6b68f6167915024dc80dfb2fc68edaaf9e7efee08896a9047c"
+            },
+            "metadata": {
+              "bytes": 5403,
+              "sha256": "eecfb9e59ed780f64078857e900b9353f79f1d0f88173fc1639b360e93e89a34"
+            },
+            "summary": {
+              "bytes": 3925,
+              "sha256": "b8394530f02d71c22aacb5ef8b5d7178a4ecda3950250b1933791264ea67ef94"
+            }
+          },
+          "reasoning_output_tokens": 322,
+          "run_id": "20260810T222009-red-before-green-settings-override-correctness-r14",
+          "subject_skill_sha256": "29aab4b2d3a5a52bcb7506ac87cad612e2cd8fe77e44a359a538b0c9470cef59",
+          "subject_tree_unchanged": true,
+          "test_change_before_red": true,
+          "time_to_first_edit_seconds": 35.419119,
+          "total_command_count": 7,
+          "uncached_input_tokens": 18956
+        }
+      ]
+    },
+    "comparison": {
+      "duration_seconds_change_fraction": -0.12665,
+      "time_to_first_edit_seconds_change_fraction": 0.250249,
+      "total_command_count_change_fraction": -0.083333,
+      "uncached_input_tokens_change_fraction": -0.367564
+    },
+    "current": {
+      "median": {
+        "duration_seconds": 54.732558,
+        "time_to_first_edit_seconds": 28.271696,
+        "total_command_count": 6.0,
+        "uncached_input_tokens": 27466.0
+      },
+      "runs": [
+        {
+          "accepted": true,
+          "changed_paths": [
+            "src/settings.py",
+            "tests/test_settings.py",
+            "tests/test_settings_cli.py"
+          ],
+          "duration_seconds": 55.194275,
+          "first_tool_to_edit_seconds": 21.769641,
+          "functional_passed": true,
+          "git_state_unchanged": true,
+          "local_ci_passed": true,
+          "output_tokens": 2450,
+          "pre_edit_command_count": 3,
+          "pre_edit_output_bytes": 13036,
+          "raw_receipts": {
+            "agent_events_observed": {
+              "bytes": 828,
+              "sha256": "01678bfb3b3d03c20d84eda2250797d1d5464ef88c45f5209c6aebf881a25e92"
+            },
+            "codex_observed": {
+              "bytes": 27896,
+              "sha256": "6a6be5650f426f79675abc90c6b7244489ce151ae03fb9dd3a3cf05b25642945"
+            },
+            "grade": {
+              "bytes": 1699,
+              "sha256": "038ec8d488b9905ba9cab64f1e42aff6d25c08a06d745ef7a7739a0f16c2b836"
+            },
+            "metadata": {
+              "bytes": 5409,
+              "sha256": "079d1024297c3d7ba4d6610ad156b5696da7f0d0b5d15fbe6c1702dc68a8290b"
+            },
+            "summary": {
+              "bytes": 4106,
+              "sha256": "cff037cf6d282a35212484e2bb1e80f74dd98cd67d151db64d61fb310c444da8"
+            }
+          },
+          "reasoning_output_tokens": 624,
+          "run_id": "20260810T221513-combined-candidate-settings-override-correctness-r11",
+          "subject_skill_sha256": "71bd691bb8cf558ee3512de153b3cc54bb05476878fc834ff36fa495b4076c0a",
+          "subject_tree_unchanged": true,
+          "time_to_first_edit_seconds": 28.840885,
+          "total_command_count": 6,
+          "uncached_input_tokens": 21203
+        },
+        {
+          "accepted": true,
+          "changed_paths": [
+            "src/settings.py",
+            "tests/test_settings.py",
+            "tests/test_settings_cli.py"
+          ],
+          "duration_seconds": 54.270841,
+          "first_tool_to_edit_seconds": 18.935271,
+          "functional_passed": true,
+          "git_state_unchanged": true,
+          "local_ci_passed": true,
+          "output_tokens": 2242,
+          "pre_edit_command_count": 2,
+          "pre_edit_output_bytes": 6614,
+          "raw_receipts": {
+            "agent_events_observed": {
+              "bytes": 829,
+              "sha256": "5e49b5dde208559ad7e76f50be2796ce06ae2b1c159f97177c453e20c2898ff3"
+            },
+            "codex_observed": {
+              "bytes": 20153,
+              "sha256": "8fd235b1ebd5a69324c68b6be94e6235460bf1f89dde187b925eed342b3f279a"
+            },
+            "grade": {
+              "bytes": 1699,
+              "sha256": "e08fa17ff578b71c37adca192dc4521416965b2a179e0dcbd90dcd6f10335481"
+            },
+            "metadata": {
+              "bytes": 5409,
+              "sha256": "5443f20f33bed79a2ede2ecf244325f5d29d7507dd71313396f963294f24b90a"
+            },
+            "summary": {
+              "bytes": 3905,
+              "sha256": "90e8234b1c64f79ea78a97391d56ce20a996e8a589190869f96083267fd484a6"
+            }
+          },
+          "reasoning_output_tokens": 669,
+          "run_id": "20260810T221613-combined-candidate-settings-override-correctness-r12",
+          "subject_skill_sha256": "71bd691bb8cf558ee3512de153b3cc54bb05476878fc834ff36fa495b4076c0a",
+          "subject_tree_unchanged": true,
+          "time_to_first_edit_seconds": 27.702507,
+          "total_command_count": 6,
+          "uncached_input_tokens": 33729
+        }
+      ]
+    },
+    "gates": {
+      "all_bug_runs_accepted": true,
+      "bug_wall_overhead_under_15_percent": true,
+      "final_mutation_and_cli_quality_passed": true,
+      "honest_red_before_production_edit_2_of_2": true,
+      "nonbug_feature_and_refactor_do_not_run_red_first": true
+    },
+    "limitations": [
+      "Two bug runs and one run each for feature/refactor boundaries.",
+      "Bug wall time improved in this small sample, but time to first production edit rose because the regression was proved first."
+    ],
+    "nonbug_canaries": [
+      {
+        "case": "feature",
+        "checks": {
+          "agent_completed": true,
+          "focused_passed": true,
+          "git_head_and_index_unchanged": true,
+          "hidden_behavior_passed": true,
+          "local_ci_passed": true,
+          "no_pre_edit_failing_test": true,
+          "production_edit_observed": true,
+          "required_files_changed": true,
+          "scope_preserved": true,
+          "subject_unchanged": true
+        },
+        "command_count": 6,
+        "duration_seconds": 45.78642,
+        "passed": true,
+        "pre_edit_failing_test_count": 0,
+        "uncached_input_tokens": 15192
+      },
+      {
+        "case": "refactor",
+        "checks": {
+          "agent_completed": true,
+          "focused_passed": true,
+          "git_head_and_index_unchanged": true,
+          "hidden_behavior_passed": true,
+          "local_ci_passed": true,
+          "no_pre_edit_failing_test": true,
+          "production_edit_observed": true,
+          "required_files_changed": true,
+          "scope_preserved": true,
+          "subject_unchanged": true
+        },
+        "command_count": 6,
+        "duration_seconds": 39.68063,
+        "passed": true,
+        "pre_edit_failing_test_count": 0,
+        "uncached_input_tokens": 13463
+      }
+    ],
+    "nonbug_raw_receipt": {
+      "bytes": 9900,
+      "sha256": "1f3d37cc3e87a85a2f1fa3f16b19bd49e107507b5c6f82bab8c28b7f348d0d33"
+    },
+    "passed": true
+  },
+  "schema_version": 1,
+  "source": {
+    "input_sha256": {
+      "fixtures/record-selection-receipt/template/.agents/endurant-harness-benchmarks.json": "c19bf1b1771d5dab7e1a6b5731565430fd877b53add7d061a1f56e9feaa71c4f",
+      "fixtures/record-selection-receipt/template/scripts/benchmark_receipt.py": "a1fde3f53e2d2382a029f77f3bc857560af8875c52f9c98915a2c76663d6b68c",
+      "lab/check_results.py": "99f09dc88bdfdddc67488896becd426f7e93d88f484b06e04526c1acf89a4d7c",
+      "lab/eval_lib.py": "98ec5da0939af911d40334169230a9092911700f4fbfb8dc36cb74e2d7dccf4f",
+      "lab/evals/lane-cases.json": "69d0f633efd84b067a4aa9f5ad828bd9c222310821565189d734ac9f8d0ab2a9",
+      "lab/grade_run.py": "5909897786ecf8bc09b12dd6b7211020a612da1d64e8c6c1fd8c544561d5473d",
+      "lab/live_policy/lane-output.schema.json": "d2cc135fec25189507bf82ed8c6368f50dc42d06e05232fe5c86ee1b5b0cf3e4",
+      "lab/live_policy/run_discovery_boundary_canaries.py": "b07d29129374a1277c8c20e3effc1f370c36376e4f30c40de2f99c145ac87a92",
+      "lab/live_policy/run_lane_ab.py": "81cc00b108632d4d987f977cba792b377ce15819430681169760d603ad47efa0",
+      "lab/live_policy/run_red_first_nonbug_canaries.py": "aa3505dfac6569eaef16b0d3342c01acf02594863da1c8d2517ab0358868ccc1",
+      "lab/run_agent.py": "e64b7ad272f7ef6f27324ed11d4cbb29431d1c0c37553c0612214b0e7db806c9",
+      "lab/summarize_next_live.py": "732a094e30d9892329cf1fe0b3bd9c0bad0cb269fd8a26c447e419a96397c516",
+      "subjects/benchmark-receipt/endurant-harness/SKILL.md": "1ad160672393557886b81b16689d3bf334dc86e957c3b39003926f5957cabea4",
+      "subjects/combined-candidate/endurant-harness/SKILL.md": "71bd691bb8cf558ee3512de153b3cc54bb05476878fc834ff36fa495b4076c0a",
+      "subjects/direct-budget/endurant-harness/SKILL.md": "2030dd8eb94b29c3d45347fb806d3c6a67ab1c0d14bdca183e6f8a85632371bc",
+      "subjects/red-before-green/endurant-harness/SKILL.md": "29aab4b2d3a5a52bcb7506ac87cad612e2cd8fe77e44a359a538b0c9470cef59"
+    }
+  },
+  "version_provenance": {
+    "active_session_reload_live_tested": false,
+    "decision": "Adopt current/stale/unknown receipt semantics only when the loaded release and package hash are supplied; do not claim an active task reloaded.",
+    "deterministic_cases": {
+      "cases": [
+        {
+          "case": "current",
+          "compact_bytes": 48,
+          "correct": true,
+          "expected": "current",
+          "observed": "current"
+        },
+        {
+          "case": "stale-release",
+          "compact_bytes": 46,
+          "correct": true,
+          "expected": "stale",
+          "observed": "stale"
+        },
+        {
+          "case": "stale-hash",
+          "compact_bytes": 46,
+          "correct": true,
+          "expected": "stale",
+          "observed": "stale"
+        },
+        {
+          "case": "missing-release",
+          "compact_bytes": 48,
+          "correct": true,
+          "expected": "unknown",
+          "observed": "unknown"
+        },
+        {
+          "case": "missing-hash",
+          "compact_bytes": 48,
+          "correct": true,
+          "expected": "unknown",
+          "observed": "unknown"
+        },
+        {
+          "case": "tampered-same-version",
+          "compact_bytes": 46,
+          "correct": true,
+          "expected": "stale",
+          "observed": "stale"
+        }
+      ],
+      "gates": {
+        "all_states_correct": true,
+        "compact_under_80_bytes": true,
+        "missing_never_current": true,
+        "overhead_under_1ms": true
+      },
+      "max_compact_bytes": 48,
+      "microbenchmark_repeats": 10000,
+      "p50_ms": 0.002459,
+      "p95_ms": 0.002625
+    }
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "classifications": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "lane": {
+            "enum": [
+              "direct",
+              "escalated"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "lane"
+        ],
+        "type": "object"
+      },
+      "maxItems": 40,
+      "minItems": 40,
+      "type": "array"
+    }
+  },
+  "required": [
+    "classifications"
+  ],
+  "type": "object"
+}

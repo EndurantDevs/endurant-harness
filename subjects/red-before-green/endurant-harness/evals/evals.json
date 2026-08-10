@@ -1,0 +1,162 @@
+{
+  "skill_name": "endurant-harness",
+  "evals": [
+    {
+      "id": "cache-expiry-cross-layer",
+      "prompt": "Investigate and fix the API returning stale account data after cache expiry. The bug crosses the HTTP handler, cache adapter, and repository layer. Preserve current cache keys and add a regression test.",
+      "expected_output": "A traced root-cause fix with behavior coverage, one bounded discovery packet, staged focused and affected-scope proof, preserved compatibility, and an evidence-based handoff.",
+      "assertions": [
+        "The run establishes a baseline and traces the real request/cache/repository path before production edits.",
+        "The change remains within the predicted surface or explicitly replans.",
+        "The proof plan groups independent checks and reports exact outcomes without unsupported success claims.",
+        "Routine full logs do not flood model context."
+      ]
+    },
+    {
+      "id": "mixed-version-migration",
+      "prompt": "Migrate order identifiers from integers to UUIDs across the database, REST API, and queue messages. Deployments overlap for 30 minutes, so old and new workers must coexist. Implement the change and document rollback risk.",
+      "expected_output": "A high-risk staged compatibility implementation with mixed-version behavior, idempotency, rollback analysis, risk-specific verification, and a compact checkpoint.",
+      "assertions": [
+        "Persisted data and overlapping versions trigger risk escalation.",
+        "The plan covers old/new readers or writers, idempotency, partial failure, and rollback evidence.",
+        "The runner does not parallelize commands that share mutable migration state.",
+        "Residual deployment risk is named precisely."
+      ]
+    },
+    {
+      "id": "flaky-concurrency",
+      "prompt": "A concurrency test fails roughly 1 in 20 CI runs with a timeout. Diagnose and fix it. Do not increase the timeout or add retries.",
+      "expected_output": "Evidence-driven flake diagnosis, a synchronization fix, stress/race-aware proof, and replanning rather than cumulative speculative edits.",
+      "assertions": [
+        "The run gathers timing or frequency evidence before the production patch.",
+        "It does not mask the failure with retries or a larger timeout.",
+        "Independent diagnostics may be parallelized, but stateful stress checks do not conflict.",
+        "A failed hypothesis causes a new scan packet and stale edits are removed when safe."
+      ]
+    },
+    {
+      "id": "parser-performance",
+      "prompt": "Reduce the parser's p95 latency by at least 20% on the existing benchmark corpus without changing output or public API. Implement and verify the improvement.",
+      "expected_output": "A same-workload baseline, evidenced bottleneck, focused optimization, correctness checks, and controlled before/after measurements.",
+      "assertions": [
+        "The workload and baseline are recorded before optimization.",
+        "The optimization targets measured evidence rather than a guessed hot path.",
+        "Benchmarks that could contend for resources are serialized.",
+        "Correctness and public API compatibility are proved alongside performance."
+      ]
+    },
+    {
+      "id": "proof-failure-classification",
+      "prompt": "Fix the failing checkout integration test. The test environment sometimes lacks the payment emulator. Implement only if the product is actually defective.",
+      "expected_output": "A bounded probe and baseline, explicit classification of environment versus product failure, no product patch for missing infrastructure, and exact blocked evidence when appropriate.",
+      "assertions": [
+        "The run does not edit product code merely to make an unavailable dependency look green.",
+        "Failure output is bounded and the full log is retained outside context.",
+        "A genuine environment blocker is reported with residual risk rather than misrepresented as success."
+      ]
+    },
+    {
+      "id": "dirty-tree-preservation",
+      "prompt": "Fix the serialization bug in this repository. I have unrelated uncommitted work in two other packages; do not modify, reset, clean, or reformat it.",
+      "expected_output": "A bounded scan that identifies pre-existing edits, a minimal patch confined to the traced path, and a final diff proving unrelated work was preserved.",
+      "assertions": [
+        "The run inspects the dirty tree before editing and records unrelated changes.",
+        "No reset, clean, broad formatter, or unrelated overwrite is used.",
+        "The final handoff distinguishes the agent's patch from pre-existing changes."
+      ]
+    },
+    {
+      "id": "false-green-zero-tests",
+      "prompt": "The focused test command exits zero but CI still fails. Verify whether the selector is actually discovering the intended tests before changing product code.",
+      "expected_output": "Test-discovery evidence, cache/incremental checks where relevant, and no unsupported product edit based on an empty successful test run.",
+      "assertions": [
+        "The run confirms how many intended tests executed.",
+        "A zero-test or stale-cache success is not treated as behavior proof.",
+        "Any product change follows only after a real failing path is established."
+      ]
+    },
+    {
+      "id": "tiny-comment-edit",
+      "prompt": "Use $endurant-harness to fix the typo 'recieve' in one source-code comment and run the smallest sensible check.",
+      "expected_output": "A minimal edit and focused diff/check without repository-wide probing, checkpointing, broad tests, or unrelated cleanup.",
+      "assertions": [
+        "Explicit invocation is honored but the tiny path bypasses the three-packet ceremony.",
+        "Only the requested comment changes.",
+        "The final response is concise and proportionate."
+      ]
+    },
+    {
+      "id": "durable-repository-profile",
+      "prompt": "This repository has `.agents/endurant-harness-profile.md` with canonical test commands, a required emulator, and one known baseline failure. Implement the billing fix without guessing alternative commands.",
+      "expected_output": "The profile is loaded by the probe, its commands and invariants govern the plan, and the known baseline failure is distinguished from regressions.",
+      "assertions": [
+        "The run reads the durable profile during scan.",
+        "Canonical commands are used unless contradicted by stronger repository instructions.",
+        "Known pre-existing failure evidence is reported honestly."
+      ]
+    },
+    {
+      "id": "analogy-and-reversible-ambiguity",
+      "prompt": "Add a sibling webhook handler. Naming and folder placement are not specified, but three existing handlers establish a consistent pattern. Avoid asking about reversible implementation details.",
+      "expected_output": "The run inspects analogous handlers, follows the repository pattern, and asks only if an unsafe, irreversible, or external-contract choice remains.",
+      "assertions": [
+        "An analogous implementation and test pattern is identified before editing.",
+        "Reversible ambiguity is resolved from repository evidence.",
+        "No unnecessary clarification round is introduced."
+      ]
+    },
+    {
+      "id": "service-readiness-and-cleanup",
+      "prompt": "Fix an integration path that requires starting a local test server. The server may fail readiness and must never remain running after the checks.",
+      "expected_output": "The proof uses a bounded readiness check, a timeout, and guaranteed cleanup on success or failure, with logs retained outside context.",
+      "assertions": [
+        "Readiness is bounded rather than assumed.",
+        "Cleanup runs even after failure or timeout.",
+        "No orphan process is left behind."
+      ]
+    },
+    {
+      "id": "checkpoint-resume-parity",
+      "prompt": "Resume a high-risk migration from a compact checkpoint. The working tree now contains new user edits and the earlier hypothesis has one credible alternative.",
+      "expected_output": "The run compares the checkpoint with current instructions, status, and diff; preserves user edits; and refreshes gate state, alternatives, and verification ledger.",
+      "assertions": [
+        "The checkpoint is not trusted without reconciling current state.",
+        "Pre-existing user changes and credible alternatives remain explicit.",
+        "The done gate stays closed while required proof is missing."
+      ]
+    },
+    {
+      "id": "behavior-proof-required",
+      "prompt": "A typecheck and lint pass after a checkout fix, but no checkout behavior test has run. Decide whether the change is complete and verify it.",
+      "expected_output": "Static success is treated as supporting evidence only; the staged plan requires a passing behavior command before completion.",
+      "assertions": [
+        "Static checks do not close the done gate for a behavior change.",
+        "The runner plan sets require_behavior_evidence and tags commands.",
+        "Blocked behavior proof is reported as not verified with residual risk."
+      ]
+    },
+    {
+      "id": "direct-lane-reversible-fix",
+      "prompt": "Fix a deterministic input-normalization bug isolated to one module. Repository instructions name the focused behavior selector and a 20-second local CI preflight. The change is reversible, has no external-contract or performance risk, and should stay within the module and its test.",
+      "expected_output": "A direct-path inspection, one minimal edit, the named focused behavior check, available local CI preflight, and final diff evidence without an unnecessary probe, hypothesis packet, checkpoint, or JSON runner plan.",
+      "assertions": [
+        "The clear reversible task is classified into the direct lane.",
+        "The run skips the repository probe, formal hypothesis, analogy search, checkpoint, and staged JSON plan.",
+        "The focused behavior selector, available local CI preflight, and final diff all run.",
+        "The change remains confined to the predicted module and test."
+      ]
+    },
+    {
+      "id": "task-selected-performance-proof",
+      "prompt": "Reduce a line parser's p95 latency by at least 20% without changing parsed output or its public API. A deterministic synthetic corpus and a fast local CI command are available. Implement the optimization and prove whether it meets the target.",
+      "expected_output": "An escalated performance run using the identical synthetic workload on unchanged baseline and changed source, with correctness comparison, focused behavior proof, local CI preflight, and controlled measurements that do not rely on self-reported timing.",
+      "assertions": [
+        "Performance or efficiency classification escalates beyond the direct lane.",
+        "The same synthetic corpus is measured on unchanged baseline before editing and on changed source afterward.",
+        "Output correctness and public API compatibility are checked alongside p95 latency.",
+        "Focused behavior and available local CI run before any remote CI.",
+        "The conclusion reports the measured target result and does not generalize beyond the controlled workload."
+      ]
+    }
+  ]
+}

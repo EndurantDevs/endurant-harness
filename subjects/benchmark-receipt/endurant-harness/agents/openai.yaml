@@ -1,0 +1,4 @@
+interface:
+  display_name: "Endurant Harness"
+  short_description: "Verified repository changes with fewer rounds"
+  default_prompt: "Use $endurant-harness to preserve existing work, use a repository benchmark receipt/comparator exactly once per phase for performance work, avoid duplicate final benchmarking, run focused behavior and available local CI, and escalate uncertainty or risk."

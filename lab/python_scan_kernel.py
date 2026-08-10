@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Invoke the unchanged Python repository-scan kernel for the Rust spike."""
+"""Invoke the current combined Python repository-scan kernel for the Rust spike."""
 
 from __future__ import annotations
 
@@ -12,7 +12,7 @@ from pathlib import Path
 SCRIPT = (
     Path(__file__).resolve().parents[1]
     / "subjects"
-    / "current"
+    / "combined-candidate"
     / "endurant-harness"
     / "scripts"
     / "endurant.py"
@@ -23,7 +23,7 @@ def main() -> int:
     if len(sys.argv) != 4:
         print("usage: python_scan_kernel.py ROOT MAX_DEPTH MAX_ITEMS", file=sys.stderr)
         return 2
-    spec = importlib.util.spec_from_file_location("current_endurant", SCRIPT)
+    spec = importlib.util.spec_from_file_location("combined_endurant", SCRIPT)
     module = importlib.util.module_from_spec(spec)
     assert spec.loader is not None
     sys.modules[spec.name] = module
