@@ -42,8 +42,15 @@ The installer audits the downloaded package, installs the same source for both h
 
 Install only one host:
 
+Codex:
+
 ```bash
 curl -fsSL https://raw.githubusercontent.com/EndurantDevs/endurant-harness/main/install.sh | ENDURANT_AGENT=codex sh
+```
+
+Claude Code:
+
+```bash
 curl -fsSL https://raw.githubusercontent.com/EndurantDevs/endurant-harness/main/install.sh | ENDURANT_AGENT=claude sh
 ```
 
