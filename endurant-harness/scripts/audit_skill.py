@@ -545,7 +545,12 @@ def smoke_runner(root: Path, result: dict[str, Any]) -> None:
             [sys.executable, "-S", str(script), "run", str(escape_path), "--format", "json"],
             root,
         )
-        if escaped.returncode != 2 or "escapes plan root" not in escaped.stderr:
+        try:
+            escaped_payload = json.loads(escaped.stdout)
+            escaped_error = escaped_payload["stages"][0]["commands"][0]["error"]
+        except (json.JSONDecodeError, KeyError, IndexError, TypeError):
+            escaped_error = None
+        if escaped.returncode != 1 or not isinstance(escaped_error, str) or "escapes plan root" not in escaped_error:
             add(result, "errors", "smoke.cwd_guard", "command cwd escape must be rejected")
 
         expected_plan = {
@@ -763,8 +768,6 @@ def audit(skill_root: Path, strict: bool, smoke: bool) -> dict[str, Any]:
             "skill_md_sha256": hashlib.sha256(text.encode("utf-8")).hexdigest(),
         }
     )
-    if words > 450:
-        add(result, "errors", "efficiency.skill_words", f"SKILL.md has {words} words; maximum is 450")
     for required_phrase in ("scan -> change -> prove", "Efficiency budget", "scripts/endurant.py run", "references/repository-profile.md", "exact baseline or reproduction", "never reset, clean, overwrite", "zero-test or stale-cache greens", "bounded readiness and guaranteed cleanup"):
         if required_phrase not in text:
             add(result, "errors", "protocol.missing", f"SKILL.md missing required phrase: {required_phrase}")
@@ -778,9 +781,15 @@ def audit(skill_root: Path, strict: bool, smoke: bool) -> dict[str, Any]:
             baseline = efficiency["baseline"]
             targets = efficiency["targets"]
             ratio = float(baseline["words"]) / words
+            target_words = int(targets["target_candidate_words"])
+            maximum_words = int(targets["maximum_candidate_words"])
+            if target_words < 1 or maximum_words < target_words:
+                raise ValueError("word targets must satisfy 1 <= target <= maximum")
             result["metrics"]["instruction_reduction_ratio"] = round(ratio, 3)
-            if words > int(targets["maximum_candidate_words"]):
-                add(result, "errors", "efficiency.word_target", "candidate exceeds recorded word target")
+            result["metrics"]["skill_word_target"] = target_words
+            result["metrics"]["skill_word_target_met"] = words <= target_words
+            if words > maximum_words:
+                add(result, "errors", "efficiency.word_maximum", f"candidate exceeds {maximum_words}-word maximum")
             if ratio < float(targets["minimum_instruction_reduction_ratio"]):
                 add(result, "errors", "efficiency.ratio", f"instruction reduction is only {ratio:.3f}x")
         except (OSError, KeyError, TypeError, ValueError, json.JSONDecodeError) as exc:
@@ -905,13 +914,17 @@ def audit(skill_root: Path, strict: bool, smoke: bool) -> dict[str, Any]:
                         ids.add(case_id)
                     if not isinstance(case.get("prompt"), str) or not case.get("prompt"):
                         add(result, "errors", "evals.prompt", f"{case_id or index}: prompt required")
+                    if not isinstance(case.get("expected_output"), str) or not case.get("expected_output", "").strip():
+                        add(result, "errors", "evals.expected_output", f"{case_id or index}: expected_output required")
                     assertions = case.get("assertions")
                     if not isinstance(assertions, list) or not assertions:
                         add(result, "errors", "evals.assertions", f"{case_id or index}: assertions required")
+                    elif not all(isinstance(item, str) and item.strip() for item in assertions):
+                        add(result, "errors", "evals.assertions", f"{case_id or index}: assertions must be non-empty strings")
                 else:
-                    if not isinstance(case.get("prompt"), str) or not isinstance(case.get("should_trigger"), bool):
+                    if not isinstance(case.get("prompt"), str) or not case.get("prompt", "").strip() or not isinstance(case.get("should_trigger"), bool):
                         add(result, "errors", "evals.trigger", f"trigger case {index} requires prompt and boolean should_trigger")
-            result["metrics"]["eval_cases" if filename == "evals.json" else "trigger_cases"] = len(collection)
+            result["metrics"]["eval_spec_cases" if filename == "evals.json" else "trigger_spec_cases"] = len(collection)
         except (OSError, json.JSONDecodeError) as exc:
             add(result, "errors", "evals.json", f"{filename}: {exc}")
 

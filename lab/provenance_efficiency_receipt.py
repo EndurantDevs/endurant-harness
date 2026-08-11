@@ -5,12 +5,13 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import io
 import json
 import math
-import shutil
 import statistics
 import subprocess
 import sys
+import tarfile
 import tempfile
 from pathlib import Path
 from typing import Any, Iterable
@@ -24,7 +25,6 @@ PROMPT_PATH = PROJECT_ROOT / "lab" / "prompts" / "provenance-efficiency.txt"
 BASELINE_PATCH = (
     PROJECT_ROOT / "lab" / "baselines" / "v5-provenance-ux.patch"
 )
-CURRENT_PACKAGE = PROJECT_ROOT / "endurant-harness"
 FIXTURE_ROOT = PROJECT_ROOT / "fixtures" / "settings-override-correctness"
 
 SCHEMA = "endurant-provenance-efficiency-v1"
@@ -35,6 +35,7 @@ OLD_PACKAGE_SHA256 = (
 NEW_PACKAGE_SHA256 = (
     "cf8c818dfa13e0d853628bf407efdd70db6b128764f52481e208ee88b138342c"
 )
+MEASURED_NEW_COMMIT = "5c69aee81fbfea6b135270f8c2e52f925fc39e6b"
 EXECUTED_RUNNER_SHA256 = (
     "46245f9a69b4509d57d93f5ccb181b16df4ac29cc7cd9139a08440fc03c7f6c5"
 )
@@ -496,6 +497,7 @@ def build_receipt(
             "input_sha256": source_input_sha256(),
             "executed_runner_sha256": executed_runner_sha256,
             "prompt_sha256": _sha256_file(PROMPT_PATH),
+            "reconstruction_commit": MEASURED_NEW_COMMIT,
         },
         "configuration": {
             "model": "gpt-5.6-terra",
@@ -552,11 +554,66 @@ def _package_receipt(package: Path) -> dict[str, Any] | None:
     return value if isinstance(value, dict) else None
 
 
+def _package_from_git(target: Path) -> bool:
+    completed = subprocess.run(
+        [
+            "git",
+            "--no-replace-objects",
+            "archive",
+            "--format=tar",
+            MEASURED_NEW_COMMIT,
+            "endurant-harness",
+        ],
+        cwd=PROJECT_ROOT,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        check=False,
+        timeout=30,
+    )
+    if completed.returncode != 0 or target.exists() or target.is_symlink():
+        return False
+
+    try:
+        with tarfile.open(fileobj=io.BytesIO(completed.stdout), mode="r:") as archive:
+            members = archive.getmembers()
+            seen: set[tuple[str, ...]] = set()
+            for member in members:
+                parts = Path(member.name).parts
+                if (
+                    not parts
+                    or parts[0] != "endurant-harness"
+                    or any(part in {"", ".", ".."} for part in parts)
+                    or not (member.isdir() or member.isfile())
+                    or parts in seen
+                ):
+                    return False
+                seen.add(parts)
+            archive.extractall(target.parent, members=members)
+    except (OSError, tarfile.TarError):
+        return False
+    return target.is_dir()
+
+
+def measured_package_reconstructs() -> bool:
+    with tempfile.TemporaryDirectory(prefix="endurant-provenance-measured-") as raw:
+        package = Path(raw) / "endurant-harness"
+        if not _package_from_git(package):
+            return False
+        receipt = _package_receipt(package)
+        return bool(
+            receipt
+            and receipt.get("package_integrity") is True
+            and receipt.get("package_sha256") == NEW_PACKAGE_SHA256
+            and receipt.get("marker_sha256") == NEW_PACKAGE_SHA256
+        )
+
+
 def baseline_reconstructs() -> bool:
     with tempfile.TemporaryDirectory(prefix="endurant-provenance-baseline-") as raw:
         root = Path(raw)
         package = root / "endurant-harness"
-        shutil.copytree(CURRENT_PACKAGE, package)
+        if not _package_from_git(package):
+            return False
         applied = subprocess.run(
             ["git", "apply", str(BASELINE_PATCH)],
             cwd=root,
@@ -753,13 +810,13 @@ def validate_receipt(payload: Any, *, verify_sources: bool = True) -> dict[str, 
                 "quality",
             )
         )
-    new_package = _package_receipt(CURRENT_PACKAGE) if verify_sources else None
     source_current = (
         source.get("input_sha256") == source_input_sha256()
         if verify_sources
         else isinstance(source.get("input_sha256"), dict)
     )
     baseline_current = baseline_reconstructs() if verify_sources else True
+    measured_current = measured_package_reconstructs() if verify_sources else True
     quality = body.get("quality") if isinstance(body.get("quality"), dict) else {}
     decision = body.get("decision") if isinstance(body.get("decision"), dict) else {}
     checks = {
@@ -772,13 +829,22 @@ def validate_receipt(payload: Any, *, verify_sources: bool = True) -> dict[str, 
         ),
         "receipt_digest": _receipt_digest_valid(payload, body),
         "source_inputs_current": (
-            set(source) == {"input_sha256", "executed_runner_sha256", "prompt_sha256"}
+            set(source)
+            == {
+                "input_sha256",
+                "executed_runner_sha256",
+                "prompt_sha256",
+                "reconstruction_commit",
+            }
             and source_current
         ),
         "executed_runner_identified": (
             source.get("executed_runner_sha256") == EXECUTED_RUNNER_SHA256
         ),
         "prompt_is_exact": source.get("prompt_sha256") == _sha256_file(PROMPT_PATH),
+        "subject_reconstruction_is_pinned": (
+            source.get("reconstruction_commit") == MEASURED_NEW_COMMIT
+        ),
         "configuration_is_normalized": configuration == {
             "model": "gpt-5.6-terra",
             "reasoning_effort": "low",
@@ -795,15 +861,7 @@ def validate_receipt(payload: Any, *, verify_sources: bool = True) -> dict[str, 
             "old": {"release": "v5", "package_sha256": OLD_PACKAGE_SHA256},
             "new": {"release": "v5", "package_sha256": NEW_PACKAGE_SHA256},
         },
-        "current_package_is_measured_subject": (
-            not verify_sources
-            or bool(
-                new_package
-                and new_package.get("package_integrity") is True
-                and new_package.get("package_sha256") == NEW_PACKAGE_SHA256
-                and new_package.get("marker_sha256") == NEW_PACKAGE_SHA256
-            )
-        ),
+        "measured_package_reconstructs": measured_current,
         "old_baseline_reconstructs": baseline_current,
         "run_matrix_is_valid": run_matrix_valid,
         "sanitized_runs_are_frozen": (

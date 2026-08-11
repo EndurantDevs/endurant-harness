@@ -173,6 +173,11 @@ def benchmark(candidate: Path, baseline_skill: str | None, repeats: int, delay: 
     targets = json.loads(
         (candidate / "evals" / "efficiency-baseline.json").read_text(encoding="utf-8")
     )["targets"]
+    instruction_target_met = (
+        footprint_ratio >= float(targets["minimum_instruction_reduction_ratio"])
+        and candidate_metrics["words"] <= int(targets["maximum_candidate_words"])
+    )
+    parallel_smoke_passed = speedup >= float(targets["minimum_synthetic_parallel_speedup"])
 
     return {
         "scope": (
@@ -197,11 +202,9 @@ def benchmark(candidate: Path, baseline_skill: str | None, repeats: int, delay: 
             "parent_invocation_compression": command_count,
         },
         "targets": targets,
-        "target_3x_met": (
-            footprint_ratio >= float(targets["minimum_instruction_reduction_ratio"])
-            and speedup >= float(targets["minimum_synthetic_parallel_speedup"])
-            and candidate_metrics["words"] <= int(targets["maximum_candidate_words"])
-        ),
+        "instruction_target_met": instruction_target_met,
+        "parallel_smoke_passed": parallel_smoke_passed,
+        "controlled_targets_met": instruction_target_met and parallel_smoke_passed,
         "limitations": [
             "The synthetic workload measures safe parallel command execution, not reasoning quality.",
             "Real repositories contain dependencies, cache contention, setup cost, and tasks that cannot be parallelized.",
@@ -212,10 +215,10 @@ def benchmark(candidate: Path, baseline_skill: str | None, repeats: int, delay: 
 
 def render_text(result: dict[str, Any]) -> str:
     workload = result["workload"]
-    status = "PASS" if result["target_3x_met"] else "FAIL"
+    status = "PASS" if result["controlled_targets_met"] else "FAIL"
     return "\n".join(
         [
-            f"{status}: controlled 3x efficiency target",
+            f"{status}: controlled efficiency targets",
             (
                 f"instruction_words baseline={result['baseline']['words']} "
                 f"candidate={result['candidate']['words']} "
@@ -294,7 +297,7 @@ def main() -> int:
         print(json.dumps(result, indent=2, sort_keys=True))
     else:
         print(render_text(result), end="")
-    return 0 if result["target_3x_met"] else 1
+    return 0 if result["controlled_targets_met"] else 1
 
 
 if __name__ == "__main__":

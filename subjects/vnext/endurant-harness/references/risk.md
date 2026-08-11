@@ -15,6 +15,8 @@ For ordinary correctness work, skip synthetic benchmarks unless the hypothesis, 
 
 For a claimed behavior regression, add or adjust the narrow regression first and observe it fail before the production edit, then fix and pass it. Do not manufacture a red step for features, internal refactors, or performance work unless their contract genuinely supplies a failing behavior.
 
+Classify failures as code, expectation, environment, permission, flaky, or pre-existing. Fix code or expectation failures; repair or report environment/permission failures; rerun a flaky signal once, then isolate it; document pre-existing failures and prove them unchanged.
+
 ## Evidence strength
 
 Prefer, in order:

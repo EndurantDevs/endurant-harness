@@ -54,5 +54,5 @@ or verify more than the task requires?
 2. Freeze current-subject audit and microbenchmarks.
 3. Test each implementation part independently.
 4. Run one live smoke per arm and fixture.
-5. Repeat only valid arms three times.
+5. Before adoption, establish an A/A noise floor, run at least five interleaved pairs, and include one untouched holdout.
 6. Write a per-part decision: adopt, revise, reject, or insufficient evidence.

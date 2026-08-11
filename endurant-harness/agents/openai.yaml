@@ -1,4 +1,4 @@
 interface:
   display_name: "Endurant Harness"
   short_description: "Verified repository changes with fewer rounds"
-  default_prompt: "Use $endurant-harness to preserve existing work, cap clear direct-lane discovery at two batched commands and escalate uncertainty before editing, require a failing regression before production edits for behavior bugs, select task-relevant local proof, and run available local CI before remote CI."
+  default_prompt: "Use $endurant-harness for this substantial repository change and prove it locally."

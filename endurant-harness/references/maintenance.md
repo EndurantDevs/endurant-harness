@@ -7,7 +7,7 @@ Read only while editing, packaging, or evaluating this skill.
 A revision is releasable only when:
 
 - the folder and frontmatter name are exactly `endurant-harness`;
-- `SKILL.md` is at or below the word target recorded in `evals/efficiency-baseline.json` and remains at least 3x smaller than the v3 core;
+- `SKILL.md` stays below the hard ceiling in `evals/efficiency-baseline.json`; the audit reports its softer target and keeps it at least 2.5x smaller than the v3 core;
 - trigger and non-trigger boundaries remain explicit;
 - the scan/change/prove gates and every capability in `evals/capability-contract.json` remains evidenced at its declared `core`, `conditional`, or `runtime` activation tier;
 - detailed guidance stays conditional and one reference level deep;
@@ -34,6 +34,8 @@ python3 -S scripts/benchmark_efficiency.py . --baseline-skill /path/to/v3 --form
 7. Run representative behavior and trigger cases against the revision and frozen baseline.
 8. Keep the revision only when it improves verified outcome per token, model round, wall time, or human correction without lowering success or verification honesty.
 
-## Interpretation of the 3x target
+Before policy adoption, pre-register gates, establish an A/A noise floor, run at least five interleaved pairs, and include one untouched holdout.
 
-The bundled benchmark proves controlled instruction-footprint and parallel-command properties. It does not establish universal 3x end-to-end coding throughput. Validate real impact with repeated A/B repository tasks measuring success, regressions, turns, tokens, elapsed time, and human corrections.
+## Interpretation of controlled targets
+
+The bundled benchmark is an instruction-footprint and parallel-runner wiring smoke. It does not establish universal end-to-end coding throughput. Validate real impact with repeated A/B repository tasks measuring success, regressions, turns, tokens, elapsed time, and human corrections.

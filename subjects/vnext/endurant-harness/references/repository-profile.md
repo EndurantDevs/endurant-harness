@@ -1,6 +1,6 @@
 # Repository Engineering Profile
 
-Put durable repository-specific guidance in `AGENTS.md`. When a separate human-readable handoff is useful, save this template at `.agents/endurant-harness-profile.md`; `scripts/endurant.py probe` loads it automatically.
+Put durable repository-specific guidance in host `AGENTS.md` or `CLAUDE.md`. When a separate human-readable handoff is useful, save this template at `.agents/endurant-harness-profile.md`; `scripts/endurant.py probe` loads it automatically.
 
 ## Project shape
 

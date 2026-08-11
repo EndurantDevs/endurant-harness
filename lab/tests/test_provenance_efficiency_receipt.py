@@ -52,6 +52,27 @@ class ProvenanceEfficiencyReceiptTests(unittest.TestCase):
         runner["body"]["source"]["executed_runner_sha256"] = "1" * 64
         self.assert_rejected(self.rehash(runner))
 
+        commit = copy.deepcopy(self.payload)
+        commit["body"]["source"]["reconstruction_commit"] = "2" * 40
+        self.assert_rejected(self.rehash(commit))
+
+    def test_reconstruction_disables_local_replace_refs(self) -> None:
+        failed = receipt.subprocess.CompletedProcess([], 1, b"", b"")
+        with patch.object(receipt.subprocess, "run", return_value=failed) as run:
+            self.assertFalse(receipt._package_from_git(Path("unused")))  # noqa: SLF001
+        self.assertEqual(
+            run.call_args.args[0][:3], ["git", "--no-replace-objects", "archive"]
+        )
+
+    def test_missing_commit_or_invalid_baseline_patch_fails_closed(self) -> None:
+        with patch.object(receipt, "MEASURED_NEW_COMMIT", "0" * 40):
+            self.assertFalse(receipt.measured_package_reconstructs())
+        with tempfile.TemporaryDirectory(prefix="provenance-invalid-patch-") as raw:
+            invalid_patch = Path(raw) / "invalid.patch"
+            invalid_patch.write_text("not a patch\n", encoding="utf-8")
+            with patch.object(receipt, "BASELINE_PATCH", invalid_patch):
+                self.assertFalse(receipt.baseline_reconstructs())
+
     def test_fixture_symlink_is_rejected_from_source_binding(self) -> None:
         with tempfile.TemporaryDirectory(prefix="provenance-fixture-symlink-") as raw:
             fixture = Path(raw)

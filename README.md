@@ -1,12 +1,12 @@
 # Endurant Harness
 
-### Verified repository changes without making ordinary coding tasks heavier
+### Bounded repository changes with executable local verification
 
-Endurant Harness is a lightweight Codex skill for substantial implementation and difficult debugging. Clear, reversible work takes a direct edit-and-proof lane. Uncertain or high-risk work gets bounded discovery, one coherent change, and staged executable evidence.
+Endurant Harness is a lightweight Agent Skill for Codex and Claude Code. It provides a direct workflow for clear, reversible changes and a bounded discovery and verification workflow for uncertain or high-risk work.
 
-The project is deliberately not a project-management framework. It adds ceremony only when uncertainty, blast radius, or acceptance criteria make that ceremony useful.
+It is designed to improve implementation confidence without imposing a project-management workflow on routine changes.
 
-> **Status:** v5 is an evaluation-backed release candidate. Its local and synthetic gates are documented below; remote CI is commit-specific in GitHub Actions, while a GitHub release and cross-platform packaging are not yet claimed.
+> **Status:** v5 is an evaluation-backed release candidate. Local and synthetic evidence is documented below. Remote CI applies only to the tested commit; no GitHub release or cross-platform package is currently published.
 
 ## Contents
 
@@ -26,58 +26,65 @@ The project is deliberately not a project-management framework. It adds ceremony
 
 ### Requirements
 
-- Codex in the ChatGPT desktop app, CLI, or IDE extension
+- Codex or Claude Code
 - Git
+- `curl` for the one-line installer
 - Python 3.10 or newer
 - `rg` recommended for task-aware repository search
-- `rtk` only for coding-agent shell sessions following this repository's maintainer policy; human contributors and CI can run the documented commands directly, and it is not a skill runtime dependency
 
-### 1. Clone and audit
-
-```bash
-git clone https://github.com/EndurantDevs/endurant-harness.git
-cd endurant-harness
-
-PACKAGE="$PWD/endurant-harness"
-PYTHONDONTWRITEBYTECODE=1 python3 -S \
-  "$PACKAGE/scripts/audit_skill.py" \
-  "$PACKAGE" --strict --format text
-```
-
-### 2. Install from source locally
-
-Codex officially discovers user skills under `$HOME/.agents/skills`. A symlink keeps the audited checkout as the source of truth:
+### Install or update
 
 ```bash
-mkdir -p "$HOME/.agents/skills"
-TARGET="$HOME/.agents/skills/endurant-harness"
-if [ -e "$TARGET" ] || [ -L "$TARGET" ]; then
-  echo "refusing to replace existing target: $TARGET" >&2
-  exit 1
-fi
-ln -s "$PACKAGE" "$TARGET"
+curl -fsSL https://raw.githubusercontent.com/EndurantDevs/endurant-harness/main/install.sh | sh
 ```
 
-For one repository, place or link the package at `.agents/skills/endurant-harness` in that repository instead. Before installing, remove or migrate any other discovered `endurant-harness` copy: Codex lists duplicate names separately rather than merging them. Direct folders are intended for local authoring and repository workflows; plugin packaging is the planned distribution path for broader reuse.
+The installer audits the downloaded package, installs the same source for both hosts, keeps one `.endurant-harness.previous` rollback, and refuses unrelated or duplicate targets. Rerun it to update. Until a tagged release is published, the one-liner follows `main`.
 
-### 3. Invoke it
+Install only one host:
 
-Start a Codex task and mention:
+```bash
+curl -fsSL https://raw.githubusercontent.com/EndurantDevs/endurant-harness/main/install.sh | ENDURANT_AGENT=codex sh
+curl -fsSL https://raw.githubusercontent.com/EndurantDevs/endurant-harness/main/install.sh | ENDURANT_AGENT=claude sh
+```
+
+To inspect the installer first, download [`install.sh`](install.sh), review it, then run it. From a checkout, install the audited local package explicitly:
+
+```bash
+sh install.sh --source .
+```
+
+Codex also has a native first-install path. Ask in a task:
+
+```text
+$skill-installer install https://github.com/EndurantDevs/endurant-harness/tree/main/endurant-harness
+```
+
+The standalone package preserves the standard skill name and requires no hooks, MCP server, Node runtime, or host-specific marketplace. Plugin packaging can be added if versioned marketplace distribution becomes a release requirement.
+
+### Invoke it
+
+In Codex:
 
 ```text
 $endurant-harness implement this change and prove it locally
 ```
 
-Codex normally detects skill changes automatically. If an update does not appear, restart Codex. Because `AGENTS.md` is loaded once per run, start a fresh task when exact loaded-version certainty matters. In an existing task, explicitly invoke `$endurant-harness` on the next turn, but do not claim `current` provenance unless its loaded marker is supplied.
+In Claude Code:
+
+```text
+/endurant-harness implement this change and prove it locally
+```
+
+Both hosts discover personal Agent Skills from their user skill directories. Start a fresh task after installation when exact loaded-version certainty matters; do not claim `current` provenance unless the task supplies its loaded marker. See the official [Codex skill documentation](https://learn.chatgpt.com/docs/build-skills) and [Claude Code skill documentation](https://code.claude.com/docs/en/slash-commands).
 
 ## Why Endurant Harness
 
-- **Small tasks stay small.** Clear reversible changes skip probes, plan files, checkpoints, subagents, and broad test suites.
-- **Discovery is bounded.** The direct lane allows at most two batched discovery commands before editing and escalates instead of continuing to inspect indefinitely.
-- **Proof follows the task.** Performance work gets the same before/after synthetic workload and correctness checks; ordinary correctness work does not inherit an irrelevant benchmark.
-- **Local failures arrive earlier.** Repository-owned preflight can cover focused, lint, type, build, generated-output, and affected-package checks before remote CI.
-- **Existing work is protected.** Dirty worktrees and unrelated edits are identified and preserved.
-- **Green output is not automatically proof.** The runner can require behavior evidence, intended-test output, deadlines, cleanup, and an exact final-diff fingerprint.
+- **Low overhead for routine work.** Clear, reversible changes skip probes, plan files, checkpoints, subagents, and broad test suites.
+- **Bounded discovery.** The direct lane permits at most two batched discovery commands before editing and escalates when additional investigation is required.
+- **Task-specific verification.** Performance work uses an identical before-and-after workload with correctness checks; ordinary correctness work does not run an unrelated benchmark.
+- **Earlier local feedback.** Repository-owned preflight can cover focused tests, lint, type checks, builds, generated outputs, and affected packages before remote CI.
+- **Worktree preservation.** Dirty worktrees and unrelated edits are identified and preserved.
+- **False-green protection.** The runner can require behavior evidence, intended-test output, deadlines, cleanup, and an exact final-diff fingerprint.
 
 ## Key features
 
@@ -106,13 +113,13 @@ flowchart LR
     F --> G["Focused handoff with residual risk"]
 ```
 
-The direct lane is for clear, localized work with a known proof path. Claimed behavior regressions add the regression first, observe it fail, then fix it. Features, internal refactors, and performance tasks do not manufacture a red step.
+The direct lane is for clear, localized work with a known proof path. For a reported behavior regression, add or update the focused regression check, confirm it fails, then implement the fix. Features, internal refactors, and performance work do not require an artificial failing baseline.
 
-The escalated lane is for uncertainty, contradictions, coupling, performance, migrations, security, deployment, or material risk. It uses one bounded probe, one root-cause change, and one staged proof packet. If evidence contradicts the approach, the harness replans rather than stacking speculative edits.
+The escalated lane is for uncertainty, contradictions, coupling, performance, migrations, security, deployment, or material risk. It uses one bounded probe, one root-cause change, and one staged proof packet. If evidence contradicts the approach, the harness returns to discovery before making additional changes.
 
 ## Repository contracts
 
-`AGENTS.md` remains the canonical project guidance. Endurant adds three optional files under `.agents/`:
+Host `AGENTS.md` or `CLAUDE.md` remains the canonical project guidance. Endurant adds three optional files under `.agents/`:
 
 | File | Role |
 | --- | --- |
@@ -129,6 +136,8 @@ See [`endurant-harness/references/repository-profile.md`](endurant-harness/refer
 The skill keeps one public standard-library entry point:
 
 ```bash
+PACKAGE=/absolute/path/to/endurant-harness
+
 python3 -S "$PACKAGE/scripts/endurant.py" probe \
   --repo . --task "describe the implementation task"
 
@@ -148,7 +157,7 @@ python3 -S "$PACKAGE/scripts/endurant.py" provenance \
 
 ## Measured evidence
 
-The adoption decisions came from isolated deterministic tests, adversarial receipt mutation, and normalized local Codex tasks rather than intuition alone.
+Adoption decisions are based on isolated deterministic tests, adversarial receipt mutation, and normalized local Codex tasks.
 
 | Decision | Local result | Outcome |
 | --- | --- | --- |
@@ -170,6 +179,7 @@ These are bounded local and synthetic results, not universal throughput claims. 
 
 | Path | Purpose |
 | --- | --- |
+| `install.sh` | Audited Codex/Claude Code install and update entry point |
 | `endurant-harness/` | Audited installable v5 skill and release source |
 | `subjects/current/` | Frozen pre-v5 installed baseline |
 | `subjects/combined-candidate/` | Previously promoted base candidate |
@@ -180,7 +190,7 @@ These are bounded local and synthetic results, not universal throughput claims. 
 | `artifacts/runs/` | Ignored raw model output, logs, event sinks, and generated workspaces |
 | `reports/` | Decisions, measured results, caveats, and rollout notes |
 
-The project README stays at the repository root. The installable skill and release ZIP intentionally contain no README, changelog, cache, bytecode, raw run, or temporary file.
+The README remains at the repository root. The installable skill and release ZIP intentionally contain no README, changelog, cache, bytecode, raw run, or temporary file.
 
 ## Development and release
 
@@ -196,9 +206,7 @@ PYTHONDONTWRITEBYTECODE=1 python3 -S \
 
 PYTHONDONTWRITEBYTECODE=1 python3 -S \
   endurant-harness/scripts/benchmark_efficiency.py \
-  endurant-harness \
-  --baseline-skill subjects/current/endurant-harness \
-  --format text
+  endurant-harness --format text
 
 PYTHONDONTWRITEBYTECODE=1 python3 -S lab/check_results.py
 
@@ -228,13 +236,8 @@ The tracked source-only check reconstructs the deterministic archive in memory, 
 - The current release is Python-based. Rust microbenchmarks did not justify a parity rewrite.
 - Cross-platform release packaging has not yet been demonstrated.
 - The strict audit validates package structure and declared capability/runtime gates; it is not a security review or source-authenticity proof. Package hashes identify version and integrity state, not publisher identity.
+- Evaluation and trigger catalogs are schema-checked specifications; only the separately reported runtime smoke cases execute during strict audit.
 
 ## License
 
 No reuse license has been selected yet. Public availability of this repository is not a substitute for a license grant.
-
-## Acknowledgements
-
-The README structure borrows the useful outcome-first organization of [Ancienttwo/repo-harness](https://github.com/Ancienttwo/repo-harness). Endurant Harness intentionally chose a smaller runtime workflow after measuring the cost and quality trade-offs locally.
-
-Codex skill installation and reload behavior follow the [official OpenAI skill documentation](https://learn.chatgpt.com/docs/build-skills); active `AGENTS.md` instruction-chain behavior follows the [official AGENTS.md documentation](https://learn.chatgpt.com/docs/agent-configuration/agents-md).

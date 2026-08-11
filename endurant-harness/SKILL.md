@@ -3,28 +3,28 @@ name: endurant-harness
 description: Use for substantial repository changes needing executable proof. Do not use for explanations, reviews, trivial edits, or requests forbidding implementation or verification.
 ---
 
-<!--endurant-provenance:v5:cf8c818dfa13e0d853628bf407efdd70db6b128764f52481e208ee88b138342c-->
+<!--endurant-provenance:v5:e2575e96c926c74f415a80a4eb06a80aa66e1546bdb5b6a6d5bde8ef5016595c-->
 
 # Endurant Harness
 
 ## Invariants
 
-- Follow `AGENTS.md`; inspect dirty tree; never reset, clean, overwrite, or reformat unrelated work.
-- Prefer evidence. Separate **verified**, **inferred**, and **not verified** claims.
+- Follow host `AGENTS.md` or `CLAUDE.md`; inspect dirty tree; never reset, clean, overwrite, or reformat unrelated work.
+- Prefer evidence; separate **verified**, **inferred**, and **not verified** claims.
 - One write owner; subagents only for bounded reading.
-- Never weaken tests, suppress errors, add retries, hide failures, or trade safety for speed.
+- Never weaken tests, suppress errors, mask with retries, or trade safety for speed.
 
 ## Fast protocol: scan -> change -> prove
 
 ### Direct lane
 
-For clear reversible work, allow at most two batched discovery commands: instructions/status/profile/symbol, then source/test. Behavior bugs require a failing regression before production edit. Escalate for uncertainty or contradiction before editing. Edit; run focused behavior, local CI, and diff. Skip probe, hypothesis, analogy, checkpoint, JSON plan, subagent, and broad suites. Escalate for coupling, performance/efficiency, migrations, security, deployment, or risk.
+Use direct only when behavior, target, focused proof, and reversible single-package scope are known. Allow at most two batched discovery commands: instructions/status/profile/symbol, then source/test. Behavior bugs require a failing regression before production edit. Contradictory evidence returns to scan before editing. Edit; run focused behavior, available local CI, and diff. Skip probe, hypothesis, analogy, checkpoint, JSON plan, subagent, and broad suites. Escalate for coupling, performance/efficiency, migrations, security, or deployment.
 
-### 1. Scan uncertain work once
+### 1. Scan uncertainty once
 
 Run `python3 -S <skill>/scripts/endurant.py probe --repo <repo> --task "<task>"`. Before production edits, record goal, decisive proof, constraints, and non-goals; exact baseline or reproduction; traced path or extension point and an analogous pattern; hypothesis/design, disproof, predicted files, and checks.
 
-Resolve reversible ambiguity from evidence. Ask only about unsafe, irreversible, or contractual choices.
+Resolve reversible ambiguity; ask only about unsafe, irreversible, or contractual choices.
 
 ### 2. Change once
 
@@ -38,7 +38,7 @@ Select proof by task: focused behavior; identical before/after synthetic workloa
 
 For escalated work, put checks in one staged plan and run `python3 -S <skill>/scripts/endurant.py run <plan> --repo <repo>`. Parallelize only independent commands; serialize shared state. Require behavior and final-diff proof. Confirm intended tests ran; reject zero-test or stale-cache greens. Services need bounded readiness and guaranteed cleanup.
 
-Classify failures as code, expectation, environment, permission, flaky, or pre-existing. Behavior evidence outranks integration, static checks, and reasoning. Blocked proof keeps the done gate closed.
+Behavior evidence outranks integration, static checks, and reasoning. Blocked proof keeps the done gate closed.
 
 ## Efficiency budget
 
@@ -52,6 +52,6 @@ See [references/risk.md](references/risk.md), [references/protocol.md](reference
 
 ## Handoff
 
-Report **changed**, **why**, exact commands, residual risk, and compatibility/rollout notes. Label verified, inferred, and not verified; give conclusions, not a transcript. Provenance: `python3 -S <skill>/scripts/endurant.py provenance --loaded-provenance <release>:<hash>`; Missing provenance means unknown.
+Report **changed**, **why**, exact commands, residual risk, and compatibility/rollout notes. Label verified, inferred, and not verified; give conclusions, not a transcript. Provenance: `python3 -S <skill>/scripts/endurant.py provenance --loaded-provenance <release>:<hash>`; missing provenance means unknown.
 
 When editing this skill, follow [references/maintenance.md](references/maintenance.md).

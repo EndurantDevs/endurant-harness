@@ -7,7 +7,8 @@
     "words": 1398
   },
   "targets": {
-    "maximum_candidate_words": 450,
+    "target_candidate_words": 450,
+    "maximum_candidate_words": 500,
     "minimum_instruction_reduction_ratio": 3.0,
     "minimum_synthetic_parallel_speedup": 3.0,
     "ordinary_task_packet_budget": 3

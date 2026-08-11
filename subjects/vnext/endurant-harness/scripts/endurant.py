@@ -348,23 +348,27 @@ def _diff_fingerprint(root: Path) -> str:
         )
     for raw_relative in sorted(value for value in untracked.stdout.split(b"\0") if value):
         relative = raw_relative.decode("utf-8", errors="surrogateescape")
-        candidate = root / relative
-        try:
-            candidate.resolve(strict=False).relative_to(root)
-        except ValueError as exc:
-            raise ValueError(f"untracked path escapes repository: {relative}") from exc
+        relative_path = Path(relative)
+        if relative_path.is_absolute() or ".." in relative_path.parts:
+            raise ValueError(f"untracked path escapes repository: {relative}")
+        candidate = root / relative_path
         digest.update(raw_relative)
         digest.update(b"\0")
         if candidate.is_symlink():
             digest.update(b"symlink\0")
             digest.update(os.fsencode(os.readlink(candidate)))
-        elif candidate.is_file():
-            digest.update(b"file\0")
-            with candidate.open("rb") as handle:
-                for chunk in iter(lambda: handle.read(1024 * 1024), b""):
-                    digest.update(chunk)
         else:
-            digest.update(b"other\0")
+            try:
+                candidate.resolve(strict=False).relative_to(root)
+            except ValueError as exc:
+                raise ValueError(f"untracked path escapes repository: {relative}") from exc
+            if candidate.is_file():
+                digest.update(b"file\0")
+                with candidate.open("rb") as handle:
+                    for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+                        digest.update(chunk)
+            else:
+                digest.update(b"other\0")
         digest.update(b"\0")
     return digest.hexdigest()
 
@@ -780,7 +784,7 @@ def _task_terms(task: str, limit: int = 8) -> list[str]:
 def _broad_candidate_paths(
     root: Path, task: str, max_items: int
 ) -> tuple[list[str], list[str]]:
-    terms = _task_terms(task)
+    terms = list(dict.fromkeys([*_exact_symbols(task), *_task_terms(task)]))[:8]
     warnings: list[str] = []
     if not terms:
         return [], warnings
@@ -1472,7 +1476,7 @@ def _execute_command(
     deadline_at: float | None = None,
 ) -> CommandResult:
     command_id = command["id"]
-    cwd = _resolve_within(root, command.get("cwd", "."))
+    cwd = root / command.get("cwd", ".")
     expected = command["expected_exit_codes"]
     log_path = log_dir / f"{command_id}.log"
     env = os.environ.copy()
@@ -1499,6 +1503,7 @@ def _execute_command(
     log_descriptor: int | None = None
     log_identity: tuple[int, int] | None = None
     try:
+        cwd = _resolve_within(root, command.get("cwd", "."))
         flags = os.O_WRONLY | os.O_CREAT | os.O_EXCL
         if hasattr(os, "O_NOFOLLOW"):
             flags |= os.O_NOFOLLOW
@@ -1538,7 +1543,7 @@ def _execute_command(
     except FileNotFoundError as exc:
         status = "error"
         error = str(exc)
-    except OSError as exc:
+    except (OSError, ValueError) as exc:
         status = "error"
         error = str(exc)
     finally:
@@ -1606,7 +1611,7 @@ def _execute_command(
 def _deadline_result(
     stage_name: str, command: dict[str, Any], root: Path, log_dir: Path
 ) -> CommandResult:
-    cwd = _resolve_within(root, command.get("cwd", "."))
+    cwd = root / command.get("cwd", ".")
     command_id = command["id"]
     shell_mode = "shell" in command
     display = command["shell"] if shell_mode else shlex.join(command["argv"])

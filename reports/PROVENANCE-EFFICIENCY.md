@@ -5,7 +5,7 @@ Scope: two paired local Codex runs on one synthetic ordinary bug task
 
 ## Decision
 
-Retain the v5 provenance UX shipped in package
+Retain the v5 provenance UX first shipped in package
 `cf8c818dfa13e0d853628bf407efdd70db6b128764f52481e208ee88b138342c`.
 It produced an exact `current` receipt in both runs with one provenance command
 per run. The preceding package produced `current` in one of two runs and used
@@ -17,7 +17,7 @@ separate the UX change from normal model variance.
 
 ## Result
 
-| Metric | Previous package | Current package | Observed change |
+| Metric | Previous package | Measured provenance-UX package | Observed change |
 | --- | ---: | ---: | ---: |
 | Wall time, median | `71.525s` | `61.033s` | `-14.67%` |
 | Uncached input, median | `28,451` | `19,621` | `-31.04%` |
@@ -33,7 +33,7 @@ changes were `-32.32%` and `-30.20%`.
 
 ## Quality gates
 
-| Gate | Previous package | Current package |
+| Gate | Previous package | Measured provenance-UX package |
 | --- | ---: | ---: |
 | Functional focused, local-CI, hidden, and diff checks | `2/2` | `2/2` |
 | Exact three-file scope | `2/2` | `2/2` |
@@ -56,9 +56,11 @@ coverage, exact scope, hidden semantics, and local CI still passed.
 - External acceptance from fixture verification and mutation-aware hidden
   grading, not the agent's completion message.
 
-The measured package hashes are exact. The tracked reverse patch reconstructs
-the previous `476218926c85...` package from the current package, and the receipt
-checker independently verifies both canonical package hashes.
+The measured package hashes are exact. The checker reconstructs the measured
+`cf8c818dfa13...` package from Git commit `5c69aee81fbfea6b135270f8c2e52f925fc39e6b`,
+then applies the tracked reverse patch to reconstruct the previous
+`476218926c85...` package. Each reconstructed subject's own provenance command
+confirms its embedded marker and computed canonical package hash.
 
 ## Evidence and verification
 
@@ -91,7 +93,7 @@ agent execution from a public clone.
 
 ## Boundary
 
-This result supports the provenance UX decision and exact current package. It
-does not justify another skill change, a universal throughput claim, or a
-release-hash change. A general speed conclusion would need at least four new
-pairs plus a comparable task whose prompt does not exercise provenance.
+This result supports the provenance UX decision and the exact measured
+`cf8c818dfa13...` subject. It is historical evidence, not a speed measurement
+of later package hashes. A general speed conclusion would need at least four
+new pairs plus a comparable task whose prompt does not exercise provenance.

@@ -50,6 +50,7 @@
           "path": "SKILL.md",
           "all": [
             "AGENTS.md",
+            "CLAUDE.md",
             "dirty tree",
             "scripts/endurant.py probe"
           ]
@@ -407,15 +408,18 @@
     {
       "id": "failure-classification",
       "importance": "critical",
-      "activation": "core",
+      "activation": "conditional",
       "source_v3": [
         "references/verification.md failure classification"
       ],
       "evidence": [
         {
-          "path": "SKILL.md",
+          "path": "references/risk.md",
           "all": [
-            "Classify failures as code, expectation, environment, permission, flaky, or pre-existing"
+            "Classify failures as code, expectation, environment, permission, flaky, or pre-existing",
+            "Fix code or expectation failures",
+            "rerun a flaky signal once",
+            "document pre-existing failures"
           ]
         }
       ]
@@ -567,10 +571,10 @@
         {
           "path": "SKILL.md",
           "all": [
-            "For clear reversible work",
+            "Use direct only when behavior, target, focused proof",
             "at most two batched discovery commands",
             "Skip probe, hypothesis, analogy, checkpoint, JSON plan",
-            "Escalate for uncertainty or contradiction before editing"
+            "Contradictory evidence returns to scan before editing"
           ]
         }
       ]

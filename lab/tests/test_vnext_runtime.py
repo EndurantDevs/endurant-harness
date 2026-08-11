@@ -4,6 +4,7 @@ import importlib.util
 import json
 import os
 import signal
+import shutil
 import stat
 import subprocess
 import sys
@@ -132,6 +133,26 @@ class ProbeRelevanceTests(unittest.TestCase):
             )
         self.assertIs(actual, expected)
 
+    def test_failed_exact_search_preserves_snake_case_in_broad_fallback(self) -> None:
+        captured: list[list[str]] = []
+
+        def broad(argv, root, timeout=2):
+            captured.append(list(argv))
+            return (0, "./src/record_selection.py\n", False)
+
+        with (
+            mock.patch.object(runtime.shutil, "which", return_value="/bin/rg"),
+            mock.patch.object(runtime, "_run_capture_nul", return_value=(124, [], False)),
+            mock.patch.object(runtime, "_run_capture", side_effect=broad),
+        ):
+            paths, warnings = runtime._candidate_paths(
+                Path("/synthetic/repo"), "Fix select_records behavior", 5
+            )
+
+        self.assertEqual(paths, ["./src/record_selection.py"])
+        self.assertEqual(warnings, [])
+        self.assertIn("select_records", captured[0][-2])
+
 
 class StrictContractTests(unittest.TestCase):
     def test_log_dir_help_describes_a_private_per_run_child(self) -> None:
@@ -222,6 +243,162 @@ class StrictContractTests(unittest.TestCase):
             isolated = runtime._execute_command("security", command, root, private, 5)
             self.assertEqual(isolated.status, "passed")
             self.assertEqual(victim.read_text(encoding="utf-8"), "preserve-me\n")
+
+    def test_fingerprint_hashes_external_untracked_symlink_without_following(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="vnext-fingerprint-link-") as raw:
+            base = Path(raw)
+            repository = RepositoryFixture(base)
+            first_target = base / "first.txt"
+            second_target = base / "second.txt"
+            first_target.write_text("first\n", encoding="utf-8")
+            second_target.write_text("second\n", encoding="utf-8")
+            link = repository.root / "data-link"
+            link.symlink_to(first_target)
+
+            initial = runtime._diff_fingerprint(repository.root)
+            first_target.write_text("changed target content\n", encoding="utf-8")
+            self.assertEqual(runtime._diff_fingerprint(repository.root), initial)
+
+            link.unlink()
+            link.symlink_to(second_target)
+            self.assertNotEqual(runtime._diff_fingerprint(repository.root), initial)
+
+
+class RunnerCwdFailureTests(unittest.TestCase):
+    def run_plan(self, plan: dict[str, object], root: Path) -> subprocess.CompletedProcess[str]:
+        plan_path = root.parent / f"plan-{time.time_ns()}.json"
+        plan_path.write_text(json.dumps(plan), encoding="utf-8")
+        return subprocess.run(
+            [
+                sys.executable,
+                "-S",
+                str(SCRIPT),
+                "run",
+                str(plan_path),
+                "--repo",
+                str(root),
+                "--format",
+                "json",
+                "--log-dir",
+                str(root.parent / f"logs-{time.time_ns()}"),
+            ],
+            check=False,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+            env={**os.environ, "PYTHONDONTWRITEBYTECODE": "1"},
+        )
+
+    def test_invalid_cwd_is_structured_and_always_cleanup_runs(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="vnext-cwd-error-") as raw:
+            repository = RepositoryFixture(Path(raw))
+            plan = {
+                "stages": [
+                    {
+                        "name": "bad",
+                        "commands": [
+                            {
+                                "id": "bad-cwd",
+                                "argv": [sys.executable, "-S", "-c", "pass"],
+                                "cwd": "../outside",
+                                "evidence": "behavior",
+                            }
+                        ],
+                    },
+                    {
+                        "name": "cleanup",
+                        "run_if": "always",
+                        "commands": [
+                            {
+                                "id": "cleanup",
+                                "argv": [
+                                    sys.executable,
+                                    "-S",
+                                    "-c",
+                                    "from pathlib import Path; Path('cleanup-ran').write_text('yes')",
+                                ],
+                                "evidence": "cleanup",
+                            }
+                        ],
+                    },
+                ]
+            }
+            completed = self.run_plan(plan, repository.root)
+            self.assertEqual(completed.returncode, 1, completed.stderr)
+            result = json.loads(completed.stdout)
+            self.assertEqual(result["stages"][0]["commands"][0]["status"], "error")
+            self.assertTrue((repository.root / "cleanup-ran").is_file())
+
+    def test_deadline_result_keeps_invalid_cwd_as_structured_data(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="vnext-cwd-deadline-") as raw:
+            root = Path(raw) / "repo"
+            result = runtime._deadline_result(  # noqa: SLF001
+                "deadline",
+                {
+                    "id": "bad-cwd",
+                    "argv": [sys.executable, "-S", "-c", "pass"],
+                    "cwd": "../outside",
+                    "evidence": "other",
+                    "expected_exit_codes": [0],
+                },
+                root,
+                Path(raw) / "logs",
+            )
+            self.assertEqual(result.status, "timeout")
+            self.assertEqual(result.cwd, str(root / "../outside"))
+
+
+class AuditEvalCatalogTests(unittest.TestCase):
+    def run_audit(self, package: Path) -> tuple[subprocess.CompletedProcess[str], dict[str, object]]:
+        completed = subprocess.run(
+            [
+                sys.executable,
+                "-S",
+                str(package / "scripts" / "audit_skill.py"),
+                str(package),
+                "--format",
+                "json",
+            ],
+            check=False,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+            env={**os.environ, "PYTHONDONTWRITEBYTECODE": "1"},
+        )
+        return completed, json.loads(completed.stdout)
+
+    def test_audit_labels_catalogs_as_specs_and_reports_soft_word_target(self) -> None:
+        package = SCRIPT.parents[1]
+        completed, result = self.run_audit(package)
+        self.assertEqual(completed.returncode, 0, completed.stderr or completed.stdout)
+        metrics = result["metrics"]
+        self.assertEqual(metrics["eval_spec_cases"], 21)
+        self.assertEqual(metrics["trigger_spec_cases"], 12)
+        self.assertEqual(metrics["skill_word_target"], 450)
+        self.assertTrue(metrics["skill_word_target_met"])
+
+    def test_audit_rejects_incomplete_eval_and_trigger_specs(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="vnext-eval-schema-") as raw:
+            package = Path(raw) / "endurant-harness"
+            shutil.copytree(SCRIPT.parents[1], package)
+
+            eval_path = package / "evals" / "evals.json"
+            evals = json.loads(eval_path.read_text(encoding="utf-8"))
+            evals["evals"][0]["expected_output"] = ""
+            evals["evals"][1]["assertions"][0] = 7
+            eval_path.write_text(json.dumps(evals), encoding="utf-8")
+
+            trigger_path = package / "evals" / "trigger-cases.json"
+            triggers = json.loads(trigger_path.read_text(encoding="utf-8"))
+            triggers["cases"][0]["prompt"] = ""
+            trigger_path.write_text(json.dumps(triggers), encoding="utf-8")
+
+            completed, result = self.run_audit(package)
+            self.assertEqual(completed.returncode, 1, completed.stderr or completed.stdout)
+            codes = {item["code"] for item in result["errors"]}
+            self.assertIn("evals.expected_output", codes)
+            self.assertIn("evals.assertions", codes)
+            self.assertIn("evals.trigger", codes)
 
 
 class FastPreflightTests(unittest.TestCase):

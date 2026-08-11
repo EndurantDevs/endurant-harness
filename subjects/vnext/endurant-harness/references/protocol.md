@@ -15,7 +15,7 @@ Read this when the three-packet fast path is insufficient, a replan is required,
 
 Before production edits:
 
-1. Read applicable `AGENTS.md` or override files and inspect `git status` plus current diffs.
+1. Read applicable `AGENTS.md`, `CLAUDE.md`, or override files and inspect `git status` plus current diffs.
 2. Identify package/workspace boundaries, generated files, required services, canonical commands, and known failures.
 3. Find analogous implementation and test patterns before inventing new structure.
 4. Define the observable goal, decisive proof, constraints, non-goals, and predicted change surface.
@@ -24,7 +24,7 @@ Before production edits:
 
 Resolve reversible ambiguity from repository evidence and existing patterns. Stop for user input only when a choice is materially irreversible, unsafe, externally contractual, or impossible to infer reliably.
 
-Put durable repository-specific commands and invariants in `AGENTS.md` or `.agents/endurant-harness-profile.md`; use [repository-profile.md](repository-profile.md) as a template. The probe loads both.
+Put durable commands and invariants in host `AGENTS.md` or `CLAUDE.md`. Put harness-specific guidance in `.agents/endurant-harness-profile.md`; the probe loads that profile.
 
 ## Gates
 
@@ -87,7 +87,7 @@ Classify every failure before editing:
 
 ## Parallel agents
 
-Use subagents only for independent, bounded, read-heavy questions such as mapping a call path, reviewing migration/security risk, triaging a large log, or identifying test gaps. Require a conclusion, `path:symbol` or command evidence, uncertainty, and one recommended next check. Keep one write owner unless boundaries are genuinely independent.
+Use subagents only for independent, bounded, read-heavy questions such as mapping a call path, reviewing migration/security risk, triaging a large log, or identifying test gaps. Require a conclusion, `path:symbol` or command evidence, uncertainty, and one recommended next check. Keep one write owner.
 
 ## Skeptical review
 
@@ -108,5 +108,7 @@ The marker loaded from `SKILL.md` is the only session-side version claim. Use `s
 - `current` means the loaded release and full canonical package hash exactly match the package now on disk.
 - `stale` means both loaded fields are valid but one differs.
 - `unknown` means either field is missing or malformed, or current package integrity cannot be established.
+
+For high-risk work, a `stale` or `unknown` result requires a fresh task; otherwise report the state in handoff.
 
 Never infer that an active session reloaded because files changed, discovery refreshed, or a new task sees the update.
