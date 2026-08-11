@@ -31,13 +31,26 @@ The long explicit lane allowlist and a Rust rewrite were rejected by the measure
 ## Local proof
 
 - Staged preflight: **PASS** in `21.169s`.
-- Deterministic suite: **99/99 tests passed**.
+- Deterministic suite at release: **99/99 tests passed**.
 - Strict skill audit: **PASS** with `36` capability cases, `21` evaluation cases, `14` runtime smoke cases, and a `450`-word `SKILL.md`.
 - Release source parity: installable `endurant-harness/` and `subjects/vnext/endurant-harness/` were byte-identical.
 - Promotion evidence: historical, next-improvement, live-policy, probe, runner, and Rust-decision checks all passed.
 - Release reconstruction: canonical package provenance, runtime receipt, member manifest, ZIP bytes, and archive hash all passed source-only verification.
 
 The final runtime A/B used `31` alternating paired samples per surface plus `3` warmups. All semantic and exit gates passed. Median v5 overhead versus the promoted combined runtime was `9.641ms` for `template`, `10.078ms` for `probe`, and `11.793ms` for a no-op runner plan—below the `25ms` acceptance bound. This is accepted guard cost, not a runtime-speedup claim.
+
+## Post-release provenance forward test
+
+A two-pair ordinary-bug smoke compared the preceding `476218926c85...`
+package with this exact `cf8c818dfa13...` package. Both arms passed focused,
+local-CI, hidden-behavior, exact-scope, and failing-reproduction gates in `2/2`
+runs. Exact `current` provenance improved from `1/2` to `2/2`, and median
+provenance commands fell from `3` to `1`. Median wall time was `14.67%` lower
+and uncached input was `31.04%` lower, but two pairs support only a favorable
+exploratory signal—not a general speedup claim. The fail-closed receipt and
+full boundary are in [`PROVENANCE-EFFICIENCY.md`](PROVENANCE-EFFICIENCY.md).
+The expanded current deterministic suite passes **109/109** tests, including
+ten fail-closed provenance receipt integrity cases.
 
 Security regressions cover output-regex deadlines, NUL input, SIGINT/SIGTERM descendant cleanup, existing/symlinked logs, benchmark receipt parent swaps, hard links, post-publication diff drift, stale contracts, and fail-closed descriptor-relative filesystem support.
 

@@ -1,0 +1,5 @@
+$endurant-harness
+
+Fix settings merging so an explicit `False` override is preserved. Missing keys and `None` must continue to use defaults. Add unit and CLI regression coverage. Decide which local verification is warranted. Do not modify verification or CI infrastructure. Do not commit.
+
+Use the direct lane if the repository evidence remains clear. Before editing, verify the installed skill with the exact loaded provenance marker from this skill. Include its compact `current` receipt and the exact verification commands in the final answer.

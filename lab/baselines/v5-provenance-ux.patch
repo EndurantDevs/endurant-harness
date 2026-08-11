@@ -1,0 +1,99 @@
+diff --git a/endurant-harness/SKILL.md b/endurant-harness/SKILL.md
+index a222299..d6341ac 100644
+--- a/endurant-harness/SKILL.md
++++ b/endurant-harness/SKILL.md
+@@ -3,14 +3,14 @@ name: endurant-harness
+ description: Use for substantial repository changes needing executable proof. Do not use for explanations, reviews, trivial edits, or requests forbidding implementation or verification.
+ ---
+ 
+-<!--endurant-provenance:v5:cf8c818dfa13e0d853628bf407efdd70db6b128764f52481e208ee88b138342c-->
++<!--endurant-provenance:v5:476218926c85e119277ae4e84465bfc483ae124c82133401bf79b9c4c6810818-->
+ 
+ # Endurant Harness
+ 
+ ## Invariants
+ 
+-- Follow `AGENTS.md`; inspect dirty tree; never reset, clean, overwrite, or reformat unrelated work.
+-- Prefer evidence. Separate **verified**, **inferred**, and **not verified** claims.
++- Follow `AGENTS.md`; inspect the dirty tree; never reset, clean, overwrite, or reformat unrelated work.
++- Prefer repository evidence. Separate **verified**, **inferred**, and **not verified** claims.
+ - One write owner; subagents only for bounded reading.
+ - Never weaken tests, suppress errors, add retries, hide failures, or trade safety for speed.
+ 
+@@ -18,7 +18,7 @@ description: Use for substantial repository changes needing executable proof. Do
+ 
+ ### Direct lane
+ 
+-For clear reversible work, allow at most two batched discovery commands: instructions/status/profile/symbol, then source/test. Behavior bugs require a failing regression before production edit. Escalate for uncertainty or contradiction before editing. Edit; run focused behavior, local CI, and diff. Skip probe, hypothesis, analogy, checkpoint, JSON plan, subagent, and broad suites. Escalate for coupling, performance/efficiency, migrations, security, deployment, or risk.
++For clear reversible work, allow at most two batched discovery commands: instructions/status/profile/symbol, then source/test. Behavior bugs require a failing regression before production edit. Escalate for uncertainty or contradiction before editing. Edit; run focused behavior, available local CI, and diff. Skip probe, hypothesis, analogy, checkpoint, JSON plan, subagent, and broad suites. Escalate for coupling, performance/efficiency, migrations, security, deployment, or material risk.
+ 
+ ### 1. Scan uncertain work once
+ 
+@@ -28,9 +28,9 @@ Resolve reversible ambiguity from evidence. Ask only about unsafe, irreversible,
+ 
+ ### 2. Change once
+ 
+-Implement the smallest coherent root-cause fix or vertical slice; cover behavior. Regenerate outputs through their source tool. Reinspect the path and diff.
++Implement the smallest coherent root-cause fix or vertical slice with behavior coverage. Regenerate outputs through their source tool. Reinspect the path and diff.
+ 
+-Return to scan when evidence contradicts approach, signal stays unchanged, attempts repeat, scope grows, or environment/cache/flakiness is plausible.
++Return to scan when evidence contradicts the approach, the signal stays unchanged, attempts repeat, scope grows, or environment/cache/flakiness is plausible.
+ 
+ ### 3. Prove once
+ 
+@@ -52,6 +52,6 @@ See [references/risk.md](references/risk.md), [references/protocol.md](reference
+ 
+ ## Handoff
+ 
+-Report **changed**, **why**, exact commands, residual risk, and compatibility/rollout notes. Label verified, inferred, and not verified; give conclusions, not a transcript. Provenance: `python3 -S <skill>/scripts/endurant.py provenance --loaded-provenance <release>:<hash>`; Missing provenance means unknown.
++Report **changed**, **why**, exact commands, residual risk, and compatibility/rollout notes. Label verified, inferred, and not verified; give conclusions, not a transcript. Missing provenance means unknown.
+ 
+ When editing this skill, follow [references/maintenance.md](references/maintenance.md).
+diff --git a/endurant-harness/references/protocol.md b/endurant-harness/references/protocol.md
+index 25e1c43..f585fc9 100644
+--- a/endurant-harness/references/protocol.md
++++ b/endurant-harness/references/protocol.md
+@@ -103,7 +103,7 @@ Before handoff, verify that:
+ 
+ ## Version provenance
+ 
+-The marker loaded from `SKILL.md` is the only session-side version claim. Use `scripts/endurant.py provenance --loaded-provenance <release>:<full-package-sha256>` when an exact handoff or rollout needs it. For a forgiving handoff, the CLI also accepts the complete `endurant-provenance:<release>:<hash>` value or its HTML comment wrapper.
++The marker loaded from `SKILL.md` is the only session-side version claim. Use `scripts/endurant.py provenance --loaded-provenance <release>:<full-package-sha256>` when an exact handoff or rollout needs it.
+ 
+ - `current` means the loaded release and full canonical package hash exactly match the package now on disk.
+ - `stale` means both loaded fields are valid but one differs.
+diff --git a/endurant-harness/scripts/endurant.py b/endurant-harness/scripts/endurant.py
+index 073dbec..da38fe8 100755
+--- a/endurant-harness/scripts/endurant.py
++++ b/endurant-harness/scripts/endurant.py
+@@ -3202,17 +3202,9 @@ def _provenance_receipt(
+     loaded_sha256: str | None = None
+     loaded_valid = False
+     if isinstance(loaded_provenance, str):
+-        candidate = loaded_provenance.strip()
+         match = re.fullmatch(
+-            rf"({RELEASE_PATTERN}):([0-9a-f]{{64}})", candidate
++            rf"({RELEASE_PATTERN}):([0-9a-f]{{64}})", loaded_provenance
+         )
+-        if match is None:
+-            match = re.fullmatch(
+-                rf"endurant-provenance:({RELEASE_PATTERN}):([0-9a-f]{{64}})",
+-                candidate,
+-            )
+-        if match is None:
+-            match = PROVENANCE_RE.fullmatch(candidate)
+         if match:
+             loaded_release, loaded_sha256 = match.groups()
+             loaded_valid = True
+@@ -3330,10 +3322,7 @@ def build_parser() -> argparse.ArgumentParser:
+     provenance = subparsers.add_parser(
+         "provenance", help="compare loaded skill provenance with the installed package"
+     )
+-    provenance.add_argument(
+-        "--loaded-provenance",
+-        help="loaded release/hash token; full Endurant marker forms are also accepted",
+-    )
++    provenance.add_argument("--loaded-provenance")
+     provenance.add_argument("--format", choices=("text", "json"), default="text")
+     provenance.add_argument("--require-current", action="store_true")
+ 

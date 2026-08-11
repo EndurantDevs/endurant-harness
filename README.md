@@ -162,8 +162,9 @@ The adoption decisions came from isolated deterministic tests, adversarial recei
 | Explicit lane allowlist | Same `80/80` classification accuracy but `15.44%` slower | Rejected |
 | Full Rust rewrite | Optimistic runtime ceiling remained below one percent of an end-to-end task and lacked CLI/platform parity | Rejected |
 | v5 runtime safeguards | `+9.6ms` to `+11.8ms` median across 31 paired template, probe, and no-op runner samples; all parity gates passed | Accepted as negligible for real proof commands, not claimed as a runtime speedup |
+| Provenance UX forward A/B | On two pairs, wall median `71.525s -> 61.033s`, uncached input `28,451 -> 19,621`, and provenance commands `3 -> 1`; all functional gates passed, while exact `current` provenance improved `1/2 -> 2/2` | Retain the current UX; favorable exploratory signal, not a general speed claim |
 
-These are bounded local and synthetic results, not universal throughput claims. The full decision records, sample limits, hashes, and sanitized receipts are in [`reports/DECISION.md`](reports/DECISION.md), [`reports/NEXT-IMPROVEMENTS.md`](reports/NEXT-IMPROVEMENTS.md), and [`artifacts/benchmarks/`](artifacts/benchmarks/).
+These are bounded local and synthetic results, not universal throughput claims. The full decision records, sample limits, hashes, and sanitized receipts are in [`reports/DECISION.md`](reports/DECISION.md), [`reports/NEXT-IMPROVEMENTS.md`](reports/NEXT-IMPROVEMENTS.md), [`reports/PROVENANCE-EFFICIENCY.md`](reports/PROVENANCE-EFFICIENCY.md), and [`artifacts/benchmarks/`](artifacts/benchmarks/).
 
 ## Project layout
 
@@ -200,6 +201,9 @@ PYTHONDONTWRITEBYTECODE=1 python3 -S \
   --format text
 
 PYTHONDONTWRITEBYTECODE=1 python3 -S lab/check_results.py
+
+PYTHONDONTWRITEBYTECODE=1 python3 -S \
+  lab/provenance_efficiency_receipt.py check
 
 PYTHONDONTWRITEBYTECODE=1 python3 -S \
   endurant-harness/scripts/endurant.py run \

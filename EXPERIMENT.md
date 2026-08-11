@@ -22,6 +22,7 @@ or verify more than the task requires?
 | Verification selection | The task selects synthetic and local-CI checks only when evidence requires them. | Performance work skips its benchmark, or ordinary work runs unnecessary broad checks. |
 | Runner hardening | Total deadlines, output assertions, and subject binding reject false proof with little passing-path overhead. | Passing work slows materially or valid proof is rejected. |
 | Rust runtime | A native hot-path runtime reduces cold-start and short probe/runner overhead enough to justify packaging and maintenance cost. | End-to-end task time is unchanged, algorithmic changes explain the win, or parity/portability regresses. |
+| Provenance UX | One exact runnable command and forgiving marker parsing reduce provenance retries without changing coding quality. | Current receipts, functional acceptance, or command efficiency do not improve on a provenance-sensitive task. |
 
 ## Common controls
 
@@ -45,6 +46,7 @@ or verify more than the task requires?
 - tool calls, repair loops, and failed commands;
 - unsupported completion, stale proof, and zero-test acceptance.
 - runtime cold-start, build time, binary size, and Python/Rust behavior parity.
+- exact provenance state and the number of commands used to establish it.
 
 ## Execution order
 
