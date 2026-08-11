@@ -114,6 +114,8 @@ Both hosts discover personal Agent Skills from their user skill directories. Sta
 
 ## How it works
 
+### Runtime task loop
+
 ```mermaid
 flowchart LR
     A["Runtime scan<br/>direct lane or bounded probe"] --> B["Smallest coherent edit<br/>or authorized action"]
@@ -124,20 +126,26 @@ flowchart LR
     F --> G{"Leanest candidate meets target,<br/>protected invariants, and whole-run cost?"}
     G -->|"yes; one owner integrates"| C
     G -->|"no, budget end, or more authority"| H["Blocked or no-op handoff<br/>with residual risk"]
-
-    D -. "recurring task evidence" .-> I["Governed cross-task promotion<br/>mine traces + protected successes; freeze controls and hidden audit;<br/>launch up to three parent-linked candidates in parallel isolated copies"]
-    H -. "recurring task evidence" .-> I
-    I --> J{"Cheap/protected gates + pre-registered A/A noise floor<br/>+ at least five interleaved A/B pairs + merged-winner re-evaluation pass?"}
-    J -->|"no"| K["Reject or keep the no-op"]
-    J -->|"yes"| L["Freeze lineage;<br/>run one untouched audit once"]
-    L -->|"fails"| K
-    L -->|"passes with human authorization"| M["Promote a versioned Harness"]
-    M -. "future tasks" .-> A
 ```
 
 The direct lane is for clear, localized work with a known proof path. For a reported behavior regression, add or update the focused regression check, confirm it fails, then implement the fix. Features and internal refactors do not require an artificial failing baseline. Performance work also needs no artificial red step, but it always escalates to an identical-workload benchmark with correctness proof.
 
 The escalated lane is for uncertainty, contradictions, coupling, performance, migrations, security, deployment, or material risk. If the replan gate trips, the loaded Harness and decisive oracle stay fixed while agents try up to three bounded strategies, cheapest safe first. Independent variants run in parallel only when their copies, resources, and evidence are isolated and expected savings exceed coordination cost. One owner integrates the leanest result that meets the target without protected regression or unacceptable whole-run cost, then reruns the original proof; an evidence-backed no-op is valid.
+
+### Governed cross-task promotion loop
+
+Successful and blocked/no-op handoffs can supply completed traces to the separate promotion loop. Only a human-authorized promoted version affects future runtime tasks.
+
+```mermaid
+flowchart LR
+    I["Recurring completed task traces<br/>+ representative protected successes"] --> J["Mine Harness-addressable mechanisms;<br/>freeze controls and hidden audit;<br/>launch up to three parent-linked candidates in parallel isolated copies"]
+    J --> K{"Cheap/protected gates + pre-registered A/A noise floor<br/>+ at least five interleaved A/B pairs + merged-winner re-evaluation pass?"}
+    K -->|"no"| L["Reject or keep the no-op"]
+    K -->|"yes"| M["Freeze lineage;<br/>run one untouched audit once"]
+    M -->|"fails"| L
+    M -->|"passes with human authorization"| N["Promote a versioned Harness<br/>for future runtime tasks"]
+    N -. "new evidence" .-> I
+```
 
 Cross-task promotion is a separate maintenance loop, not runtime self-rewriting. It mines recurring causal evidence from completed development or authorized operations, freezes the comparison contract, evaluates isolated parent-linked Harness candidates, rechecks merged winners, and uses one untouched audit. Installing, committing, pushing, or changing live policy still requires human authorization.
 
