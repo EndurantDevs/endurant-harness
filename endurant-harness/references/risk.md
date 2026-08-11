@@ -103,6 +103,8 @@ exact-head CI
 
 Do not promote an earlier gate into runtime proof.
 
+For an authorized operational replan, inspect exact external state before another mutation and define stop, rollback, or drain first. Never repeat an unchanged failed action. Parallel agents may diagnose or compare recovery variants, but one owner mutates shared or live state. Prefer dry-run, canary, or checkpoint/resume; preserve lineage and the terminal readiness, integrity, or publication oracle.
+
 ## Evidence strength
 
 Prefer, in order:

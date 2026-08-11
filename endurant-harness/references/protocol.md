@@ -45,6 +45,18 @@ Return to scan when:
 
 Remove speculative edits before pursuing a materially different explanation when doing so will not disturb user work.
 
+### Adaptive replan loop
+
+When the Replan gate trips, adapt the current software-development or authorized-action strategy; never rewrite the loaded Harness or its decisive oracle during the task.
+
+1. Hold fixed the goal, decisive oracle, user authority, constraints, and protected invariants.
+2. Name the terminal failed evidence, classify it using the proof categories, and mark agent behavior causal, contributing, or incidental. Inspect actual artifacts, external state, and tool results rather than trusting summaries or logical counters.
+3. Propose at most three materially different, bounded strategy candidates targeting one evidenced mechanism: hypothesis/search, edit or action surface, tool/order, verification/delegation, or dry-run/canary/retry/rollback. Prefer reversible candidates; when rollback is impossible, require containment, drain, or forward recovery. Give each a predicted signal, stop condition, and recovery.
+4. Evaluate independent candidates in parallel only when their copies, resources, and evidence are isolated; otherwise try the cheapest safe candidate first. Choose each agent's model and reasoning effort for its role and risk. Keep one shared-state write or external-mutation owner; other agents may mutate only assigned isolated copies/resources.
+5. Judge every candidate with the original decisive oracle on comparable inputs and environment where practical. Diagnostics may supplement that oracle, never replace or weaken it.
+6. Accept the leanest candidate meeting the target without protected-invariant regression or unacceptable whole-run time/cost. Otherwise reject it, restore candidate-local state when safe or drain to the declared safe state, and try the next candidate. Re-evaluate any combined winners.
+7. Record accepted and rejected candidates with same-oracle evidence. Stop when the target is proven, three candidates fail, the budget ends, no harness-addressable mechanism remains, or more authority is required. An evidence-backed no-op is valid.
+
 ### Done gate
 
 Demonstrate the requested behavior at the appropriate scope. A blocked check remains blocked: name the blocker and residual risk rather than silently substituting weaker evidence.
@@ -87,7 +99,9 @@ Classify every failure before editing:
 
 ## Parallel agents
 
-Use subagents only for independent, bounded, read-heavy questions such as mapping a call path, reviewing migration/security risk, triaging a large log, or identifying test gaps. Require a conclusion, `path:symbol` or command evidence, uncertainty, and one recommended next check. Keep one write owner.
+Use parallel agents for independent, bounded investigation, isolated implementation variants, proof, or skeptical review when expected wall-time savings exceed coordination cost. Give each the goal, evidence, oracle, protected invariants, output, and stop condition. Choose model and reasoning effort explicitly: fast/lower effort for bounded lookup, stronger/higher effort for ambiguous or high-risk work and independent judging. Freeze them in controlled Harness comparisons.
+
+Keep one shared-state write or external-mutation owner; other agents may mutate only assigned isolated copies or worktrees with independent resources. The owner selects or integrates them and reruns combined proof. Require a conclusion, `path:symbol` or command evidence, uncertainty, and one recommended next check.
 
 ## Skeptical review
 

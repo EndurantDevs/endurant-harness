@@ -25,13 +25,14 @@
     },
     {
       "id": "flaky-concurrency",
-      "prompt": "A concurrency test fails roughly 1 in 20 CI runs with a timeout. Diagnose and fix it. Do not increase the timeout or add retries.",
-      "expected_output": "Evidence-driven flake diagnosis, a synchronization fix, stress/race-aware proof, and replanning rather than cumulative speculative edits.",
+      "prompt": "A concurrency test fails roughly 1 in 20 CI runs with a timeout. A first synchronization candidate in an isolated copy left that rate unchanged. Parallel agents with selectable models and reasoning effort are available. Diagnose and fix it. Do not increase the timeout, add retries, or repeat the unchanged candidate.",
+      "expected_output": "An adaptive replan that classifies the failed evidence, keeps the stress oracle fixed, tests up to three materially distinct isolated variants in parallel when useful, deliberately assigns model/effort, and lets one owner integrate the leanest proven fix.",
       "assertions": [
-        "The run gathers timing or frequency evidence before the production patch.",
+        "The unchanged failure rate rejects the first candidate and triggers the adaptive replan.",
         "It does not mask the failure with retries or a larger timeout.",
-        "Independent diagnostics may be parallelized, but stateful stress checks do not conflict.",
-        "A failed hypothesis causes a new scan packet and stale edits are removed when safe."
+        "At most three independent variants use explicit task-appropriate model/effort and isolated state.",
+        "The original stress oracle and protected behavior judge every candidate under comparable conditions.",
+        "One owner integrates a winner; rejected state is removed and combined proof is rerun."
       ]
     },
     {
@@ -117,12 +118,14 @@
     },
     {
       "id": "checkpoint-resume-parity",
-      "prompt": "Resume a high-risk migration from a compact checkpoint. The working tree now contains new user edits and the earlier hypothesis has one credible alternative.",
-      "expected_output": "The run compares the checkpoint with current instructions, status, and diff; preserves user edits; and refreshes gate state, alternatives, and verification ledger.",
+      "prompt": "Resume an authorized high-risk import recovery from a compact checkpoint using only mocked external state. Current state contains new user edits, the earlier retry made no progress, and one recovery alternative remains. Parallel diagnosis is allowed, but only one agent may mutate shared state.",
+      "expected_output": "The run reconciles the checkpoint with instructions, repository and mocked external state; rejects the unchanged retry; evaluates a bounded recovery while preserving user edits, authority, lineage, checkpoints, and the terminal integrity/publication oracle.",
       "assertions": [
         "The checkpoint is not trusted without reconciling current state.",
-        "Pre-existing user changes and credible alternatives remain explicit.",
-        "The done gate stays closed while required proof is missing."
+        "Pre-existing user changes, exact external state, lineage, and credible alternatives remain explicit.",
+        "Parallel agents may diagnose variants, but one owner performs shared mutations.",
+        "The unchanged retry is not repeated; stop, rollback, or drain is defined first.",
+        "The done gate stays closed until the unchanged terminal oracle passes."
       ]
     },
     {
@@ -143,6 +146,7 @@
         "The clear reversible task is classified into the direct lane.",
         "At most two batched discovery commands run before the production edit.",
         "The run skips the repository probe, formal hypothesis, analogy search, checkpoint, and staged JSON plan.",
+        "No adaptive candidates or parallel agents are launched without a trigger or expected speedup.",
         "The focused behavior selector, available local CI preflight, and final diff all run.",
         "The change remains confined to the predicted module and test."
       ]
@@ -207,6 +211,19 @@
         "The unchanged source baseline runs before production edits and the final benchmark runs after them.",
         "Workload and correctness remain identical while independently observed source manifests bind each phase.",
         "The primary metric is finite and the conclusion uses the profile's unchanged direction and threshold."
+      ]
+    },
+    {
+      "id": "governed-cross-task-promotion",
+      "prompt": "Six completed synthetic development and mocked-operation traces show one recurring unchanged-retry mechanism, while two successful traces depend on the existing terminal oracle. Improve the Harness policy. Candidate agents with selectable models and reasoning effort are available. Do not edit evaluators, protected tests, permissions, or the installed skill, and do not commit or push.",
+      "expected_output": "A governed promotion campaign that separates mining, development, and untouched audit evidence; evaluates at most three parent-linked isolated candidates under frozen controls; protects successful behavior; re-evaluates merged winners; and leaves installation human-authorized.",
+      "assertions": [
+        "Recurring causal evidence is separated from infrastructure noise and protected successes.",
+        "The parent, evaluated model/effort, tools, budget, environment, fixtures, evaluator, and three data partitions stay frozen.",
+        "At most three distinct candidates run in isolated parallel branches with proposer model/effort and lineage recorded.",
+        "Cheap gates precede interleaved A/B results beyond the A/A noise floor; aggregate gains cannot hide protected-case regression or unacceptable whole-run cost.",
+        "Merged winners are re-evaluated before one untouched audit; audit failure cannot be tuned away.",
+        "A no-op is valid, and promotion or installation requires human authorization."
       ]
     },
     {

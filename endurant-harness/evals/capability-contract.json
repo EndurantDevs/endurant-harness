@@ -214,6 +214,59 @@
       ]
     },
     {
+      "id": "adaptive-task-and-promotion-loop",
+      "importance": "critical",
+      "activation": "conditional",
+      "source_v3": [
+        "trace-driven governed adaptation"
+      ],
+      "evidence": [
+        {
+          "path": "SKILL.md",
+          "all": [
+            "adaptive replan"
+          ]
+        },
+        {
+          "path": "references/protocol.md",
+          "all": [
+            "Adaptive replan loop",
+            "at most three materially different",
+            "original decisive oracle",
+            "model and reasoning effort",
+            "one shared-state write or external-mutation owner",
+            "evidence-backed no-op"
+          ]
+        },
+        {
+          "path": "references/checkpoint.md",
+          "all": [
+            "Replan attempts",
+            "Candidates (max 3)",
+            "Accepted/rejected",
+            "model/effort"
+          ]
+        },
+        {
+          "path": "references/risk.md",
+          "all": [
+            "Never repeat an unchanged failed action",
+            "one owner mutates shared or live state"
+          ]
+        },
+        {
+          "path": "references/maintenance.md",
+          "all": [
+            "Cross-task promotion",
+            "mining/development/audit partitions",
+            "A/A noise floor",
+            "Re-evaluate merged winners",
+            "human authorization"
+          ]
+        }
+      ]
+    },
+    {
       "id": "dependency-aware-batching",
       "importance": "critical",
       "activation": "conditional",
@@ -302,13 +355,15 @@
         {
           "path": "SKILL.md",
           "all": [
-            "One write owner",
-            "subagents only for bounded reading"
+            "One shared-state owner",
+            "isolated variants in parallel"
           ]
         },
         {
           "path": "references/protocol.md",
           "all": [
+            "model and reasoning effort",
+            "isolated copies or worktrees",
             "path:symbol",
             "one recommended next check"
           ]

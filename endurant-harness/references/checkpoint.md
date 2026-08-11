@@ -28,7 +28,9 @@ Failed:
 Blocked / not run:
 - exact command — reason and residual risk
 
-Replan attempts and discarded hypotheses:
+Replan attempts: terminal failure; class; agent role
+Candidates (max 3): strategy; predicted signal; stop/recovery; model/effort
+Accepted/rejected: candidate; same-oracle evidence
 Next packet:
 ```
 

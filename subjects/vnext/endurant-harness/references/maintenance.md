@@ -23,9 +23,11 @@ A revision is releasable only when:
 2. Define a falsifiable quality or efficiency hypothesis.
 3. Probe the comparison workspace with `scripts/endurant.py probe`.
 4. Make one coherent revision.
-5. Run the strict audit and controlled benchmark:
+5. Run Skill Creator validation with normal Python (never `-S`, because it imports PyYAML), then the strict audit and controlled benchmark:
 
 ```bash
+skill_validator_dir="${CODEX_HOME:-$HOME/.codex}/skills/.system/skill-creator/scripts"
+python3 "$skill_validator_dir/quick_validate.py" .
 python3 -S scripts/audit_skill.py . --strict --format text
 python3 -S scripts/benchmark_efficiency.py . --baseline-skill /path/to/v3 --format text
 ```
@@ -34,7 +36,15 @@ python3 -S scripts/benchmark_efficiency.py . --baseline-skill /path/to/v3 --form
 7. Run representative behavior and trigger cases against the revision and frozen baseline.
 8. Keep the revision only when it improves verified outcome per token, model round, wall time, or human correction without lowering success or verification honesty.
 
-Before policy adoption, pre-register gates, establish an A/A noise floor, run at least five interleaved pairs, and include one untouched holdout.
+## Cross-task promotion
+
+1. Mine completed development and authorized-operation traces plus representative successes. Cluster recurring causal, harness-addressable mechanisms; reject infrastructure noise, isolated task difficulty, and unsupported model limits.
+2. Freeze the parent Harness, evaluator, fixtures, tools/permissions, evaluated model and effort, budgets, environment, and mining/development/audit partitions. Keep graders, outcomes, protected files, and the untouched audit hidden from candidate agents.
+3. Launch at most three materially distinct candidates per cluster in parallel isolated copies. Choose and record each proposal agent's model/effort; bind parent and evidence hashes, editable surface, expected effect, protected behavior, risk/cost, and rollback.
+4. Run cheap validation/audit gates first, then pre-registered interleaved A/B evaluation against each parent. Establish an A/A noise floor, run at least five pairs, and record every acceptance or rejection; a justified no-op is valid.
+5. Accept only when every correctness, safety, permission, provenance, and protected-case gate passes; target gains exceed noise/materiality; and whole-run success, time, tool calls, tokens/cost, and human corrections remain acceptable. Aggregate gains never excuse an invariant regression.
+6. Re-evaluate merged winners under the same frozen contract. After lineage is frozen, run the untouched audit once; promote only if it passes, and never tune the campaign on its results. Preserve exact diffs, hashes, configuration, receipts, metrics, decisions, and rollback.
+7. Stop when a target is met, candidates fail, gains fall below threshold, or budget ends. Installing, committing, pushing, or mutating live policy still requires human authorization.
 
 ## Interpretation of controlled targets
 

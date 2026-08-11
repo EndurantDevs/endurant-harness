@@ -372,7 +372,7 @@ class AuditEvalCatalogTests(unittest.TestCase):
         completed, result = self.run_audit(package)
         self.assertEqual(completed.returncode, 0, completed.stderr or completed.stdout)
         metrics = result["metrics"]
-        self.assertEqual(metrics["eval_spec_cases"], 21)
+        self.assertEqual(metrics["eval_spec_cases"], 22)
         self.assertEqual(metrics["trigger_spec_cases"], 12)
         self.assertEqual(metrics["skill_word_target"], 450)
         self.assertTrue(metrics["skill_word_target_met"])

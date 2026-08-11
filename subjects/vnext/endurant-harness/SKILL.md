@@ -3,7 +3,7 @@ name: endurant-harness
 description: Use for substantial repository changes needing executable proof. Do not use for explanations, reviews, trivial edits, or requests forbidding implementation or verification.
 ---
 
-<!--endurant-provenance:v5:9dc80c3710b01d16384e3b636c9598e7da8cb4b8146f883e014d5820390d70f3-->
+<!--endurant-provenance:v5:3c534285f59042a2512a172f3a8e2a96205b0b037217e82e5deb6fc8a4292bc3-->
 
 # Endurant Harness
 
@@ -11,7 +11,7 @@ description: Use for substantial repository changes needing executable proof. Do
 
 - Follow host `AGENTS.md` or `CLAUDE.md`; inspect dirty tree; never reset, clean, overwrite, or reformat unrelated work.
 - Prefer evidence; separate **verified**, **inferred**, and **not verified** claims.
-- One write owner; subagents only for bounded reading.
+- One shared-state owner; agents build/test isolated variants in parallel.
 - Never weaken tests, suppress errors, mask with retries, or trade safety for speed.
 
 ## Fast protocol: scan -> change -> prove
@@ -30,7 +30,7 @@ Resolve reversible ambiguity; ask only about unsafe, irreversible, or contractua
 
 Implement the smallest coherent root-cause fix or vertical slice; cover behavior. Regenerate outputs through their source tool. Reinspect the path and diff.
 
-Return to scan when evidence contradicts approach, signal stays unchanged, attempts repeat, scope grows, or environment/cache/flakiness is plausible.
+Return to scan; on contradiction, unchanged signal, repeated attempts, scope growth, or environment failure, use [adaptive replan](references/protocol.md#adaptive-replan-loop).
 
 ### 3. Prove once
 
