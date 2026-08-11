@@ -115,44 +115,24 @@ Both hosts discover personal Agent Skills from their user skill directories. Sta
 ## How it works
 
 ```mermaid
-flowchart TD
-    subgraph task["Runtime task loop"]
-        A["Read instructions and dirty state"] --> B{"Clear, reversible, and local?"}
-        B -->|"yes"| C["At most two batched discovery commands"]
-        B -->|"no"| D["Bounded probe and evidence-linked hypothesis"]
-        C --> C1{"Evidence still supports the direct lane?"}
-        C1 -->|"yes"| E["One coherent edit or authorized action"]
-        C1 -->|"no or contradictory"| D
-        D --> E
-        E --> F["Task-selected proof: original decisive oracle,<br/>required behavior/local-CI checks, and final diff"]
-        F -->|"passes"| G["Successful focused handoff"]
-        F -->|"contradiction, unchanged signal, or repeated failure"| H["Adaptive replan: hold goal, oracle,<br/>authority, and invariants fixed"]
-        H --> I["Try up to three materially different strategies;<br/>cheapest safe first, parallel only when isolated and worthwhile;<br/>choose model and effort by role"]
-        I --> J["Same-oracle comparison: select the leanest target-meeting candidate<br/>with no protected regression or unacceptable whole-run cost"]
-        J -->|"winner"| K["One owner integrates into shared state"]
-        K --> F
-        J -->|"no winner, budget end, or more authority"| T["Blocked or no-op handoff<br/>with residual risk"]
-    end
+flowchart LR
+    A["Runtime scan<br/>direct lane or bounded probe"] --> B["Smallest coherent edit<br/>or authorized action"]
+    B --> C{"Task-selected proof passes?<br/>original oracle + required behavior + available local CI + final diff"}
+    C -->|"yes"| D["Successful focused handoff"]
+    C -->|"replan trigger"| E["Adaptive replan<br/>hold goal, oracle, authority, and invariants fixed"]
+    E --> F["Try up to three strategies; cheapest safe first;<br/>parallel only when isolated and worthwhile;<br/>choose model and effort by role"]
+    F --> G{"Leanest candidate meets target,<br/>protected invariants, and whole-run cost?"}
+    G -->|"yes; one owner integrates"| C
+    G -->|"no, budget end, or more authority"| H["Blocked or no-op handoff<br/>with residual risk"]
 
-    subgraph promotion["Governed cross-task promotion loop"]
-        L["Completed task traces"] --> M["Mine recurring Harness-addressable mechanisms"]
-        L1["Representative protected successes"] --> M
-        M --> N["Freeze parent, evaluator, fixtures, tools and permissions,<br/>budgets, environment, evaluated model/effort,<br/>and mining/development/audit partitions"]
-        N --> N1["Hide graders, outcomes, protected files,<br/>and the untouched audit from candidates"]
-        N1 --> O["Launch at most three parent-linked Harness candidates<br/>in parallel isolated copies"]
-        O --> P["Cheap validation and protected-case gates"]
-        P -->|"fail"| S["Reject or keep the no-op"]
-        P -->|"pass"| P1["Pre-register evaluation; establish an A/A noise floor;<br/>run at least five interleaved A/B pairs; record every decision;<br/>re-evaluate merged winners"]
-        P1 --> P2{"Correctness, safety, cost, and<br/>materiality gates pass?"}
-        P2 -->|"no"| S
-        P2 -->|"yes"| Q["Freeze lineage; run one untouched audit once;<br/>never tune on its result"]
-        Q -->|"passes with human authorization"| R["Promote a versioned Harness"]
-        Q -->|"fails"| S
-    end
-
-    G -. "task evidence" .-> L
-    T -. "task evidence" .-> L
-    R -. "future tasks" .-> A
+    D -. "recurring task evidence" .-> I["Governed cross-task promotion<br/>mine traces + protected successes; freeze controls and hidden audit;<br/>launch up to three parent-linked candidates in parallel isolated copies"]
+    H -. "recurring task evidence" .-> I
+    I --> J{"Cheap/protected gates + pre-registered A/A noise floor<br/>+ at least five interleaved A/B pairs + merged-winner re-evaluation pass?"}
+    J -->|"no"| K["Reject or keep the no-op"]
+    J -->|"yes"| L["Freeze lineage;<br/>run one untouched audit once"]
+    L -->|"fails"| K
+    L -->|"passes with human authorization"| M["Promote a versioned Harness"]
+    M -. "future tasks" .-> A
 ```
 
 The direct lane is for clear, localized work with a known proof path. For a reported behavior regression, add or update the focused regression check, confirm it fails, then implement the fix. Features and internal refactors do not require an artificial failing baseline. Performance work also needs no artificial red step, but it always escalates to an identical-workload benchmark with correctness proof.
