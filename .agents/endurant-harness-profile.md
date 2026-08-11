@@ -2,12 +2,16 @@
 
 ## Canonical commands
 
+- Skill Creator validation: `skill_validator_dir="${CODEX_HOME:-$HOME/.codex}/skills/.system/skill-creator/scripts"; PYTHONDONTWRITEBYTECODE=1 python3 "$skill_validator_dir/quick_validate.py" endurant-harness`
 - Focused integrity: `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s lab/tests -p 'test_*.py' -v`
 - Release audit: `PYTHONDONTWRITEBYTECODE=1 python3 -S endurant-harness/scripts/audit_skill.py endurant-harness --strict --format text`
+- Efficiency benchmark: `PYTHONDONTWRITEBYTECODE=1 python3 -S endurant-harness/scripts/benchmark_efficiency.py endurant-harness --format text`
 - Runner variants: `PYTHONDONTWRITEBYTECODE=1 python3 -S lab/test_runner_variants.py`
 - Probe benchmark: `PYTHONDONTWRITEBYTECODE=1 python3 -S lab/benchmark_probe.py --candidate-subject combined-candidate --output-name combined-probe.json`
 - Model summary: `PYTHONDONTWRITEBYTECODE=1 python3 -S lab/summarize_model_runs.py`
 - Promotion checks: `PYTHONDONTWRITEBYTECODE=1 python3 -S lab/check_results.py`
+- Provenance receipt: `PYTHONDONTWRITEBYTECODE=1 python3 -S lab/provenance_efficiency_receipt.py check`
+- Release source verification: `PYTHONDONTWRITEBYTECODE=1 python3 -S lab/build_v5_release.py verify-source --package endurant-harness --receipt artifacts/benchmarks/v5-release.json --runtime-receipt artifacts/benchmarks/v5-runtime.json`
 - Local preflight: `PYTHONDONTWRITEBYTECODE=1 python3 -S endurant-harness/scripts/endurant.py run lab/local-ci-plan.json --repo .`
 
 ## Invariants

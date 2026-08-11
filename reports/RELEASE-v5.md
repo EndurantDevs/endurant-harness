@@ -9,10 +9,10 @@ This receipt describes the releasable source package and its local proof. Instal
 | Item | Verified value |
 | --- | --- |
 | Release | `v5` |
-| Canonical package SHA-256 | `e2575e96c926c74f415a80a4eb06a80aa66e1546bdb5b6a6d5bde8ef5016595c` |
-| `SKILL.md` SHA-256 | `f351d3fb6f591cfadecaf4d5db163c8bae0ce8e981c630037dea47ef30af2bd0` |
-| Deterministic ZIP SHA-256 | `35381e68b3a50cfcd8f4984ee593efe7bebe0c3a91b2d0ecfae74cb7d8f16f71` |
-| ZIP size and members | `252554` bytes; `15` regular files under one `endurant-harness/` prefix |
+| Canonical package SHA-256 | `3c534285f59042a2512a172f3a8e2a96205b0b037217e82e5deb6fc8a4292bc3` |
+| `SKILL.md` SHA-256 | `cbb7bc38c0faf9b941b1c9d8922006851dd5fcd61f18062b6b62b89d7235b99d` |
+| Deterministic ZIP SHA-256 | `67b4629bec62ad10ecd4a4ec44a5d8e2c83b96d399490e230101458d54b32532` |
+| ZIP size and members | `264726` bytes; `15` regular files under one `endurant-harness/` prefix |
 | Runtime receipt SHA-256 | `f46dad9b326f0dba34ecd6265bc641bd9f73cad0a267200ab3983c01f04db443` |
 
 The tracked release receipt is [`artifacts/benchmarks/v5-release.json`](../artifacts/benchmarks/v5-release.json). CI reconstructs the archive in memory and checks the same hash; the local ZIP remains ignored under `dist/`.
@@ -21,6 +21,8 @@ The tracked release receipt is [`artifacts/benchmarks/v5-release.json`](../artif
 
 - Symbol-first probe relevance for snake_case and camelCase tasks, with deterministic source/test ranking and broad-search fallback.
 - A direct-lane ceiling of two batched discovery commands, with escalation before editing when evidence is insufficient or contradictory.
+- A task-local adaptive replan loop that holds the goal and original oracle fixed, tries at most three materially different strategies with role-appropriate model/effort, parallelizes only isolated candidates when worthwhile, and gives shared-state mutation to one owner.
+- A governed cross-task promotion loop with frozen parent/evaluation controls, protected successes, parent-linked candidates, merged-winner re-evaluation, one untouched audit, and human-authorized installation or publication.
 - Red-before-green only for claimed behavior regressions.
 - Optional, tracked, hash-pinned fast-preflight and benchmark contracts.
 - Package/session provenance that reports `current`, `stale`, or `unknown` without inferring an active-task reload.
@@ -34,13 +36,13 @@ The long explicit lane allowlist and a Rust rewrite were rejected by the measure
 
 - Staged preflight: **PASS**.
 - Deterministic suite at release: **118/118 tests passed**.
-- Strict skill audit: **PASS** with `36` capability cases, `21` schema-checked evaluation prompts, `12` schema-checked trigger prompts, `14` executed runtime smoke cases, and a `449`-word `SKILL.md` (under the `450` soft target and `500` hard maximum).
+- Strict skill audit: **PASS** with `37` capability cases, `22` schema-checked evaluation prompts, `12` schema-checked trigger prompts, `14` executed runtime smoke cases, and a `450`-word `SKILL.md` (meeting the `450` soft target and below the `500` hard maximum).
 - Release source parity: installable `endurant-harness/` and `subjects/vnext/endurant-harness/` were byte-identical.
-- Installed-tree parity and provenance: **PASS** for both Codex and Claude Code user paths; each is byte-identical to source and reports `current` for package `e2575e96c926...` when given the exact loaded marker.
-- Promotion evidence: historical, next-improvement, live-policy, probe, runner, and Rust-decision checks all passed.
+- Installed-tree parity and provenance: **PASS** for both Codex and Claude Code user paths; each is byte-identical to source and reports `current` for package `3c534285f590...` when given the exact loaded marker.
+- Pre-adaptive promotion evidence: historical, next-improvement, live-policy, probe, runner, and Rust-decision checks all passed. The adaptive loops currently have strict capability and schema-specification coverage, not a completed controlled A/B campaign.
 - Release reconstruction: canonical package provenance, runtime receipt, member manifest, ZIP bytes, and archive hash all passed source-only verification.
 
-The final runtime A/B used `31` alternating paired samples per surface plus `3` warmups. All semantic and exit gates passed. Median v5 overhead versus the promoted combined runtime was `13.148ms` for `template`, `10.883ms` for `probe`, and `7.846ms` for a no-op runner plan—below the `25ms` acceptance bound. This is accepted guard cost, not a runtime-speedup claim.
+The pre-adaptive runtime A/B used `31` alternating paired samples per surface plus `3` warmups. All semantic and exit gates passed. Median v5 overhead versus the promoted combined runtime was `13.148ms` for `template`, `10.883ms` for `probe`, and `7.846ms` for a no-op runner plan—below the `25ms` acceptance bound. This is accepted CLI guard cost, not a runtime-speedup claim or evidence for either adaptive loop.
 
 ## Post-release provenance forward test
 

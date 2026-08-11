@@ -8,6 +8,6 @@
 - Use neutral synthetic identifiers in tracked fixtures, reports, commits, and publication artifacts.
 - Keep the installable package free of README, changelog, cache, bytecode, backup, and temporary files.
 - Performance claims require controlled unchanged/current and candidate measurements; ordinary correctness work skips irrelevant synthetic benchmarks.
-- Run focused integrity tests, the v5 strict audit, and the local preflight before release claims.
+- Use `.agents/endurant-harness-profile.md` as the canonical validation and release command list; do not maintain a partial duplicate here.
 - Distinguish local proof, remote CI, published artifacts, installation, and active-session provenance.
 - Do not commit, push, publish a release, or invoke remote CI without explicit user authorization for that task.

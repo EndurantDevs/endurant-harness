@@ -2,7 +2,7 @@
 
 ### Bounded repository changes with executable local verification
 
-Endurant Harness is a lightweight Agent Skill for Codex and Claude Code. It provides a direct workflow for clear, reversible changes and a bounded discovery and verification workflow for uncertain or high-risk work.
+Endurant Harness is a lightweight Agent Skill for Codex and Claude Code. It provides a direct lane for clear, reversible changes, a task-local adaptive replan loop for stalled or contradicted work, and a governed cross-task promotion loop for improving the Harness from repeated evidence.
 
 It is designed to improve implementation confidence without imposing a project-management workflow on routine changes.
 
@@ -31,6 +31,7 @@ It is designed to improve implementation confidence without imposing a project-m
 - `curl` for the one-line installer
 - Python 3.10 or newer
 - `rg` recommended for task-aware repository search
+- Release maintainers only: Codex Skill Creator's `quick_validate.py` and PyYAML available to normal Python; neither is used by the installed Harness runtime
 
 ### Install or update
 
@@ -88,6 +89,8 @@ Both hosts discover personal Agent Skills from their user skill directories. Sta
 
 - **Low overhead for routine work.** Clear, reversible changes skip probes, plan files, checkpoints, subagents, and broad test suites.
 - **Bounded discovery.** The direct lane permits at most two batched discovery commands before editing and escalates when additional investigation is required.
+- **Runtime adaptation.** When decisive evidence stalls or contradicts an approach, agents keep the task contract fixed, try the cheapest safe strategy, and parallelize independent variants only when isolation and expected wall-time savings justify coordination.
+- **Governed evolution.** Recurring mechanisms can become bounded Harness candidates only through frozen evaluation, protected successes, an untouched audit, and human-authorized promotion.
 - **Task-specific verification.** Performance work uses an identical before-and-after workload with correctness checks; ordinary correctness work does not run an unrelated benchmark.
 - **Earlier local feedback.** Repository-owned preflight can cover focused tests, lint, type checks, builds, generated outputs, and affected packages before remote CI.
 - **Worktree preservation.** Dirty worktrees and unrelated edits are identified and preserved.
@@ -98,6 +101,8 @@ Both hosts discover personal Agent Skills from their user skill directories. Sta
 | Feature | Purpose |
 | --- | --- |
 | Direct and escalated lanes | Spend discovery only when uncertainty or risk requires it |
+| Runtime adaptive replan | Hold the task contract fixed, try up to three materially different strategies, and parallelize isolated candidates only when worthwhile |
+| Governed cross-task promotion | Mine recurring evidence, compare bounded Harness variants, and require an untouched audit plus human authorization |
 | Symbol-first repository probe | Rank exact snake_case and camelCase source/test hits while suppressing unrelated harness noise |
 | Task-selected verification | Choose focused, synthetic, affected-scope, local-CI, and diff checks from the requested behavior |
 | Staged command runner | Execute explicit argv plans with timeouts, evidence kinds, bounded summaries, and full external logs |
@@ -110,19 +115,51 @@ Both hosts discover personal Agent Skills from their user skill directories. Sta
 ## How it works
 
 ```mermaid
-flowchart LR
-    A["Read instructions and dirty state"] --> B{"Clear, reversible, and local?"}
-    B -->|"yes"| C["At most two batched discovery commands"]
-    C --> D["One coherent edit"]
-    B -->|"no or contradictory"| E["Bounded probe and evidence-linked hypothesis"]
-    E --> D
-    D --> F["Task-selected local proof"]
-    F --> G["Focused handoff with residual risk"]
+flowchart TD
+    subgraph task["Runtime task loop"]
+        A["Read instructions and dirty state"] --> B{"Clear, reversible, and local?"}
+        B -->|"yes"| C["At most two batched discovery commands"]
+        B -->|"no"| D["Bounded probe and evidence-linked hypothesis"]
+        C --> C1{"Evidence still supports the direct lane?"}
+        C1 -->|"yes"| E["One coherent edit or authorized action"]
+        C1 -->|"no or contradictory"| D
+        D --> E
+        E --> F["Task-selected proof: original decisive oracle,<br/>required behavior/local-CI checks, and final diff"]
+        F -->|"passes"| G["Successful focused handoff"]
+        F -->|"contradiction, unchanged signal, or repeated failure"| H["Adaptive replan: hold goal, oracle,<br/>authority, and invariants fixed"]
+        H --> I["Try up to three materially different strategies;<br/>cheapest safe first, parallel only when isolated and worthwhile;<br/>choose model and effort by role"]
+        I --> J["Same-oracle comparison: select the leanest target-meeting candidate<br/>with no protected regression or unacceptable whole-run cost"]
+        J -->|"winner"| K["One owner integrates into shared state"]
+        K --> F
+        J -->|"no winner, budget end, or more authority"| T["Blocked or no-op handoff<br/>with residual risk"]
+    end
+
+    subgraph promotion["Governed cross-task promotion loop"]
+        L["Completed task traces"] --> M["Mine recurring Harness-addressable mechanisms"]
+        L1["Representative protected successes"] --> M
+        M --> N["Freeze parent, evaluator, fixtures, tools and permissions,<br/>budgets, environment, evaluated model/effort,<br/>and mining/development/audit partitions"]
+        N --> N1["Hide graders, outcomes, protected files,<br/>and the untouched audit from candidates"]
+        N1 --> O["Launch at most three parent-linked Harness candidates<br/>in parallel isolated copies"]
+        O --> P["Cheap validation and protected-case gates"]
+        P -->|"fail"| S["Reject or keep the no-op"]
+        P -->|"pass"| P1["Pre-register evaluation; establish an A/A noise floor;<br/>run at least five interleaved A/B pairs; record every decision;<br/>re-evaluate merged winners"]
+        P1 --> P2{"Correctness, safety, cost, and<br/>materiality gates pass?"}
+        P2 -->|"no"| S
+        P2 -->|"yes"| Q["Freeze lineage; run one untouched audit once;<br/>never tune on its result"]
+        Q -->|"passes with human authorization"| R["Promote a versioned Harness"]
+        Q -->|"fails"| S
+    end
+
+    G -. "task evidence" .-> L
+    T -. "task evidence" .-> L
+    R -. "future tasks" .-> A
 ```
 
-The direct lane is for clear, localized work with a known proof path. For a reported behavior regression, add or update the focused regression check, confirm it fails, then implement the fix. Features, internal refactors, and performance work do not require an artificial failing baseline.
+The direct lane is for clear, localized work with a known proof path. For a reported behavior regression, add or update the focused regression check, confirm it fails, then implement the fix. Features and internal refactors do not require an artificial failing baseline. Performance work also needs no artificial red step, but it always escalates to an identical-workload benchmark with correctness proof.
 
-The escalated lane is for uncertainty, contradictions, coupling, performance, migrations, security, deployment, or material risk. It uses one bounded probe, one root-cause change, and one staged proof packet. If evidence contradicts the approach, the harness returns to discovery before making additional changes.
+The escalated lane is for uncertainty, contradictions, coupling, performance, migrations, security, deployment, or material risk. If the replan gate trips, the loaded Harness and decisive oracle stay fixed while agents try up to three bounded strategies, cheapest safe first. Independent variants run in parallel only when their copies, resources, and evidence are isolated and expected savings exceed coordination cost. One owner integrates the leanest result that meets the target without protected regression or unacceptable whole-run cost, then reruns the original proof; an evidence-backed no-op is valid.
+
+Cross-task promotion is a separate maintenance loop, not runtime self-rewriting. It mines recurring causal evidence from completed development or authorized operations, freezes the comparison contract, evaluates isolated parent-linked Harness candidates, rechecks merged winners, and uses one untouched audit. Installing, committing, pushing, or changing live policy still requires human authorization.
 
 ## Repository contracts
 
@@ -182,6 +219,8 @@ Adoption decisions are based on isolated deterministic tests, adversarial receip
 
 These are bounded local and synthetic results, not universal throughput claims. The full decision records, sample limits, hashes, and sanitized receipts are in [`reports/DECISION.md`](reports/DECISION.md), [`reports/NEXT-IMPROVEMENTS.md`](reports/NEXT-IMPROVEMENTS.md), [`reports/PROVENANCE-EFFICIENCY.md`](reports/PROVENANCE-EFFICIENCY.md), and [`artifacts/benchmarks/`](artifacts/benchmarks/).
 
+The adaptive replan and cross-task promotion protocols currently have strict capability and schema-specification coverage, not a completed controlled task-level A/B campaign. They are not included in the historical performance claims above.
+
 ## Project layout
 
 | Path | Purpose |
@@ -204,6 +243,10 @@ The README remains at the repository root. The installable skill and release ZIP
 Run the deterministic suite, strict skill audit, efficiency comparison, aggregate promotion checker, and staged local preflight before publishing a package:
 
 ```bash
+skill_validator_dir="${CODEX_HOME:-$HOME/.codex}/skills/.system/skill-creator/scripts"
+PYTHONDONTWRITEBYTECODE=1 python3 \
+  "$skill_validator_dir/quick_validate.py" endurant-harness
+
 PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover \
   -s lab/tests -p 'test_*.py' -v
 
@@ -238,6 +281,7 @@ The tracked source-only check reconstructs the deterministic archive in memory, 
 - Endurant Harness is for implementation and difficult debugging, not explanations, review-only work, or trivial edits.
 - Local preflight does not prove remote CI, deployment, readiness, or live behavior.
 - Current performance evidence uses synthetic tasks and limited repeated model runs.
+- Runtime tasks never rewrite their loaded Harness or decisive oracle; cross-task promotion is a separately authorized maintenance action.
 - Fast-preflight and benchmark contracts are optional pilots; repository commands still execute with the caller's ambient authority.
 - Existing tasks may retain older instructions. Missing or malformed loaded provenance is `unknown`, never `current`.
 - The current release is Python-based. Rust microbenchmarks did not justify a parity rewrite.
