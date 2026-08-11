@@ -31,7 +31,7 @@ The long explicit lane allowlist and a Rust rewrite were rejected by the measure
 ## Local proof
 
 - Staged preflight: **PASS** in `22.099s`.
-- Deterministic suite: **98/98 tests passed**.
+- Deterministic suite: **99/99 tests passed**.
 - Strict skill audit: **PASS** with `36` capability cases, `21` evaluation cases, `14` runtime smoke cases, and a `450`-word `SKILL.md`.
 - Release source parity: installable `endurant-harness/` and `subjects/vnext/endurant-harness/` were byte-identical.
 - Promotion evidence: historical, next-improvement, live-policy, probe, runner, and Rust-decision checks all passed.
