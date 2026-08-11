@@ -3,7 +3,7 @@ name: endurant-harness
 description: Use for substantial repository changes needing executable proof. Do not use for explanations, reviews, trivial edits, or requests forbidding implementation or verification.
 ---
 
-<!--endurant-provenance:v5:e2575e96c926c74f415a80a4eb06a80aa66e1546bdb5b6a6d5bde8ef5016595c-->
+<!--endurant-provenance:v5:9dc80c3710b01d16384e3b636c9598e7da8cb4b8146f883e014d5820390d70f3-->
 
 # Endurant Harness
 
@@ -34,7 +34,7 @@ Return to scan when evidence contradicts approach, signal stays unchanged, attem
 
 ### 3. Prove once
 
-Select proof by task: focused behavior; identical before/after synthetic workload plus correctness for performance/efficiency; affected scope when material; available local CI before remote CI; diff. Skip irrelevant synthetic work for ordinary tasks.
+Select proof by task: focused behavior; follow [end-to-end performance/live recovery](references/risk.md#end-to-end-performance): identical before/after synthetic workload plus correctness, reprofile every optimization, and report phase/whole-run separately; available local CI before remote CI. Skip irrelevant synthetic work.
 
 For escalated work, put checks in one staged plan and run `python3 -S <skill>/scripts/endurant.py run <plan> --repo <repo>`. Parallelize only independent commands; serialize shared state. Require behavior and final-diff proof. Confirm intended tests ran; reject zero-test or stale-cache greens. Services need bounded readiness and guaranteed cleanup.
 

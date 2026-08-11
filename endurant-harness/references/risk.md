@@ -82,7 +82,7 @@ Optimizing one phase moves the bottleneck. Measure the entire pipeline again bef
 - baseline and final optimized-phase time/throughput;
 - baseline and final whole-run time/throughput.
 
-Never claim “100x overall” from a 100x phase result.
+A phase speedup does not determine whole-run speedup; measure both. Other changes can produce higher or lower speedup, corresponding to lower or higher elapsed time.
 
 ### 6. Prove live releases in order
 
