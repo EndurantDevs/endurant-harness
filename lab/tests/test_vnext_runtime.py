@@ -875,6 +875,12 @@ class ProvenanceTests(unittest.TestCase):
             current = runtime._provenance_receipt(
                 f"v5:{digest}", package_root=root
             )
+            prefixed = runtime._provenance_receipt(
+                f"endurant-provenance:v5:{digest}", package_root=root
+            )
+            wrapped = runtime._provenance_receipt(
+                f"<!--endurant-provenance:v5:{digest}-->", package_root=root
+            )
             stale = runtime._provenance_receipt(
                 f"v5:{'f' * 64}", package_root=root
             )
@@ -883,6 +889,8 @@ class ProvenanceTests(unittest.TestCase):
             )
             missing = runtime._provenance_receipt(None, package_root=root)
             self.assertEqual(current["state"], "current")
+            self.assertEqual(prefixed["state"], "current")
+            self.assertEqual(wrapped["state"], "current")
             self.assertTrue(current["package_integrity"])
             self.assertEqual(stale["state"], "stale")
             self.assertEqual(different_release["state"], "stale")

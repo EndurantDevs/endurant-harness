@@ -9,11 +9,11 @@ This receipt describes the releasable source package and its local proof. Instal
 | Item | Verified value |
 | --- | --- |
 | Release | `v5` |
-| Canonical package SHA-256 | `476218926c85e119277ae4e84465bfc483ae124c82133401bf79b9c4c6810818` |
-| `SKILL.md` SHA-256 | `b778be5945e5d0305fb61562865fcaf1b0b55d56205aa0098c22bcd5c4790c5e` |
-| Deterministic ZIP SHA-256 | `31335f66fcf53445d60d6a65294ba710b177dc993dddfa52a8492ba76f7d19cf` |
-| ZIP size and members | `249791` bytes; `15` regular files under one `endurant-harness/` prefix |
-| Runtime receipt SHA-256 | `ba77b06fcd5ce6ea73ebc0b337ac2323dacbbce38344b9be94be3bd62ea34a5d` |
+| Canonical package SHA-256 | `cf8c818dfa13e0d853628bf407efdd70db6b128764f52481e208ee88b138342c` |
+| `SKILL.md` SHA-256 | `255bbaf06f72991cb4e12198dfdc56f113a76e4aa6af7ffc519b04d1f719f330` |
+| Deterministic ZIP SHA-256 | `7a82fb9974263633a755092ed1962e9c8ae8e009805937df2e19079ed8417bbf` |
+| ZIP size and members | `250378` bytes; `15` regular files under one `endurant-harness/` prefix |
+| Runtime receipt SHA-256 | `373dd25b704b97a8b4530c2e566927da3756bd08a9ecf621c54fdf154be61654` |
 
 The tracked release receipt is [`artifacts/benchmarks/v5-release.json`](../artifacts/benchmarks/v5-release.json). CI reconstructs the archive in memory and checks the same hash; the local ZIP remains ignored under `dist/`.
 
@@ -30,14 +30,14 @@ The long explicit lane allowlist and a Rust rewrite were rejected by the measure
 
 ## Local proof
 
-- Staged preflight: **PASS** in `22.099s`.
+- Staged preflight: **PASS** in `21.169s`.
 - Deterministic suite: **99/99 tests passed**.
 - Strict skill audit: **PASS** with `36` capability cases, `21` evaluation cases, `14` runtime smoke cases, and a `450`-word `SKILL.md`.
 - Release source parity: installable `endurant-harness/` and `subjects/vnext/endurant-harness/` were byte-identical.
 - Promotion evidence: historical, next-improvement, live-policy, probe, runner, and Rust-decision checks all passed.
 - Release reconstruction: canonical package provenance, runtime receipt, member manifest, ZIP bytes, and archive hash all passed source-only verification.
 
-The final runtime A/B used `31` alternating paired samples per surface plus `3` warmups. All semantic and exit gates passed. Median v5 overhead versus the promoted combined runtime was `9.025ms` for `template`, `11.704ms` for `probe`, and `10.952ms` for a no-op runner plan—below the `25ms` acceptance bound. This is accepted guard cost, not a runtime-speedup claim.
+The final runtime A/B used `31` alternating paired samples per surface plus `3` warmups. All semantic and exit gates passed. Median v5 overhead versus the promoted combined runtime was `9.641ms` for `template`, `10.078ms` for `probe`, and `11.793ms` for a no-op runner plan—below the `25ms` acceptance bound. This is accepted guard cost, not a runtime-speedup claim.
 
 Security regressions cover output-regex deadlines, NUL input, SIGINT/SIGTERM descendant cleanup, existing/symlinked logs, benchmark receipt parent swaps, hard links, post-publication diff drift, stale contracts, and fail-closed descriptor-relative filesystem support.
 

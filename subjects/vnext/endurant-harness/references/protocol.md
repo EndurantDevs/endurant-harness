@@ -103,7 +103,7 @@ Before handoff, verify that:
 
 ## Version provenance
 
-The marker loaded from `SKILL.md` is the only session-side version claim. Use `scripts/endurant.py provenance --loaded-provenance <release>:<full-package-sha256>` when an exact handoff or rollout needs it.
+The marker loaded from `SKILL.md` is the only session-side version claim. Use `scripts/endurant.py provenance --loaded-provenance <release>:<full-package-sha256>` when an exact handoff or rollout needs it. For a forgiving handoff, the CLI also accepts the complete `endurant-provenance:<release>:<hash>` value or its HTML comment wrapper.
 
 - `current` means the loaded release and full canonical package hash exactly match the package now on disk.
 - `stale` means both loaded fields are valid but one differs.

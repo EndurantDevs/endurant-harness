@@ -3202,9 +3202,17 @@ def _provenance_receipt(
     loaded_sha256: str | None = None
     loaded_valid = False
     if isinstance(loaded_provenance, str):
+        candidate = loaded_provenance.strip()
         match = re.fullmatch(
-            rf"({RELEASE_PATTERN}):([0-9a-f]{{64}})", loaded_provenance
+            rf"({RELEASE_PATTERN}):([0-9a-f]{{64}})", candidate
         )
+        if match is None:
+            match = re.fullmatch(
+                rf"endurant-provenance:({RELEASE_PATTERN}):([0-9a-f]{{64}})",
+                candidate,
+            )
+        if match is None:
+            match = PROVENANCE_RE.fullmatch(candidate)
         if match:
             loaded_release, loaded_sha256 = match.groups()
             loaded_valid = True
@@ -3322,7 +3330,10 @@ def build_parser() -> argparse.ArgumentParser:
     provenance = subparsers.add_parser(
         "provenance", help="compare loaded skill provenance with the installed package"
     )
-    provenance.add_argument("--loaded-provenance")
+    provenance.add_argument(
+        "--loaded-provenance",
+        help="loaded release/hash token; full Endurant marker forms are also accepted",
+    )
     provenance.add_argument("--format", choices=("text", "json"), default="text")
     provenance.add_argument("--require-current", action="store_true")
 

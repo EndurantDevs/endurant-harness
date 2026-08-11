@@ -3,14 +3,14 @@ name: endurant-harness
 description: Use for substantial repository changes needing executable proof. Do not use for explanations, reviews, trivial edits, or requests forbidding implementation or verification.
 ---
 
-<!--endurant-provenance:v5:476218926c85e119277ae4e84465bfc483ae124c82133401bf79b9c4c6810818-->
+<!--endurant-provenance:v5:cf8c818dfa13e0d853628bf407efdd70db6b128764f52481e208ee88b138342c-->
 
 # Endurant Harness
 
 ## Invariants
 
-- Follow `AGENTS.md`; inspect the dirty tree; never reset, clean, overwrite, or reformat unrelated work.
-- Prefer repository evidence. Separate **verified**, **inferred**, and **not verified** claims.
+- Follow `AGENTS.md`; inspect dirty tree; never reset, clean, overwrite, or reformat unrelated work.
+- Prefer evidence. Separate **verified**, **inferred**, and **not verified** claims.
 - One write owner; subagents only for bounded reading.
 - Never weaken tests, suppress errors, add retries, hide failures, or trade safety for speed.
 
@@ -18,7 +18,7 @@ description: Use for substantial repository changes needing executable proof. Do
 
 ### Direct lane
 
-For clear reversible work, allow at most two batched discovery commands: instructions/status/profile/symbol, then source/test. Behavior bugs require a failing regression before production edit. Escalate for uncertainty or contradiction before editing. Edit; run focused behavior, available local CI, and diff. Skip probe, hypothesis, analogy, checkpoint, JSON plan, subagent, and broad suites. Escalate for coupling, performance/efficiency, migrations, security, deployment, or material risk.
+For clear reversible work, allow at most two batched discovery commands: instructions/status/profile/symbol, then source/test. Behavior bugs require a failing regression before production edit. Escalate for uncertainty or contradiction before editing. Edit; run focused behavior, local CI, and diff. Skip probe, hypothesis, analogy, checkpoint, JSON plan, subagent, and broad suites. Escalate for coupling, performance/efficiency, migrations, security, deployment, or risk.
 
 ### 1. Scan uncertain work once
 
@@ -28,9 +28,9 @@ Resolve reversible ambiguity from evidence. Ask only about unsafe, irreversible,
 
 ### 2. Change once
 
-Implement the smallest coherent root-cause fix or vertical slice with behavior coverage. Regenerate outputs through their source tool. Reinspect the path and diff.
+Implement the smallest coherent root-cause fix or vertical slice; cover behavior. Regenerate outputs through their source tool. Reinspect the path and diff.
 
-Return to scan when evidence contradicts the approach, the signal stays unchanged, attempts repeat, scope grows, or environment/cache/flakiness is plausible.
+Return to scan when evidence contradicts approach, signal stays unchanged, attempts repeat, scope grows, or environment/cache/flakiness is plausible.
 
 ### 3. Prove once
 
@@ -52,6 +52,6 @@ See [references/risk.md](references/risk.md), [references/protocol.md](reference
 
 ## Handoff
 
-Report **changed**, **why**, exact commands, residual risk, and compatibility/rollout notes. Label verified, inferred, and not verified; give conclusions, not a transcript. Missing provenance means unknown.
+Report **changed**, **why**, exact commands, residual risk, and compatibility/rollout notes. Label verified, inferred, and not verified; give conclusions, not a transcript. Provenance: `python3 -S <skill>/scripts/endurant.py provenance --loaded-provenance <release>:<hash>`; Missing provenance means unknown.
 
 When editing this skill, follow [references/maintenance.md](references/maintenance.md).
