@@ -347,7 +347,11 @@ def main() -> int:
         "repeat": args.repeat,
         "model": args.model,
         "reasoning_effort": args.reasoning_effort,
-        "codex_version": run_process(["codex", "--version"], workspace).stdout.strip(),
+        "codex_version": (
+            "prepare-only"
+            if args.prepare_only
+            else run_process(["codex", "--version"], workspace).stdout.strip()
+        ),
         "subject_skill_sha256": sha256_file(subject_skill),
         "subject_tree_manifest": tree_manifest(subject_root),
         "baseline_git_state": git_state(workspace),

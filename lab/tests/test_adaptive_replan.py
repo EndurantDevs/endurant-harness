@@ -716,6 +716,7 @@ class AdaptiveFixtureTests(unittest.TestCase):
         )
         self.assertEqual(completed.returncode, 0, completed.stderr)
         metadata = json.loads(completed.stdout)
+        self.assertEqual(metadata["codex_version"], "prepare-only")
         capture = ROOT / "artifacts" / "runs" / run_id
         workspace = Path(metadata["workspace"])
         self.addCleanup(shutil.rmtree, capture, True)

@@ -40,8 +40,8 @@ Fresh Codex processes received each synthetic task prompt plus frozen candidate-
 
 | Case | Result | Candidate-phase evidence |
 | --- | --- | --- |
-| Software settings recovery | **PASS**; selected `explicit-condition`; one owner replayed the complete patch and reran the original/public/hidden proof | Both candidates passed and overlapped. Selected candidate: `42` changed lines, `58.172s`; alternate sentinel: `45` lines, `87.574s`. Receipt `c173a1db0ff86792a69d13fe8fe3fdc8595d110a04a6fa439d7584a3bbf779b7`. |
-| Authorized resumable recovery | **PASS**; selected `checkpoint-resume`; one CAS-bound owner action preserved lineage, checkpoint, retry count, and source-fetch count | Resume: `9` changed lines, `17.897s`, pass. Restart: no mutation, `68.704s`, rejected by the unchanged oracle. Receipt `d08de543bdff0f4709603893aaf6c6f850b5d66c6a7e417acda8afbae3f2cbeb`. |
+| Software settings recovery | **PASS**; selected `explicit-condition`; one owner replayed the complete patch and reran the original/public/hidden proof | Both candidates passed and overlapped. Selected candidate: `39` changed lines, `60.352s`; alternate sentinel: `48` lines, `74.093s`. Receipt `ddaa87a9909ead4a697099c5c6d5e36a0f6bab16baf5b08ddacdd3904533cc14`. |
+| Authorized resumable recovery | **PASS**; selected `checkpoint-resume`; one CAS-bound owner action preserved lineage, checkpoint, retry count, and source-fetch count | Resume: `9` changed lines, `26.624s`, pass. Restart: no mutation, `66.338s`, rejected by the unchanged oracle. Receipt `a82d341734e44b86d4bf0c7221582127a42ddd25c82c62a9cbdd67544cd09674`. |
 
 The timings above are candidate-agent phase durations. They are not whole-campaign or general speedups.
 
