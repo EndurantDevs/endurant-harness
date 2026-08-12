@@ -26,13 +26,14 @@
     {
       "id": "flaky-concurrency",
       "prompt": "A concurrency test fails roughly 1 in 20 CI runs with a timeout. A first synchronization candidate in an isolated copy left that rate unchanged. Parallel agents with selectable models and reasoning effort are available. Diagnose and fix it. Do not increase the timeout, add retries, or repeat the unchanged candidate.",
-      "expected_output": "An adaptive replan that classifies the failed evidence, keeps the stress oracle fixed, tests up to three materially distinct isolated variants in parallel when useful, deliberately assigns model/effort, and lets one owner integrate the leanest proven fix.",
+      "expected_output": "An adaptive replan that classifies the failed evidence, keeps the stress oracle fixed, tests up to three materially distinct isolated variants in parallel when useful, deliberately assigns model/effort, and lets one owner integrate the leanest proven fix with runner-observed evidence.",
       "assertions": [
         "The unchanged failure rate rejects the first candidate and triggers the adaptive replan.",
         "It does not mask the failure with retries or a larger timeout.",
         "At most three independent variants use explicit task-appropriate model/effort and isolated state.",
+        "Each delegated agent has a concise target_role_scope name; host-added hierarchy prefixes are treated as routing metadata.",
         "The original stress oracle and protected behavior judge every candidate under comparable conditions.",
-        "One owner integrates a winner; rejected state is removed and combined proof is rerun."
+        "One owner integrates a winner; rejected state is removed, combined proof is rerun, and a hash-bound receipt records lineage."
       ]
     },
     {
@@ -216,13 +217,13 @@
     {
       "id": "governed-cross-task-promotion",
       "prompt": "Six completed synthetic development and mocked-operation traces show one recurring unchanged-retry mechanism, while two successful traces depend on the existing terminal oracle. Improve the Harness policy. Candidate agents with selectable models and reasoning effort are available. Do not edit evaluators, protected tests, permissions, or the installed skill, and do not commit or push.",
-      "expected_output": "A governed promotion campaign that separates mining, development, and untouched audit evidence; evaluates at most three parent-linked isolated candidates under frozen controls; protects successful behavior; re-evaluates merged winners; and leaves installation human-authorized.",
+      "expected_output": "A governed promotion campaign that separates mining, development, and untouched audit evidence; evaluates at most three parent-linked isolated candidates under frozen controls; protects successful behavior; re-evaluates and minimizes winners; and leaves installation human-authorized.",
       "assertions": [
         "Recurring causal evidence is separated from infrastructure noise and protected successes.",
         "The parent, evaluated model/effort, tools, budget, environment, fixtures, evaluator, and three data partitions stay frozen.",
         "At most three distinct candidates run in isolated parallel branches with proposer model/effort and lineage recorded.",
         "Cheap gates precede interleaved A/B results beyond the A/A noise floor; aggregate gains cannot hide protected-case regression or unacceptable whole-run cost.",
-        "Merged winners are re-evaluated before one untouched audit; audit failure cannot be tuned away.",
+        "Merged winners are re-evaluated and minimized before one untouched audit; audit failure cannot be tuned away.",
         "A no-op is valid, and promotion or installation requires human authorization."
       ]
     },

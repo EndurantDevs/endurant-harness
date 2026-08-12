@@ -31,6 +31,7 @@ Blocked / not run:
 Replan attempts: terminal failure; class; agent role
 Candidates (max 3): strategy; predicted signal; stop/recovery; model/effort
 Accepted/rejected: candidate; same-oracle evidence
+Receipt / lineage: runner-observed hash; parent; mutation owner
 Next packet:
 ```
 

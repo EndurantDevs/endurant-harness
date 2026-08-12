@@ -235,6 +235,7 @@
             "original decisive oracle",
             "model and reasoning effort",
             "one shared-state write or external-mutation owner",
+            "runner-observed, hash-bound",
             "evidence-backed no-op"
           ]
         },
@@ -261,6 +262,7 @@
             "mining/development/audit partitions",
             "A/A noise floor",
             "Re-evaluate merged winners",
+            "promotion-audited",
             "human authorization"
           ]
         }
@@ -363,6 +365,7 @@
           "path": "references/protocol.md",
           "all": [
             "model and reasoning effort",
+            "<target>_<role>_<scope>",
             "isolated copies or worktrees",
             "path:symbol",
             "one recommended next check"
@@ -864,7 +867,7 @@
         {
           "path": "SKILL.md",
           "all": [
-            "endurant-provenance:v5",
+            "endurant-provenance:v6",
             "Missing provenance means unknown"
           ]
         },

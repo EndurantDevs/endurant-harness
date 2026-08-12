@@ -6,7 +6,7 @@ Endurant Harness is a lightweight Agent Skill for Codex and Claude Code. It prov
 
 It is designed to improve implementation confidence without imposing a project-management workflow on routine changes.
 
-> **Status:** v5 is an evaluation-backed release candidate. Local and synthetic evidence is documented below. Remote CI applies only to the tested commit; no GitHub release or cross-platform package is currently published.
+> **Status:** v6 is an evaluation-backed release candidate. Local, synthetic, and local-only task-level evidence is documented below. Remote CI applies only to the tested commit; no GitHub release or cross-platform package is currently published.
 
 ## Contents
 
@@ -75,12 +75,14 @@ In Codex:
 
 ```text
 $endurant-harness implement this change and prove it locally
+$endurant-harness recover this resumable operation and prove final state
 ```
 
 In Claude Code:
 
 ```text
 /endurant-harness implement this change and prove it locally
+/endurant-harness recover this resumable operation and prove final state
 ```
 
 Both hosts discover personal Agent Skills from their user skill directories. Start a fresh task after installation when exact loaded-version certainty matters; do not claim `current` provenance unless the task supplies its loaded marker. See the official [Codex skill documentation](https://learn.chatgpt.com/docs/build-skills) and [Claude Code skill documentation](https://code.claude.com/docs/en/slash-commands).
@@ -130,7 +132,7 @@ flowchart LR
 
 The direct lane is for clear, localized work with a known proof path. For a reported behavior regression, add or update the focused regression check, confirm it fails, then implement the fix. Features and internal refactors do not require an artificial failing baseline. Performance work also needs no artificial red step, but it always escalates to an identical-workload benchmark with correctness proof.
 
-The escalated lane is for uncertainty, contradictions, coupling, performance, migrations, security, deployment, or material risk. If the replan gate trips, the loaded Harness and decisive oracle stay fixed while agents try up to three bounded strategies, cheapest safe first. Independent variants run in parallel only when their copies, resources, and evidence are isolated and expected savings exceed coordination cost. One owner integrates the leanest result that meets the target without protected regression or unacceptable whole-run cost, then reruns the original proof; an evidence-backed no-op is valid.
+The escalated lane is for uncertainty, contradictions, coupling, performance, migrations, security, deployment, or material risk. If the replan gate trips, the loaded Harness and decisive oracle stay fixed while agents try up to three bounded strategies, cheapest safe first. Independent variants run in parallel only when their copies, resources, and evidence are isolated and expected savings exceed coordination cost. Agent names use `target_role_scope`, such as `import_optimizer_transform`; a host-added path such as `/root/` is routing metadata. One owner integrates the leanest result that meets the target without protected regression or unacceptable whole-run cost, then reruns the original proof; an evidence-backed no-op is valid.
 
 ### Governed cross-task promotion loop
 
@@ -182,7 +184,7 @@ python3 -S "$PACKAGE/scripts/endurant.py" run \
 python3 -S "$PACKAGE/scripts/endurant.py" fingerprint --repo .
 
 python3 -S "$PACKAGE/scripts/endurant.py" provenance \
-  --loaded-provenance 'v5:<full-package-sha256>' --format json
+  --loaded-provenance 'v6:<full-package-sha256>' --format json
 ```
 
 `preflight` and `benchmark baseline|final` are usable only when their repository contracts exist and pass validation; otherwise use the ordinary workflow. The probe reports their content hashes so callers can pin the exact reviewed contract.
@@ -202,23 +204,25 @@ Adoption decisions are based on isolated deterministic tests, adversarial receip
 | Benchmark receipt | Eight mutation classes rejected; `0.147ms` median comparator cost | Optional pilot; extra core wording rejected |
 | Explicit lane allowlist | Same `80/80` classification accuracy but `15.44%` slower | Rejected |
 | Full Rust rewrite | Optimistic runtime ceiling remained below one percent of an end-to-end task and lacked CLI/platform parity | Rejected |
-| v5 runtime safeguards | `+9.6ms` to `+11.8ms` median across 31 paired template, probe, and no-op runner samples; all parity gates passed | Accepted as negligible for real proof commands, not claimed as a runtime speedup |
+| v5 runtime safeguards | `+7.846ms` to `+13.148ms` median across 31 paired template, probe, and no-op runner samples; all parity gates passed | Accepted as negligible for real proof commands, not claimed as a runtime speedup |
 | Provenance UX forward A/B | On two pairs, wall median `71.525s -> 61.033s`, uncached input `28,451 -> 19,621`, and provenance commands `3 -> 1`; all functional gates passed, while exact `current` provenance improved `1/2 -> 2/2` | Retain the current UX; favorable exploratory signal, not a general speed claim |
 
-These are bounded local and synthetic results, not universal throughput claims. The full decision records, sample limits, hashes, and sanitized receipts are in [`reports/DECISION.md`](reports/DECISION.md), [`reports/NEXT-IMPROVEMENTS.md`](reports/NEXT-IMPROVEMENTS.md), [`reports/PROVENANCE-EFFICIENCY.md`](reports/PROVENANCE-EFFICIENCY.md), and [`artifacts/benchmarks/`](artifacts/benchmarks/).
+These are bounded local and synthetic results, not universal throughput claims. The full decision records, sample limits, hashes, and sanitized receipts are in [`reports/DECISION.md`](reports/DECISION.md), [`reports/NEXT-IMPROVEMENTS.md`](reports/NEXT-IMPROVEMENTS.md), [`reports/PROVENANCE-EFFICIENCY.md`](reports/PROVENANCE-EFFICIENCY.md), [`reports/RELEASE-v6.md`](reports/RELEASE-v6.md), and [`artifacts/benchmarks/`](artifacts/benchmarks/).
 
-The adaptive replan and cross-task promotion protocols currently have strict capability and schema-specification coverage, not a completed controlled task-level A/B campaign. They are not included in the historical performance claims above.
+The v6 lab adds two separate executable evidence paths: `run_adaptive_replan.py` compares isolated task-local strategies from the exact failed state and lets one owner replay the leanest proved result; `run_promotion_campaign.py` freezes a parent/candidate/no-op campaign, A/A noise floor, interleaved A/B pairs, confirmation, raw captures, and a pre-sealed one-use audit. Evidence labels remain fail-closed: tooling/tests alone are not called promotion-audited, and a no-op is a valid result.
+
+A final-input forward test ran fresh Codex processes on one software case and one mocked authorized recovery. Each received the task prompt plus frozen candidate-specific strategy context, and both raw-bound receipts reverified locally. The software loop selected the leaner passing variant (`42` versus `45` changed lines; candidate-agent phase `58.172s` versus `87.574s`). The recovery loop selected checkpoint resume (`17.897s`) while the restart variant failed the unchanged oracle (`68.704s`); the single owner preserved lineage and avoided a refetch. These are candidate-phase measurements from two synthetic cases, not end-to-end or general speedup claims. Raw captures remain ignored local artifacts, so a clean checkout cannot independently reverify these two receipts. A full promotion campaign was not run, so v6 does not claim promotion-audited improvement.
 
 ## Project layout
 
 | Path | Purpose |
 | --- | --- |
 | `install.sh` | Audited Codex/Claude Code install and update entry point |
-| `endurant-harness/` | Audited installable v5 skill and release source |
+| `endurant-harness/` | Audited installable v6 skill and release source |
 | `subjects/current/` | Frozen pre-v5 installed baseline |
 | `subjects/combined-candidate/` | Previously promoted base candidate |
 | `subjects/<experiment>/` | Isolated experimental variants |
-| `lab/` | Benchmarks, graders, proposal prototypes, integrity tests, and release checks |
+| `lab/` | Benchmarks, graders, adaptive/promotion runners, integrity tests, and release checks |
 | `fixtures/` | Neutral executable synthetic coding tasks |
 | `artifacts/benchmarks/` | Sanitized reproducible receipts and aggregate measurements |
 | `artifacts/runs/` | Ignored raw model output, logs, event sinks, and generated workspaces |
@@ -237,6 +241,12 @@ PYTHONDONTWRITEBYTECODE=1 python3 \
 
 PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover \
   -s lab/tests -p 'test_*.py' -v
+
+PYTHONDONTWRITEBYTECODE=1 python3 \
+  lab/run_adaptive_replan.py --case software-settings --dry-run
+
+PYTHONDONTWRITEBYTECODE=1 python3 \
+  lab/run_adaptive_replan.py --case authorized-recovery --dry-run
 
 PYTHONDONTWRITEBYTECODE=1 python3 -S \
   endurant-harness/scripts/audit_skill.py \
@@ -258,18 +268,20 @@ PYTHONDONTWRITEBYTECODE=1 python3 -S \
 PYTHONDONTWRITEBYTECODE=1 python3 -S \
   lab/build_v5_release.py verify-source \
   --package endurant-harness \
-  --receipt artifacts/benchmarks/v5-release.json \
+  --receipt artifacts/benchmarks/v6-release.json \
   --runtime-receipt artifacts/benchmarks/v5-runtime.json
 ```
 
-The tracked source-only check reconstructs the deterministic archive in memory, so CI can verify its hash without storing release binaries. A local archive can be built with `python3 -S lab/build_v5_release.py build`; it must contain exactly one top-level `endurant-harness/` directory. Record the source revision, canonical package hash, strict-audit result, deterministic test result, benchmark receipt, archive SHA-256, and what was not verified.
+The tracked source-only check reconstructs the deterministic archive in memory, so CI can verify its hash without storing release binaries. A local archive can be built with `python3 -S lab/build_v5_release.py build`; it must contain exactly one top-level `endurant-harness/` directory. The historical builder name is retained for compatibility. v6 carries the v5 runtime receipt only while its three bound runtime inputs remain byte-identical; that receipt is runtime-compatibility evidence, not proof of the new adaptive loops. Record the source revision, canonical package hash, strict-audit result, deterministic test result, benchmark receipt, archive SHA-256, and what was not verified.
 
 ## Limits
 
 - Endurant Harness is for implementation and difficult debugging, not explanations, review-only work, or trivial edits.
 - Local preflight does not prove remote CI, deployment, readiness, or live behavior.
 - Current performance evidence uses synthetic tasks and limited repeated model runs.
+- Task-level adaptive receipts and raw captures are retained locally, not shipped as independently reproducible release artifacts.
 - Runtime tasks never rewrite their loaded Harness or decisive oracle; cross-task promotion is a separately authorized maintenance action.
+- The installable skill is host-neutral, but the bundled task/campaign evidence runners automate Codex only. Installer parity covers Claude; a live Claude task smoke still requires an authenticated Claude CLI and is reported separately.
 - Fast-preflight and benchmark contracts are optional pilots; repository commands still execute with the caller's ambient authority.
 - Existing tasks may retain older instructions. Missing or malformed loaded provenance is `unknown`, never `current`.
 - The current release is Python-based. Rust microbenchmarks did not justify a parity rewrite.

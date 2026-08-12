@@ -3,6 +3,8 @@ artifacts/runs/*
 artifacts/workspaces/
 artifacts/codex-homes/
 artifacts/event-sinks/
+artifacts/adaptive/
+artifacts/promotion/
 artifacts/generated-quarantine/
 artifacts/probe-fixtures-*/
 artifacts/rust-scan-fixture-*/

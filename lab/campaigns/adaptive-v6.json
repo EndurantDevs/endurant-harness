@@ -1,0 +1,38 @@
+{
+  "ab_pairs": 5,
+  "aa_pairs": 5,
+  "audit_fixture_sha256": "aa790667161ad36b2074d70c58623bbdcaafe2ce5a06079a54948c286e79a667",
+  "candidate_path": "endurant-harness",
+  "fixtures": [
+    "authorized-recovery",
+    "settings-override-correctness"
+  ],
+  "id": "adaptive-v6",
+  "materiality_fraction": 0.15,
+  "max_aa_bias_fraction": 0.25,
+  "mining_trace_path": "lab/evals/adaptive-traces.json",
+  "model": "gpt-5.6-terra",
+  "parent_revision": "7ad559c9aec01d71ceb020b01bb27abf6a8c9ac0",
+  "primary_cost_metric": "duration_seconds",
+  "proposal": {
+    "editable_surface": [
+      "SKILL.md",
+      "evals/",
+      "references/"
+    ],
+    "expected_effect": "replace adaptive schema claims with runner-owned task and campaign evidence without lowering task success",
+    "mechanism": "runner-owned adaptive and promotion receipts",
+    "origin": "human-directed Codex task",
+    "proposer_model": "gpt-5.6-sol",
+    "proposer_reasoning_effort": "xhigh",
+    "protected_behaviors": [
+      "original decisive oracle",
+      "single shared-state mutation owner",
+      "human-authorized installation"
+    ],
+    "rollback": "retain the frozen parent package"
+  },
+  "reasoning_effort": "low",
+  "schema_version": 1,
+  "timeout_seconds": 600
+}

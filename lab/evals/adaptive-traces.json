@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "traces": [
+    {
+      "agent_role": "causal",
+      "id": "dev-unchanged-01",
+      "mechanism": "repeated-unchanged-strategy",
+      "outcome": "failed",
+      "terminal_failure": "decisive-oracle-unchanged"
+    },
+    {
+      "agent_role": "causal",
+      "id": "dev-unchanged-02",
+      "mechanism": "repeated-unchanged-strategy",
+      "outcome": "failed",
+      "terminal_failure": "decisive-oracle-unchanged"
+    },
+    {
+      "agent_role": "causal",
+      "id": "dev-unchanged-03",
+      "mechanism": "repeated-unchanged-strategy",
+      "outcome": "failed",
+      "terminal_failure": "decisive-oracle-unchanged"
+    },
+    {
+      "agent_role": "causal",
+      "id": "ops-retry-01",
+      "mechanism": "repeated-unchanged-action",
+      "outcome": "failed",
+      "terminal_failure": "decisive-oracle-unchanged"
+    },
+    {
+      "agent_role": "causal",
+      "id": "ops-retry-02",
+      "mechanism": "repeated-unchanged-action",
+      "outcome": "failed",
+      "terminal_failure": "decisive-oracle-unchanged"
+    },
+    {
+      "agent_role": "causal",
+      "id": "ops-retry-03",
+      "mechanism": "repeated-unchanged-action",
+      "outcome": "failed",
+      "terminal_failure": "decisive-oracle-unchanged"
+    },
+    {
+      "agent_role": "incidental",
+      "id": "protected-success-01",
+      "mechanism": "original-terminal-oracle",
+      "outcome": "success",
+      "terminal_failure": "none"
+    },
+    {
+      "agent_role": "incidental",
+      "id": "protected-success-02",
+      "mechanism": "lineage-preserving-checkpoint",
+      "outcome": "success",
+      "terminal_failure": "none"
+    }
+  ]
+}

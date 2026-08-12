@@ -55,7 +55,7 @@ When the Replan gate trips, adapt the current software-development or authorized
 4. Evaluate independent candidates in parallel only when their copies, resources, and evidence are isolated; otherwise try the cheapest safe candidate first. Choose each agent's model and reasoning effort for its role and risk. Keep one shared-state write or external-mutation owner; other agents may mutate only assigned isolated copies/resources.
 5. Judge every candidate with the original decisive oracle on comparable inputs and environment where practical. Diagnostics may supplement that oracle, never replace or weaken it.
 6. Accept the leanest candidate meeting the target without protected-invariant regression or unacceptable whole-run time/cost. Otherwise reject it, restore candidate-local state when safe or drain to the declared safe state, and try the next candidate. Re-evaluate any combined winners.
-7. Record accepted and rejected candidates with same-oracle evidence. Stop when the target is proven, three candidates fail, the budget ends, no harness-addressable mechanism remains, or more authority is required. An evidence-backed no-op is valid.
+7. Record accepted and rejected candidates with runner-observed, hash-bound same-oracle evidence when repository tooling provides it. Stop when the target is proven, three candidates fail, the budget ends, no harness-addressable mechanism remains, or more authority is required. An evidence-backed no-op is valid.
 
 ### Done gate
 
@@ -100,6 +100,8 @@ Classify every failure before editing:
 ## Parallel agents
 
 Use parallel agents for independent, bounded investigation, isolated implementation variants, proof, or skeptical review when expected wall-time savings exceed coordination cost. Give each the goal, evidence, oracle, protected invariants, output, and stop condition. Choose model and reasoning effort explicitly: fast/lower effort for bounded lookup, stronger/higher effort for ambiguous or high-risk work and independent judging. Freeze them in controlled Harness comparisons.
+
+Name each agent `<target>_<role>_<scope>` so its purpose is visible, for example `import_optimizer_transform` or `release_reviewer_receipts`; host-added hierarchy such as `/root/` is routing metadata, not part of the chosen name.
 
 Keep one shared-state write or external-mutation owner; other agents may mutate only assigned isolated copies or worktrees with independent resources. The owner selects or integrates them and reruns combined proof. Require a conclusion, `path:symbol` or command evidence, uncertainty, and one recommended next check.
 

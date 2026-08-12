@@ -33,12 +33,12 @@ or verify more than the task requires?
 - Same fixture bytes and task prompt for every arm.
 - Same evaluated Codex CLI version, model, reasoning effort, permissions, tools,
   budgets, and environment within each comparison.
-- Proposal-agent model and reasoning effort recorded in candidate lineage.
+- Candidate origin is explicit; automated proposal agents must record model and reasoning effort, while human-authored candidates must not impersonate one.
 - Fresh disposable workspace and session for every run.
 - No inherited task memory or repository-specific instructions.
-- Frozen parent Harness, evaluator, fixtures, and mining/development/audit
-  partitions; candidate agents cannot see graders, outcomes, protected files, or
-  the untouched audit.
+- Frozen parent Harness, evaluator dependencies, fixtures, CLI version, and
+  mining/development/audit partitions; the audit is copied and hash-sealed at
+  campaign initialization, then used only after confirmation.
 - Isolated candidate copies and resources; one owner integrates combined winners.
 - Representative protected successes run with every candidate.
 - Full raw output retained outside model context.
@@ -66,7 +66,7 @@ or verify more than the task requires?
 ## Execution order
 
 1. Validate fixture determinism, grader failure paths, and protected successes.
-2. Freeze the parent, evaluator, tools, budgets, environment, and the three data partitions.
+2. Freeze the parent, evaluator dependencies, tools, budgets, environment, and all three data partitions; pre-seal the untouched audit.
 3. Establish an A/A noise floor and mine recurring causal mechanisms from the mining partition.
 4. Materialize at most three bounded parent-linked candidates per mechanism in isolated copies.
 5. Run cheap validation gates, then at least five pre-registered interleaved A/B pairs against each parent on the development partition.
@@ -74,3 +74,5 @@ or verify more than the task requires?
 7. Re-evaluate merged winners under the frozen contract.
 8. Freeze lineage, run the untouched audit once, and never tune on its result.
 9. Write an adopt, revise, reject, or insufficient-evidence decision; promotion remains human-authorized.
+
+Static/schema checks, task-evaluated development signals, and promotion-audited decisions are distinct evidence tiers. A started run without a complete runner-owned raw capture is permanently inconclusive for that campaign; it is never retried into the same comparison slot.

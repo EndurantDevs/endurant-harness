@@ -1,0 +1,30 @@
+{
+  "id": "authorized-recovery",
+  "kind": "ordinary",
+  "production_prefixes": [
+    "external/"
+  ],
+  "allowed_changes": [
+    "external/actions.jsonl",
+    "external/state.json"
+  ],
+  "required_changed_paths": [
+    "external/actions.jsonl",
+    "external/state.json"
+  ],
+  "protected_prefixes": [
+    "scripts/",
+    ".agents/",
+    "AGENTS.md"
+  ],
+  "required_agent_gates": [
+    "mutation-resume",
+    "terminal",
+    "ci-preflight"
+  ],
+  "required_agent_gate_source": "scripts/mock_control.py",
+  "forbidden_agent_gates": [
+    "mutation-restart",
+    "retry"
+  ]
+}

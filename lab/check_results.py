@@ -6,6 +6,7 @@ from __future__ import annotations
 import hashlib
 import json
 import math
+import os
 import statistics
 import subprocess
 from pathlib import Path
@@ -187,6 +188,39 @@ def canonical_sha256(value: Any) -> str:
         "utf-8"
     )
     return hashlib.sha256(encoded).hexdigest()
+
+
+def committed_input_hashes(
+    artifact_relative: str, input_paths: dict[str, Path]
+) -> dict[str, str]:
+    """Bind historical evidence to the commit that introduced its receipt."""
+    environment = {**os.environ, "GIT_NO_REPLACE_OBJECTS": "1"}
+    revision = subprocess.run(
+        ["git", "log", "-1", "--format=%H", "--", artifact_relative],
+        cwd=LAB_ROOT,
+        env=environment,
+        check=True,
+        stdout=subprocess.PIPE,
+        text=True,
+        timeout=30,
+    ).stdout.strip()
+    if len(revision) != 40:
+        return {}
+    result: dict[str, str] = {}
+    for relative in input_paths:
+        blob = subprocess.run(
+            ["git", "show", f"{revision}:{relative}"],
+            cwd=LAB_ROOT,
+            env=environment,
+            check=False,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            timeout=30,
+        )
+        if blob.returncode != 0:
+            return {}
+        result[relative] = hashlib.sha256(blob.stdout).hexdigest()
+    return result
 
 
 def probe_checks(payload: dict[str, Any]) -> dict[str, bool]:
@@ -381,9 +415,9 @@ def rust_checks(payload: dict[str, Any], model: dict[str, Any]) -> dict[str, boo
 
 def next_improvements_checks(payload: dict[str, Any]) -> dict[str, bool]:
     """Recompute promotion facts for the isolated next-improvement receipt."""
-    expected_inputs = {
-        relative: sha256_file(path) for relative, path in next_input_paths().items()
-    }
+    expected_inputs = committed_input_hashes(
+        "artifacts/benchmarks/next-improvements.json", next_input_paths()
+    )
     source = payload.get("source", {})
     input_sha256 = source.get("input_sha256", {}) if isinstance(source, dict) else {}
 
@@ -689,7 +723,7 @@ def next_improvements_checks(payload: dict[str, Any]) -> dict[str, bool]:
     )
     return {
         "next_schema_is_current": payload.get("schema_version") == 1,
-        "next_inputs_are_current": isinstance(input_sha256, dict)
+        "next_inputs_are_receipt_commit_bound": isinstance(input_sha256, dict)
         and input_sha256 == expected_inputs,
         "next_probe_recomputes": probe_recomputed,
         "next_preflight_recomputes": preflight_recomputed,
@@ -704,9 +738,9 @@ def next_improvements_checks(payload: dict[str, Any]) -> dict[str, bool]:
 def next_live_checks(
     payload: dict[str, Any], deterministic: dict[str, Any]
 ) -> dict[str, bool]:
-    expected_inputs = {
-        relative: sha256_file(path) for relative, path in NEXT_LIVE_INPUT_PATHS.items()
-    }
+    expected_inputs = committed_input_hashes(
+        "artifacts/benchmarks/next-live.json", NEXT_LIVE_INPUT_PATHS
+    )
     source = payload.get("source", {})
     input_sha256 = source.get("input_sha256", {}) if isinstance(source, dict) else {}
 
@@ -1114,7 +1148,9 @@ def next_live_checks(
         try:
             from summarize_next_live import build_result
 
-            local_raw_summary_valid = payload == build_result()
+            rebuilt = build_result()
+            rebuilt["source"]["input_sha256"] = expected_inputs
+            local_raw_summary_valid = payload == rebuilt
         except (FileNotFoundError, KeyError, OSError, TypeError, ValueError):
             local_raw_summary_valid = False
     evidence_valid = bool(
@@ -1161,7 +1197,7 @@ def next_live_checks(
     )
     return {
         "next_live_schema_is_current": payload.get("schema_version") == 1,
-        "next_live_inputs_are_current": isinstance(input_sha256, dict)
+        "next_live_inputs_are_receipt_commit_bound": isinstance(input_sha256, dict)
         and input_sha256 == expected_inputs,
         "next_live_deterministic_reference_is_current": reference_valid,
         "next_live_discovery_recomputes": discovery_valid,
@@ -1199,9 +1235,9 @@ def _rust_checks_impl(
         timing_receipt_valid(payload.get(name), repetitions)
         for name, repetitions in timing_sections.items()
     )
-    expected_inputs = {
-        relative: sha256_file(path) for relative, path in RUST_INPUT_PATHS.items()
-    }
+    expected_inputs = committed_input_hashes(
+        "artifacts/benchmarks/rust-runtime.json", RUST_INPUT_PATHS
+    )
     dogfood_seconds = float(model["dogfood_performance_smoke"]["duration_seconds"])
     direct_seconds = float(
         model["ordinary_combined_evaluation"]["combined_candidate"]["median"][
@@ -1243,7 +1279,7 @@ def _rust_checks_impl(
             and source.get("rust_source_sha256")
             == expected_inputs["subjects/rust-runtime/runtime-spike/src/main.rs"]
         ),
-        "rust_retest_inputs_are_current": (
+        "rust_retest_inputs_are_receipt_commit_bound": (
             isinstance(input_sha256, dict) and input_sha256 == expected_inputs
         ),
         "rust_generated_inputs_are_bound": (

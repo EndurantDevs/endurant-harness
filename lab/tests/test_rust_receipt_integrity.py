@@ -40,7 +40,7 @@ class RustReceiptIntegrityTests(unittest.TestCase):
             "observed_exit_code": 2,
         }
         checks = rust_checks(receipt, self.model)
-        self.assertFalse(checks["rust_retest_inputs_are_current"])
+        self.assertFalse(checks["rust_retest_inputs_are_receipt_commit_bound"])
         self.assertFalse(checks["rust_full_cli_limit_is_explicit"])
 
     def test_missing_or_forged_generated_inputs_are_rejected(self) -> None:

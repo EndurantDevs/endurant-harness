@@ -1009,7 +1009,7 @@ Path(os.environ["ENDURANT_BENCHMARK_EVENT_PATH"]).write_text(
 
 class ProvenanceTests(unittest.TestCase):
     def test_provenance_cli_reports_current_for_the_loaded_marker(self) -> None:
-        marker = runtime._provenance_receipt(None)["marker_sha256"]
+        receipt = runtime._provenance_receipt(None)
         completed = subprocess.run(
             [
                 sys.executable,
@@ -1017,7 +1017,7 @@ class ProvenanceTests(unittest.TestCase):
                 str(SCRIPT),
                 "provenance",
                 "--loaded-provenance",
-                f"v5:{marker}",
+                f"{receipt['release']}:{receipt['marker_sha256']}",
                 "--format",
                 "json",
                 "--require-current",

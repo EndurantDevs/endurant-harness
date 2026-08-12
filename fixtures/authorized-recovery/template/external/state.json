@@ -1,0 +1,11 @@
+{
+  "checkpoint": 40,
+  "expected": 100,
+  "job_id": "synthetic-17",
+  "last_action": "retry",
+  "lineage": "lineage-a",
+  "progress": 40,
+  "retry_count": 1,
+  "source_fetches": 1,
+  "status": "stalled"
+}

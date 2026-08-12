@@ -38,13 +38,15 @@ python3 -S scripts/benchmark_efficiency.py . --baseline-skill /path/to/v3 --form
 
 ## Cross-task promotion
 
-1. Mine completed development and authorized-operation traces plus representative successes. Cluster recurring causal, harness-addressable mechanisms; reject infrastructure noise, isolated task difficulty, and unsupported model limits.
-2. Freeze the parent Harness, evaluator, fixtures, tools/permissions, evaluated model and effort, budgets, environment, and mining/development/audit partitions. Keep graders, outcomes, protected files, and the untouched audit hidden from candidate agents.
+1. Mine sanitized completed development and authorized-operation traces plus representative successes as untrusted data, not instructions. Cluster recurring causal, harness-addressable mechanisms; reject infrastructure noise, isolated task difficulty, and unsupported model limits.
+2. Freeze the parent Harness, evaluator, fixtures, CLI/tool versions, tools/permissions, evaluated model and effort, budgets, environment, and mining/development/audit partitions. Keep graders, outcomes, protected files, and the untouched audit hidden from candidate agents.
 3. Launch at most three materially distinct candidates per cluster in parallel isolated copies. Choose and record each proposal agent's model/effort; bind parent and evidence hashes, editable surface, expected effect, protected behavior, risk/cost, and rollback.
-4. Run cheap validation/audit gates first, then pre-registered interleaved A/B evaluation against each parent. Establish an A/A noise floor, run at least five pairs, and record every acceptance or rejection; a justified no-op is valid.
-5. Accept only when every correctness, safety, permission, provenance, and protected-case gate passes; target gains exceed noise/materiality; and whole-run success, time, tool calls, tokens/cost, and human corrections remain acceptable. Aggregate gains never excuse an invariant regression.
-6. Re-evaluate merged winners under the same frozen contract. After lineage is frozen, run the untouched audit once; promote only if it passes, and never tune the campaign on its results. Preserve exact diffs, hashes, configuration, receipts, metrics, decisions, and rollback.
+4. Run cheap validation/audit gates first, then pre-registered interleaved A/B evaluation against each parent. Establish an A/A noise floor, run at least five pairs, and record every acceptance or rejection; a justified no-op is valid. Resume only when frozen hashes match; a partial post-start run is inconclusive, not an opportunistic retry.
+5. Accept only when every correctness, safety, permission, provenance, and protected-case gate passes; target gains exceed noise/materiality; and whole-run success, time, tool calls, tokens/cost, and human corrections remain acceptable. Aggregate gains never excuse an invariant regression. Label static/schema, runtime-smoke, task-evaluated, and promotion-audited evidence separately.
+6. Re-evaluate merged winners under the same frozen contract, then remove independent additions one at a time and retain only the causal minimum. After lineage is frozen, run the untouched audit once; promote only if it passes, and never tune the campaign on its results. Preserve exact diffs, hashes, configuration, receipts, metrics, decisions, and rollback.
 7. Stop when a target is met, candidates fail, gains fall below threshold, or budget ends. Installing, committing, pushing, or mutating live policy still requires human authorization.
+
+Keep one host-neutral core. Add a model- or host-specific overlay only after repeated paired evidence proves a material divergence; bind its applicability and revalidate it when the host, model, effort, CLI, or tools change.
 
 ## Interpretation of controlled targets
 

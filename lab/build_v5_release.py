@@ -29,8 +29,8 @@ from typing import Any, Iterable, Sequence
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_PACKAGE = PROJECT_ROOT / "endurant-harness"
-DEFAULT_ARCHIVE = PROJECT_ROOT / "dist" / "endurant-harness-v5.zip"
-DEFAULT_RECEIPT = PROJECT_ROOT / "artifacts" / "benchmarks" / "v5-release.json"
+DEFAULT_ARCHIVE = PROJECT_ROOT / "dist" / "endurant-harness-v6.zip"
+DEFAULT_RECEIPT = PROJECT_ROOT / "artifacts" / "benchmarks" / "v6-release.json"
 DEFAULT_RUNTIME_RECEIPT = (
     PROJECT_ROOT / "artifacts" / "benchmarks" / "v5-runtime.json"
 )
@@ -1409,7 +1409,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(json.dumps(_success_summary(args.command, receipt), sort_keys=True))
         return 0
     except (ReleaseError, OSError) as exc:
-        print(f"v5-release: {exc}", file=sys.stderr)
+        print(f"endurant-release: {exc}", file=sys.stderr)
         return 2
 
 

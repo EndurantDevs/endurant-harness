@@ -1,0 +1,11 @@
+diff --git a/src/settings.py b/src/settings.py
+--- a/src/settings.py
++++ b/src/settings.py
+@@ -4,6 +4,6 @@
+ def merge_settings(defaults, overrides):
+     """Merge known settings, treating missing and None as use-default."""
+     return {
+-        key: overrides.get(key) or default
++        key: overrides.get(key, default)
+         for key, default in defaults.items()
+     }

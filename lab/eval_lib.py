@@ -9,6 +9,7 @@ import shutil
 import stat
 import subprocess
 import sys
+import tempfile
 from pathlib import Path
 from typing import Any, Iterable
 
@@ -24,6 +25,23 @@ def read_json(path: Path) -> dict[str, Any]:
     if not isinstance(value, dict):
         raise ValueError(f"expected JSON object: {path}")
     return value
+
+
+def canonical_json_bytes(value: Any) -> bytes:
+    return (
+        json.dumps(
+            value,
+            allow_nan=False,
+            ensure_ascii=True,
+            separators=(",", ":"),
+            sort_keys=True,
+        )
+        + "\n"
+    ).encode("utf-8")
+
+
+def canonical_sha256(value: Any) -> str:
+    return hashlib.sha256(canonical_json_bytes(value)).hexdigest()
 
 
 def sha256_file(path: Path) -> str:
@@ -79,6 +97,19 @@ def tree_manifest(root: Path) -> dict[str, dict[str, Any]]:
     return result
 
 
+def fixture_root(fixture: str, fixture_path: Path | None = None) -> Path:
+    raw = fixture_path or (FIXTURES / fixture)
+    if raw.is_symlink():
+        raise ValueError(f"fixture root must not be a symlink: {raw}")
+    path = raw.resolve()
+    if fixture_path is None:
+        try:
+            path.relative_to(FIXTURES.resolve())
+        except ValueError as exc:
+            raise ValueError(f"fixture escapes fixture root: {fixture}") from exc
+    return path
+
+
 def manifest_delta(before: dict[str, str], after: dict[str, str]) -> dict[str, list[str]]:
     before_paths = set(before)
     after_paths = set(after)
@@ -116,10 +147,20 @@ def run_process(
     )
 
 
-def copy_subject(subject: str, workspace: Path) -> Path:
-    source = SUBJECTS / subject / "endurant-harness"
+def copy_subject(subject: str, workspace: Path, *, subject_path: Path | None = None) -> Path:
+    raw = subject_path or (SUBJECTS / subject / "endurant-harness")
+    if raw.is_symlink():
+        raise ValueError(f"subject root must not be a symlink: {raw}")
+    source = raw.resolve()
     if not (source / "SKILL.md").is_file():
         raise FileNotFoundError(f"unknown subject or missing SKILL.md: {source}")
+    unsafe = [
+        relative
+        for relative, entry in tree_manifest(source).items()
+        if entry.get("type") not in {"directory", "file"}
+    ]
+    if unsafe:
+        raise ValueError(f"subject contains unsupported paths: {unsafe}")
     target = workspace / ".agents" / "skills" / "endurant-harness"
     if target.exists():
         shutil.rmtree(target)
@@ -132,10 +173,16 @@ def copy_subject(subject: str, workspace: Path) -> Path:
 
 
 def materialize_workspace(
-    fixture: str, subject: str, run_id: str, *, workspace_id: str | None = None
+    fixture: str,
+    subject: str,
+    run_id: str,
+    *,
+    workspace_id: str | None = None,
+    subject_path: Path | None = None,
+    fixture_path: Path | None = None,
 ) -> tuple[Path, Path]:
-    fixture_root = FIXTURES / fixture
-    template = fixture_root / "template"
+    selected_fixture = fixture_root(fixture, fixture_path)
+    template = selected_fixture / "template"
     if not template.is_dir():
         raise FileNotFoundError(f"unknown fixture: {fixture}")
     workspace = ARTIFACTS / "workspaces" / (workspace_id or run_id)
@@ -145,7 +192,7 @@ def materialize_workspace(
     workspace.parent.mkdir(parents=True, exist_ok=True)
     capture.mkdir(parents=True, exist_ok=False)
     shutil.copytree(template, workspace)
-    copy_subject(subject, workspace)
+    copy_subject(subject, workspace, subject_path=subject_path)
 
     init = run_process(["git", "init", "--quiet"], workspace)
     if init.returncode != 0:
@@ -191,8 +238,9 @@ def latest_passing_event(
     return selected[-1] if selected else None
 
 
-def canonical_prompt(fixture: str) -> str:
-    task = (FIXTURES / fixture / "task.txt").read_text(encoding="utf-8").strip()
+def canonical_prompt(fixture: str, *, fixture_path: Path | None = None) -> str:
+    selected_fixture = fixture_root(fixture, fixture_path)
+    task = (selected_fixture / "task.txt").read_text(encoding="utf-8").strip()
     return (
         "Use $endurant-harness to complete this task in the current repository.\n\n"
         f"{task}\n\n"
@@ -204,3 +252,23 @@ def canonical_prompt(fixture: str) -> str:
 def write_json(path: Path, value: Any) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+
+
+def write_json_atomic(path: Path, value: Any) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    descriptor, raw = tempfile.mkstemp(prefix=f".{path.name}.", dir=path.parent)
+    temporary = Path(raw)
+    try:
+        with os.fdopen(descriptor, "wb") as handle:
+            handle.write(canonical_json_bytes(value))
+            handle.flush()
+            os.fsync(handle.fileno())
+        os.replace(temporary, path)
+        if hasattr(os, "O_DIRECTORY"):
+            directory = os.open(path.parent, os.O_RDONLY | os.O_DIRECTORY)
+            try:
+                os.fsync(directory)
+            finally:
+                os.close(directory)
+    finally:
+        temporary.unlink(missing_ok=True)

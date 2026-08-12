@@ -3,7 +3,7 @@ name: endurant-harness
 description: Use for substantial repository changes needing executable proof. Do not use for explanations, reviews, trivial edits, or requests forbidding implementation or verification.
 ---
 
-<!--endurant-provenance:v5:3c534285f59042a2512a172f3a8e2a96205b0b037217e82e5deb6fc8a4292bc3-->
+<!--endurant-provenance:v6:05eecf7354d51bdc6eed3575fd1d11fa1c8f45e3b52672fbe79322e65374f611-->
 
 # Endurant Harness
 
