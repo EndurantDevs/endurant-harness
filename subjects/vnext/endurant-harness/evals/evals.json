@@ -236,6 +236,18 @@
         "An exact loaded marker match produces current and a well-formed mismatch produces stale.",
         "Changing files never proves that the active session reloaded."
       ]
+    },
+    {
+      "id": "measured-efficient-discovery-and-proof",
+      "prompt": "A failed multi-package task has several symptoms sharing one possible cause, an exact source locator, a repository-owned affected selector, and a versioned local schema for one authorized external update. Four isolated proof workers are available but the provider and test service each allow only two concurrent jobs. Implement and prove the fix without weakening final CI.",
+      "expected_output": "A compact run that uses the exact locator and one aggregate diagnosis before broader discovery, validates the minimum external payload, uses affected intermediate feedback only on known dependency edges, queues work to measured capacity, and preserves the original oracle plus final behavior, local-CI, and diff proof.",
+      "assertions": [
+        "Exact locators and already-collected evidence are used before broad discovery; missing, stale, or ambiguous locators and incomplete or contradictory aggregates expand rather than becoming proof.",
+        "Unknown dependency edges, shared configuration, generated outputs, schemas, or lockfiles broaden affected-scope proof.",
+        "The version-bound schema precedes the smallest requested payload; stale schema, unknown fields, missing or duplicate targets, type mismatch, or unresolved scope blocks mutation.",
+        "Parallel work respects available workers, provider limits, required resources, and queue/coordination cost; shared or live mutation retains one owner.",
+        "Intermediate selectors supplement rather than replace final behavior, available local-CI, and diff proof."
+      ]
     }
   ]
 }

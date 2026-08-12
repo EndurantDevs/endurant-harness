@@ -20,6 +20,10 @@ Choose gates from the change, not a fixed checklist:
 3. Add affected-scope checks when the changed surface can influence neighboring behavior.
 4. Run the repository's local CI preflight before paying the remote-CI feedback delay when one is available.
 
+For intermediate feedback, prefer a repository-native affected selector only when its dependency knowledge is current and its result can change the next costly or irreversible step. Broaden for shared configuration, generated outputs, schemas, lockfiles, or unknown edges. This never replaces required final behavior, local-CI, or diff proof.
+
+For unfamiliar typed external actions, inspect version-bound local schema or metadata first, then send the smallest requested payload. Reject unknown fields, missing or duplicate targets, type mismatch, stale schema, or unresolved scope before mutation.
+
 For ordinary correctness work, skip synthetic benchmarks unless the hypothesis, risk, or acceptance criteria make them decisive. A skipped irrelevant benchmark is an efficiency success, not missing proof.
 
 For a claimed behavior regression, add or adjust the narrow regression first and observe it fail before the production edit, then fix and pass it. Do not manufacture a red step for features, internal refactors, or performance work unless their contract genuinely supplies a failing behavior.

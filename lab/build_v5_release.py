@@ -29,8 +29,8 @@ from typing import Any, Iterable, Sequence
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_PACKAGE = PROJECT_ROOT / "endurant-harness"
-DEFAULT_ARCHIVE = PROJECT_ROOT / "dist" / "endurant-harness-v6.zip"
-DEFAULT_RECEIPT = PROJECT_ROOT / "artifacts" / "benchmarks" / "v6-release.json"
+DEFAULT_ARCHIVE = PROJECT_ROOT / "dist" / "endurant-harness-v7.zip"
+DEFAULT_RECEIPT = PROJECT_ROOT / "artifacts" / "benchmarks" / "v7-release.json"
 DEFAULT_RUNTIME_RECEIPT = (
     PROJECT_ROOT / "artifacts" / "benchmarks" / "v5-runtime.json"
 )

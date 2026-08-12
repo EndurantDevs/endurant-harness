@@ -60,7 +60,8 @@
           "all": [
             "package/workspace boundaries",
             "generated files",
-            "required services"
+            "required services",
+            "explicit path, URL, identifier, revision, or scope"
           ]
         }
       ]
@@ -234,9 +235,17 @@
             "at most three materially different",
             "original decisive oracle",
             "model and reasoning effort",
+            "available workers, provider limits",
             "one shared-state write or external-mutation owner",
             "runner-observed, hash-bound",
             "evidence-backed no-op"
+          ]
+        },
+        {
+          "path": "references/protocol.md",
+          "all": [
+            "repository-native bounded diagnosis primitive",
+            "aggregates already-collected evidence"
           ]
         },
         {
@@ -659,6 +668,8 @@
           "all": [
             "Task-selected local verification",
             "unchanged baseline and changed source",
+            "repository-native affected selector",
+            "version-bound local schema or metadata",
             "local CI preflight before paying the remote-CI feedback delay"
           ]
         }
@@ -867,7 +878,7 @@
         {
           "path": "SKILL.md",
           "all": [
-            "endurant-provenance:v6",
+            "endurant-provenance:v7",
             "Missing provenance means unknown"
           ]
         },

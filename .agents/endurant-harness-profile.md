@@ -12,7 +12,7 @@
 - Model summary: `PYTHONDONTWRITEBYTECODE=1 python3 -S lab/summarize_model_runs.py`
 - Promotion checks: `PYTHONDONTWRITEBYTECODE=1 python3 -S lab/check_results.py`
 - Provenance receipt: `PYTHONDONTWRITEBYTECODE=1 python3 -S lab/provenance_efficiency_receipt.py check`
-- Release source verification: `PYTHONDONTWRITEBYTECODE=1 python3 -S lab/build_v5_release.py verify-source --package endurant-harness --receipt artifacts/benchmarks/v6-release.json --runtime-receipt artifacts/benchmarks/v5-runtime.json`
+- Release source verification: `PYTHONDONTWRITEBYTECODE=1 python3 -S lab/build_v5_release.py verify-source --package endurant-harness --receipt artifacts/benchmarks/v7-release.json --runtime-receipt artifacts/benchmarks/v5-runtime.json`
 - Local preflight: `PYTHONDONTWRITEBYTECODE=1 python3 -S endurant-harness/scripts/endurant.py run lab/local-ci-plan.json --repo .`
 
 ## Invariants

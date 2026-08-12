@@ -1,5 +1,5 @@
 {
-  "name": "endurant-v6-local-preflight",
+  "name": "endurant-v7-local-preflight",
   "cwd": ".",
   "default_timeout": 120,
   "proof_deadline_seconds": 180,
@@ -45,7 +45,7 @@
         },
         {
           "id": "release-receipt",
-          "argv": ["python3", "-S", "lab/build_v5_release.py", "verify-source", "--package", "endurant-harness", "--receipt", "artifacts/benchmarks/v6-release.json", "--runtime-receipt", "artifacts/benchmarks/v5-runtime.json"],
+          "argv": ["python3", "-S", "lab/build_v5_release.py", "verify-source", "--package", "endurant-harness", "--receipt", "artifacts/benchmarks/v7-release.json", "--runtime-receipt", "artifacts/benchmarks/v5-runtime.json"],
           "env": {"PYTHONDONTWRITEBYTECODE": "1"},
           "evidence": "integration",
           "must_match": "\\\"status\\\": \\\"passed\\\""

@@ -6,7 +6,7 @@ Endurant Harness is a lightweight Agent Skill for Codex and Claude Code. It prov
 
 It is designed to improve implementation confidence without imposing a project-management workflow on routine changes.
 
-> **Status:** v6 is an evaluation-backed release candidate. Local, synthetic, and local-only task-level evidence is documented below. Remote CI applies only to the tested commit; no GitHub release or cross-platform package is currently published.
+> **Status:** v7 is an evaluation-backed source release. Local, synthetic, and historical local-only task evidence is documented below. Remote CI applies only to its tested commit; no tag, GitHub release, or cross-platform package is currently published.
 
 ## Contents
 
@@ -90,11 +90,12 @@ Both hosts discover personal Agent Skills from their user skill directories. Sta
 ## Why Endurant Harness
 
 - **Low overhead for routine work.** Clear, reversible changes skip probes, plan files, checkpoints, subagents, and broad test suites.
-- **Bounded discovery.** The direct lane permits at most two batched discovery commands before editing and escalates when additional investigation is required.
-- **Runtime adaptation.** When decisive evidence stalls or contradicts an approach, agents keep the task contract fixed, try the cheapest safe strategy, and parallelize independent variants only when isolation and expected wall-time savings justify coordination.
+- **Bounded discovery.** Exact supplied locators are resolved before broad discovery; several related signals use one bounded aggregate before per-signal probes, with fail-closed expansion on stale, ambiguous, incomplete, or contradictory evidence.
+- **Runtime adaptation.** When decisive evidence stalls or contradicts an approach, agents keep the task contract fixed, try the cheapest safe strategy, and parallelize independent variants only when isolation, available capacity, and expected wall-time savings justify queue and coordination cost.
 - **Governed evolution.** Recurring mechanisms can become bounded Harness candidates only through frozen evaluation, protected successes, an untouched audit, and human-authorized promotion.
 - **Task-specific verification.** Performance work uses an identical before-and-after workload with correctness checks; ordinary correctness work does not run an unrelated benchmark.
-- **Earlier local feedback.** Repository-owned preflight can cover focused tests, lint, type checks, builds, generated outputs, and affected packages before remote CI.
+- **Earlier local feedback.** A current repository-owned selector or preflight can provide affected feedback before remote CI without replacing final behavior, local-CI, or diff proof.
+- **Bounded external payloads.** Unfamiliar typed actions inspect version-bound local schema or metadata and reject stale, ambiguous, or invalid payloads before mutation.
 - **Worktree preservation.** Dirty worktrees and unrelated edits are identified and preserved.
 - **False-green protection.** The runner can require behavior evidence, intended-test output, deadlines, cleanup, and an exact final-diff fingerprint.
 
@@ -103,10 +104,11 @@ Both hosts discover personal Agent Skills from their user skill directories. Sta
 | Feature | Purpose |
 | --- | --- |
 | Direct and escalated lanes | Spend discovery only when uncertainty or risk requires it |
-| Runtime adaptive replan | Hold the task contract fixed, try up to three materially different strategies, and parallelize isolated candidates only when worthwhile |
+| Runtime adaptive replan | Hold the task contract fixed, try up to three materially different strategies, and parallelize isolated candidates only within measured capacity when worthwhile |
 | Governed cross-task promotion | Mine recurring evidence, compare bounded Harness variants, and require an untouched audit plus human authorization |
-| Symbol-first repository probe | Rank exact snake_case and camelCase source/test hits while suppressing unrelated harness noise |
-| Task-selected verification | Choose focused, synthetic, affected-scope, local-CI, and diff checks from the requested behavior |
+| Exact-first repository discovery | Resolve supplied locators first; rank exact source/test symbols and broaden on stale, missing, or ambiguous results |
+| Bounded diagnosis and affected proof | Aggregate plausibly related signals once; use current affected selectors only when they can change the next step; preserve final proof |
+| Schema-first external actions | Validate the smallest requested payload against version-bound local metadata before mutation |
 | Staged command runner | Execute explicit argv plans with timeouts, evidence kinds, bounded summaries, and full external logs |
 | Configured false-green defenses | Require intended-test output and reject output mismatches, stale proof, deadline overruns, and post-proof diff mutation when the corresponding guards are enabled |
 | Optional fast preflight | Run one trusted repository bundle plus only uncovered checks |
@@ -120,19 +122,32 @@ Both hosts discover personal Agent Skills from their user skill directories. Sta
 
 ```mermaid
 flowchart LR
-    A["Runtime scan<br/>direct lane or bounded probe"] --> B["Smallest coherent edit<br/>or authorized action"]
-    B --> C{"Task-selected proof passes?<br/>original oracle + required behavior + available local CI + final diff"}
+    A{"Clear, reversible, local,<br/>and known proof path?"}
+    A -->|"yes: direct"| D0["Resolve supplied locator;<br/>at most two batched discovery commands"]
+    A -->|"no: escalated"| E0["Resolve supplied locator;<br/>conditional bounded aggregate or probe;<br/>trace hypothesis + disproof"]
+    D0 --> B["Smallest coherent edit<br/>or authorized action"]
+    E0 --> S{"Evidence current,<br/>complete, and unambiguous?"}
+    S -->|"no"| X["Broaden to primary artifacts,<br/>external state, and tool results"]
+    S -->|"yes"| B
+    X --> B
+    B --> M{"Unfamiliar typed<br/>external mutation?"}
+    M -->|"yes"| V["Validate current version-bound schema,<br/>unique target, and minimum payload"]
+    M -->|"no"| P
+    V --> P["Optional current affected selector<br/>only if it can change the next costly step"]
+    P --> C{"Final proof passes?<br/>original oracle + focused behavior<br/>+ available local CI + final diff"}
     C -->|"yes"| D["Successful focused handoff"]
     C -->|"replan trigger"| E["Adaptive replan<br/>hold goal, oracle, authority, and invariants fixed"]
-    E --> F["Try up to three strategies; cheapest safe first;<br/>parallel only when isolated and worthwhile;<br/>choose model and effort by role"]
+    E --> F["Try up to three strategies; cheapest safe first;<br/>parallel isolated variants only within capacity<br/>when savings exceed queue + coordination;<br/>choose model and effort by role"]
     F --> G{"Leanest candidate meets target,<br/>protected invariants, and whole-run cost?"}
     G -->|"yes; one owner integrates"| C
     G -->|"no, budget end, or more authority"| H["Blocked or no-op handoff<br/>with residual risk"]
 ```
 
-The direct lane is for clear, localized work with a known proof path. For a reported behavior regression, add or update the focused regression check, confirm it fails, then implement the fix. Features and internal refactors do not require an artificial failing baseline. Performance work also needs no artificial red step, but it always escalates to an identical-workload benchmark with correctness proof.
+The direct lane is for clear, localized work with a known proof path. Resolve an explicit locator first and keep discovery within two batched commands; missing, stale, ambiguous, or contradictory evidence exits the lane before editing. For a reported behavior regression, add or update the focused regression check, confirm it fails, then implement the fix. Features and internal refactors do not require an artificial failing baseline. Performance work also needs no artificial red step, but it always escalates to an identical-workload benchmark with correctness proof.
 
-The escalated lane is for uncertainty, contradictions, coupling, performance, migrations, security, deployment, or material risk. If the replan gate trips, the loaded Harness and decisive oracle stay fixed while agents try up to three bounded strategies, cheapest safe first. Independent variants run in parallel only when their copies, resources, and evidence are isolated and expected savings exceed coordination cost. Agent names use `target_role_scope`, such as `import_optimizer_transform`; a host-added path such as `/root/` is routing metadata. One owner integrates the leanest result that meets the target without protected regression or unacceptable whole-run cost, then reruns the original proof; an evidence-backed no-op is valid.
+The escalated lane is for uncertainty, contradictions, coupling, performance, migrations, security, deployment, or material risk. If the replan gate trips, the loaded Harness and decisive oracle stay fixed while agents try up to three bounded strategies, cheapest safe first. Independent variants run in parallel only when their copies, resources, and evidence are isolated, available capacity is known, and expected savings exceed queue and coordination cost. Agent names use `target_role_scope`, such as `import_optimizer_transform`; a host-added path such as `/root/` is routing metadata. One owner integrates the leanest result that meets the target without protected regression or unacceptable whole-run cost, then reruns the original proof; an evidence-backed no-op is valid.
+
+Affected selectors are intermediate feedback only: stale, shared, generated, schema, lockfile, or unknown dependency surfaces broaden, and the final proof is never replaced. Before an unfamiliar typed external mutation, inspect current version-bound schema or metadata and stop on a stale schema, unknown field, missing or duplicate target, type mismatch, or unresolved scope.
 
 ### Governed cross-task promotion loop
 
@@ -184,7 +199,7 @@ python3 -S "$PACKAGE/scripts/endurant.py" run \
 python3 -S "$PACKAGE/scripts/endurant.py" fingerprint --repo .
 
 python3 -S "$PACKAGE/scripts/endurant.py" provenance \
-  --loaded-provenance 'v6:<full-package-sha256>' --format json
+  --loaded-provenance 'v7:<full-package-sha256>' --format json
 ```
 
 `preflight` and `benchmark baseline|final` are usable only when their repository contracts exist and pass validation; otherwise use the ordinary workflow. The probe reports their content hashes so callers can pin the exact reviewed contract.
@@ -206,8 +221,13 @@ Adoption decisions are based on isolated deterministic tests, adversarial receip
 | Full Rust rewrite | Optimistic runtime ceiling remained below one percent of an end-to-end task and lacked CLI/platform parity | Rejected |
 | v5 runtime safeguards | `+7.846ms` to `+13.148ms` median across 31 paired template, probe, and no-op runner samples; all parity gates passed | Accepted as negligible for real proof commands, not claimed as a runtime speedup |
 | Provenance UX forward A/B | On two pairs, wall median `71.525s -> 61.033s`, uncached input `28,451 -> 19,621`, and provenance commands `3 -> 1`; all functional gates passed, while exact `current` provenance improved `1/2 -> 2/2` | Retain the current UX; favorable exploratory signal, not a general speed claim |
+| Aggregate-first diagnosis | Existing aggregate-workspace evidence cut output `3,954,698 -> 1,348` bytes; a discarded mechanism diagnostic counted `4 -> 1` parses | Adopt only when several signals may share a cause; no agent-level speed claim |
+| Exact locator first | Existing source-and-test top-three recall `1/12 -> 12/12`; candidate payload `740 -> 87` bytes with broad fallback | Extend to supplied paths, URLs, IDs, revisions, and scopes |
+| Affected intermediate proof | Analogous optional preflight cut duplicate proof `295.892ms -> 149.000ms` and caught `6/6` seeded failures | Guarded use only; unchanged final proof |
+| Schema-first payload | Exploratory response `4,490,958 -> 239` bytes, but paired whole time was `42.51%` worse | Reject as speed optimization; retain as conditional mutation safety |
+| Capacity-aware parallelism | `8 -> 2` processes preserved eight tasks, but repeated 31-pair runs crossed the A/A noise boundary | Keep the measure-before-parallelizing guard; no speed claim |
 
-These are bounded local and synthetic results, not universal throughput claims. The full decision records, sample limits, hashes, and sanitized receipts are in [`reports/DECISION.md`](reports/DECISION.md), [`reports/NEXT-IMPROVEMENTS.md`](reports/NEXT-IMPROVEMENTS.md), [`reports/PROVENANCE-EFFICIENCY.md`](reports/PROVENANCE-EFFICIENCY.md), [`reports/RELEASE-v6.md`](reports/RELEASE-v6.md), and [`artifacts/benchmarks/`](artifacts/benchmarks/).
+These are bounded local and synthetic results, not universal throughput claims. The full decision records, sample limits, hashes, and sanitized receipts are in [`reports/DECISION.md`](reports/DECISION.md), [`reports/NEXT-IMPROVEMENTS.md`](reports/NEXT-IMPROVEMENTS.md), [`reports/PROVENANCE-EFFICIENCY.md`](reports/PROVENANCE-EFFICIENCY.md), [`reports/RELEASE-v6.md`](reports/RELEASE-v6.md), [`reports/RELEASE-v7.md`](reports/RELEASE-v7.md), and [`artifacts/benchmarks/`](artifacts/benchmarks/).
 
 The v6 lab adds two separate executable evidence paths: `run_adaptive_replan.py` compares isolated task-local strategies from the exact failed state and lets one owner replay the leanest proved result; `run_promotion_campaign.py` freezes a parent/candidate/no-op campaign, A/A noise floor, interleaved A/B pairs, confirmation, raw captures, and a pre-sealed one-use audit. Evidence labels remain fail-closed: tooling/tests alone are not called promotion-audited, and a no-op is a valid result.
 
@@ -218,7 +238,7 @@ A final-input forward test ran fresh Codex processes on one software case and on
 | Path | Purpose |
 | --- | --- |
 | `install.sh` | Audited Codex/Claude Code install and update entry point |
-| `endurant-harness/` | Audited installable v6 skill and release source |
+| `endurant-harness/` | Audited installable v7 skill and release source |
 | `subjects/current/` | Frozen pre-v5 installed baseline |
 | `subjects/combined-candidate/` | Previously promoted base candidate |
 | `subjects/<experiment>/` | Isolated experimental variants |
@@ -268,11 +288,11 @@ PYTHONDONTWRITEBYTECODE=1 python3 -S \
 PYTHONDONTWRITEBYTECODE=1 python3 -S \
   lab/build_v5_release.py verify-source \
   --package endurant-harness \
-  --receipt artifacts/benchmarks/v6-release.json \
+  --receipt artifacts/benchmarks/v7-release.json \
   --runtime-receipt artifacts/benchmarks/v5-runtime.json
 ```
 
-The tracked source-only check reconstructs the deterministic archive in memory, so CI can verify its hash without storing release binaries. A local archive can be built with `python3 -S lab/build_v5_release.py build`; it must contain exactly one top-level `endurant-harness/` directory. The historical builder name is retained for compatibility. v6 carries the v5 runtime receipt only while its three bound runtime inputs remain byte-identical; that receipt is runtime-compatibility evidence, not proof of the new adaptive loops. Record the source revision, canonical package hash, strict-audit result, deterministic test result, benchmark receipt, archive SHA-256, and what was not verified.
+The tracked source-only check reconstructs the deterministic archive in memory, so CI can verify its hash without storing release binaries. A local archive can be built with `python3 -S lab/build_v5_release.py build`; it must contain exactly one top-level `endurant-harness/` directory. The historical builder name is retained for compatibility. v7 carries the v5 runtime receipt only while its three bound runtime inputs remain byte-identical; that receipt is runtime-compatibility evidence, not proof of later policy changes. Record the source revision, canonical package hash, strict-audit result, deterministic test result, benchmark receipt, archive SHA-256, and what was not verified.
 
 ## Limits
 

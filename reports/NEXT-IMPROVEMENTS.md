@@ -20,7 +20,7 @@ repository contracts, and reject the longer lane-classification prompt.
 | Conditional red-before-green | The honest red step increased median time to the first production edit `28.272s -> 35.347s` (25.02%). Overall wall time happened to fall 12.67%, but two runs are too few to attribute that to the policy. | Both bug runs added the regression first, observed it fail before production edits, then passed focused, mutation-adequacy, CLI, hidden, and local-CI gates. One feature and one refactor canary correctly made no pre-edit failing-test run. | **Adopt only for claimed behavior regressions.** Do not require it for features, refactors, or separately benchmarked performance work. |
 | Version and session provenance | State evaluation cost `0.002459ms` median and at most 48 compact bytes. | `6/6` deterministic current, stale, missing, and tampered cases were classified correctly; missing provenance never became current. Active-session reload behavior was deliberately not claimed as tested. | **Adopt `current`/`stale`/`unknown` receipt semantics.** Require the release ID and full package hash supplied by the loaded instructions; otherwise report `unknown`. |
 
-## Recommended vNext scope
+## Historical recommendation (implemented or decided in v5-v7)
 
 1. Implement symbol-preserving probe ranking and its broad-search fallback.
 2. Add the two-command discovery boundary to the direct lane.
@@ -36,6 +36,28 @@ This ordering keeps ordinary coding agents lightweight. Only the first three
 items affect the common path, and each is automatic or bounded. The benchmark,
 preflight, and red-first mechanisms activate only when the task or repository
 contract calls for them.
+
+## Harness Skills follow-up
+
+On 2026-08-12, five transferable ideas from
+[`harness/harness-skills`](https://github.com/harness/harness-skills) were
+reviewed against Endurant's existing evidence. No upstream code, MCP server,
+dependency, or product-specific skill taxonomy was imported.
+
+| Proposal | Counted evidence | Decision |
+|---|---|---|
+| Aggregate diagnosis before repeated probes | The existing aggregate-workspace probe reduced output `3,954,698 -> 1,348` bytes and observed wall time `35.281550s -> 0.098918s`; its arms have unequal repeat counts, so this is adjacent mechanism evidence, not an agent-level diagnosis speed claim. A discarded local parse diagnostic counted `4 -> 1` JSON parses and `7,995,856 -> 1,998,964` bytes read. | **Adopt conditionally.** When several signals plausibly share a cause, use one bounded repository-native aggregate, then expand incomplete or contradictory output. |
+| Exact locator before broad discovery | Existing controlled evidence improved source-and-test top-three recall `1/12 -> 12/12`, reduced candidate-path payload `740 -> 87` bytes, and retained broad fallback; full-probe median was `78.614ms -> 76.007ms`. | **Extend the adopted rule.** Resolve supplied paths, URLs, IDs, revisions, and scopes first, verify identity/authority, and broaden on stale or ambiguous results. |
+| Repository-native affected proof | The analogous optional fast-preflight contract reduced a duplicated proof slice `295.892ms -> 149.000ms` across 31 pairs and caught `6/6` seeded failures. This does not directly prove an arbitrary affected selector. | **Adopt as a guard, not a speed claim.** Use only current dependency knowledge, broaden unknown/shared surfaces, and keep final behavior/local-CI/diff proof. |
+| Version-bound schema plus minimum payload | An exploratory real-subprocess diagnostic reduced response bytes `4,490,958 -> 239`, but calls rose `1 -> 2`, all `4,096` records were still scanned, bytes read increased by `150`, and paired whole time was `42.51%` worse. | **Reject as a runtime optimization. Keep as conditional safety/context guidance** for unfamiliar typed external actions. |
+| Capacity-aware parallelism | Repeated exploratory 31-pair local runs preserved `8` tasks while batching `8 -> 2` processes at a two-slot limit, but results crossed the A/A materiality boundary and did not establish a stable gain. | **Insufficient speed evidence.** Keep only the measure-capacity/queue-cost guard; do not claim a speedup. |
+
+The exploratory five-rule benchmark was deliberately not retained: it measured
+handcrafted mechanisms rather than agent behavior, exceeded 1,100 lines with
+its tests, and its capacity decision changed with host noise. Any future claim
+that these instructions improve agent-level speed must use the governed
+promotion contract: fixed model/tools/budget/environment, A/A noise, at least
+five interleaved A/B task pairs, protected successes, and whole-run metrics.
 
 ## Test design and limits
 
