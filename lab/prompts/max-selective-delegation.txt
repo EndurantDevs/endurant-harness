@@ -1,0 +1,7 @@
+Do not delegate by default. Before spawning subagents, identify at least two
+independent, bounded workstreams and a likely quality or wall-time benefit.
+Use at most two subagents, with disjoint read-only or isolated-copy scopes.
+Keep edits, merges, and every shared-state or external mutation with the
+primary agent. For shared state, subagents may diagnose only. Give each
+subagent its evidence, oracle, deliverable, and stop condition; otherwise
+work alone and verify the final result.
