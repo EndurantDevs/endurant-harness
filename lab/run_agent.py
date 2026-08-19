@@ -114,6 +114,7 @@ def codex_argv(
     event_sink: Path,
     model: str,
     reasoning_effort: str,
+    subagents: str,
 ) -> list[str]:
     disabled_skills = "[" + ",".join(
         f'{{path="{path}",enabled=false}}' for path in dict.fromkeys(INSTALLED_SKILLS)
@@ -141,7 +142,7 @@ def codex_argv(
         "-c",
         'model_verbosity="low"',
         "-c",
-        "agents.enabled=false",
+        f"agents.enabled={'true' if subagents == 'enabled' else 'false'}",
         "-c",
         'web_search="disabled"',
         "-c",
@@ -248,6 +249,9 @@ def main() -> int:
     parser.add_argument("--repeat", type=int, default=1)
     parser.add_argument("--model", default="gpt-5.6-terra")
     parser.add_argument("--reasoning-effort", default="low")
+    parser.add_argument(
+        "--subagents", choices=("disabled", "enabled"), default="disabled"
+    )
     parser.add_argument("--timeout", type=int, default=900)
     parser.add_argument("--run-id")
     parser.add_argument("--prompt-context-file", type=Path)
@@ -331,7 +335,14 @@ def main() -> int:
     production_prefixes = list(fixture_config.get("production_prefixes", ["src/"]))
     baseline_production_manifest = scoped_manifest(baseline_manifest, production_prefixes)
     write_json(capture / "baseline-manifest.json", baseline_manifest)
-    argv = codex_argv(workspace, capture, event_sink, args.model, args.reasoning_effort)
+    argv = codex_argv(
+        workspace,
+        capture,
+        event_sink,
+        args.model,
+        args.reasoning_effort,
+        args.subagents,
+    )
     metadata = {
         "run_id": run_id,
         "event_run_id": event_run_id,
@@ -347,6 +358,7 @@ def main() -> int:
         "repeat": args.repeat,
         "model": args.model,
         "reasoning_effort": args.reasoning_effort,
+        "subagents": args.subagents,
         "codex_version": (
             "prepare-only"
             if args.prepare_only

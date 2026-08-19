@@ -706,6 +706,8 @@ class AdaptiveFixtureTests(unittest.TestCase):
                 "adaptive-empty-events",
                 "--run-id",
                 run_id,
+                "--subagents",
+                "enabled",
                 "--prepare-only",
             ],
             cwd=ROOT,
@@ -717,6 +719,8 @@ class AdaptiveFixtureTests(unittest.TestCase):
         self.assertEqual(completed.returncode, 0, completed.stderr)
         metadata = json.loads(completed.stdout)
         self.assertEqual(metadata["codex_version"], "prepare-only")
+        self.assertEqual(metadata["subagents"], "enabled")
+        self.assertIn("agents.enabled=true", metadata["argv"])
         capture = ROOT / "artifacts" / "runs" / run_id
         workspace = Path(metadata["workspace"])
         self.addCleanup(shutil.rmtree, capture, True)
